@@ -1,0 +1,57 @@
+<!-- src/app/pages/image/image.component.html -->
+<app-loading *ngIf="loading"></app-loading>
+
+<ng-template [ngIf]="utils.isLoaded(loading)">
+  <h1 class="text-center">{{pageTitle}}</h1>
+  <!-- Image -->
+  <ng-template [ngIf]="image">
+    <!-- Image is over -->
+    <p *ngIf="imagePast" class="alert alert-danger">
+      <strong>This image is not active.</strong>
+    </p>
+
+    <img
+      [src]="image.link"
+      alt="{{ image.title }}"
+      class="img-responsive center-block"
+      style="max-width: 80%;">
+
+    <div class="card">
+      <!-- Image tab navigation -->
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="[]"
+              [queryParams]="{tab: 'details'}"
+              [ngClass]="{'active': utils.tabIs(tab, 'details')}">Details</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="[]"
+              [queryParams]="{tab: 'comment'}"
+              [ngClass]="{'active': utils.tabIs(tab, 'comment')}">Opinion</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Image detail tab -->
+      <app-image-detail
+        *ngIf="utils.tabIs(tab, 'details')"
+        [image]="image"></app-image-detail>
+
+      <!-- Image Comment tab -->
+      <app-comment
+        *ngIf="utils.tabIs(tab, 'comment')"
+        [imageId]="image._id"
+        [imagePast]="imagePast"></app-comment>
+    </div>
+  </ng-template>
+
+  <!-- Error loading images -->
+  <p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> There was an error retrieving information for this image.
+  </p>
+</ng-template>

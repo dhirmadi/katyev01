@@ -1,0 +1,32 @@
+<!-- src/app/pages/admin/update-image/delete-image.component/delete-image.component.html -->
+<p class="lead">
+  You are deleting the "<strong [innerHTML]="image.title"></strong>" image.
+</p>
+
+<p class="text-danger">
+  Deleting this image will also remove all associated Comments. Please proceed with caution!
+</p>
+
+<div class="form-group">
+  <label for="deleteImage">Confirm image title:</label>
+  <input
+    type="text"
+    id="deleteImage"
+    class="form-control"
+    name="deleteImage"
+    [(ngModel)]="confirmDelete">
+</div>
+
+<!-- Delete button -->
+<p>
+  <button
+    class="btn btn-danger"
+    (click)="removeImage()"
+    [disabled]="confirmDelete !== image.title || submitting">Delete Image</button>
+  <app-submitting *ngIf="submitting"></app-submitting>
+</p>
+
+<!-- Error deleting image -->
+<p *ngIf="error" class="alert alert-danger">
+  <strong>Oops!</strong> There was an error deleting this image. Please try again.
+</p>

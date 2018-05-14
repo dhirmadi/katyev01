@@ -1,0 +1,21 @@
+<!-- src/app/pages/image/image-detail/image-detail.component.html -->
+<div class="card-block">
+  <h2 class="card-title text-center">Image Details</h2>
+</div>
+<div>
+<ul class="list-group list-group-flush">
+  <li *ngIf="image.description"
+  class="card-block lead list-group-item"
+  [innerHTML]="image.description">
+  </li>
+  <li *ngIf="auth.isAdmin" class="list-group-item alert alert-warning">
+    <strong>Publishperiod:</strong> {{utils.imageDatesTimes(image.startDate, image.stopDate)}}
+  </li>
+
+   <!-- <strong>Where:</strong>{{image.location}} (<a href="https://www.google.com/maps/dir//{{image.location}}" target="_blank">get directions</a>)-->
+
+</ul>
+</div>
+<div *ngIf="auth.isAdmin" class="card-footer text-right small">
+  <a [routerLink]="['/admin/image/update', image._id]">Edit</a>
+</div>

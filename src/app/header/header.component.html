@@ -1,0 +1,41 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a routerLink='/' class="navbar-brand">KATYEV</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li
+                   routerLinkActive="active"
+                   [routerLinkActiveOptions]="{exact: true}"
+                   >
+                    <a routerLink='/'>Home</a>
+                </li>
+  <!--              <li routerLinkActive="active">
+                    <a routerLink='/library'>Library</a>
+                </li>
+                <li routerLinkActive="active">
+                    <a routerLink='/scheduler'>Scheduler</a>
+                </li>
+    -->
+                <li>
+                <li>
+                    <a
+                      *ngIf="auth.loggedIn && auth.isAdmin"
+                      routerLink="/admin"
+                      routerLinkActive="active"
+                      [routerLinkActiveOptions]="{ exact: true }">Admin</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li *ngIf="auth.loggedIn">
+                    <a routerLink='/my-profile'>{{auth.userProfile?.name}}</a>
+                </li>
+                <li routerLinkActive="active">
+                    <a *ngIf="!auth.loggedIn" (click)="auth.login()">Log in</a>
+                    <a *ngIf="auth.loggedIn" (click)="auth.logout()">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

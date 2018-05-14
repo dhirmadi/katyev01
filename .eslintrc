@@ -1,0 +1,11 @@
+// Contents of .eslintrc at root of project - support for Node and jQuery
+{
+ // "env" : {
+ //   "node" : true,
+ //   "jquery" : true,
+  //  "es6" : true,
+ // },
+//  "parserOptions": {
+//   "ecmaVersion": 6
+// },
+}
