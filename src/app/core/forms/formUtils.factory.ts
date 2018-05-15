@@ -2,7 +2,7 @@
 
 // 0-9
 // https://regex101.com/r/dU0eY6/1
-const LIKES_REGEX = new RegExp(/^[0-9]$/);
+// const LIKES_REGEX = new RegExp(/^[0-9]$/);
 
 // yyyy-mm-dd
 const DATE_REGEX = new RegExp(/([12]\d{3}\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01]))/);
@@ -28,4 +28,5 @@ function stringsToDate(dateStr: string, timeStr: string) {
   return date;
 }
 
-export { LIKES_REGEX, DATE_REGEX, TIME_REGEX, stringsToDate };
+export { DATE_REGEX, TIME_REGEX, stringsToDate };
+//export { LIKES_REGEX, DATE_REGEX, TIME_REGEX, stringsToDate };

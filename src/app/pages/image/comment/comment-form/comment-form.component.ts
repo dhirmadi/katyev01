@@ -4,7 +4,7 @@ import { AuthService } from './../../../../auth/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../../core/api.service';
 import { CommentModel } from './../../../../core/models/comment.model';
-import { LIKES_REGEX } from './../../../../core/forms/formUtils.factory';
+//import { LIKES_REGEX } from './../../../../core/forms/formUtils.factory';
 
 @Component({
   selector: 'app-comment-form',
@@ -15,7 +15,7 @@ export class CommentFormComponent implements OnInit, OnDestroy {
   @Input() imageId: string;
   @Input() comment: CommentModel;
   @Output() submitComment = new EventEmitter();
-  LIKES_REGEX = LIKES_REGEX;
+//  LIKES_REGEX = LIKES_REGEX;
   isEdit: boolean;
   formComment: CommentModel;
   submitCommentSub: Subscription;
