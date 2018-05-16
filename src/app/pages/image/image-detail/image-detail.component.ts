@@ -1,6 +1,7 @@
 // src/app/pages/image/image-detail/image-detail.component.ts
 import { Component, Input } from '@angular/core';
 import { AuthService } from './../../../auth/auth.service';
+import { ApiService } from './../../../core/api.service';
 import { UtilsService } from './../../../core/utils.service';
 import { ImageModel } from './../../../core/models/image.model';
 
@@ -11,9 +12,14 @@ import { ImageModel } from './../../../core/models/image.model';
 })
 export class ImageDetailComponent {
   @Input() image: ImageModel;
+  @Input() userName: string;
+
+
 
   constructor(
     public utils: UtilsService,
-    public auth: AuthService) { }
+    public auth: AuthService,
+    public api: ApiService) { }
+
 
 }

@@ -12,8 +12,13 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const cors = require('cors');
+
+
 // Config
 const config = require('./server/config');
+
+
+
 
 /*
  |--------------------------------------
@@ -51,9 +56,12 @@ app.set('port', port);
 
 // Set static path to Angular app in dist
 // Don't run in dev
-if (process.env.NODE_ENV !== 'dev') {
-  app.use('/', express.static(path.join(__dirname, './dist')));
-}
+//if (process.env.NODE_ENV !== 'dev') {
+//  app.use('/', express.static(path.join(__dirname, './dist')));
+//}
+// Create link to Angular build directory
+var distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
 
 /*
  |--------------------------------------

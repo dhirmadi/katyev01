@@ -8,12 +8,17 @@
   class="card-block lead list-group-item"
   [innerHTML]="image.description">
   </li>
+  <li *ngIf="image.location"
+  class="card-block lead list-group-item"
+  >Location: {{image.location}} (<a href="https://www.google.com/maps/dir//{{image.location}}" target="_blank">Get directions</a>)
+  </li>
+    <li *ngIf="userName"
+  class="card-block lead list-group-item"
+  [innerHTML]="userName">
+  </li>
   <li *ngIf="auth.isAdmin" class="list-group-item alert alert-warning">
     <strong>Publishperiod:</strong> {{utils.imageDatesTimes(image.startDate, image.stopDate)}}
   </li>
-
-   <!-- <strong>Where:</strong>{{image.location}} (<a href="https://www.google.com/maps/dir//{{image.location}}" target="_blank">get directions</a>)-->
-
 </ul>
 </div>
 <div *ngIf="auth.isAdmin" class="card-footer text-right small">

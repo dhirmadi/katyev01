@@ -21,6 +21,17 @@ export class ApiService {
     return `Bearer ${localStorage.getItem('access_token')}`;
   }
 
+    // get user name based on login ID
+  getUserName$(id: string) {
+      console.log(`Getting ${ENV.BASE_API}user/name/${id}`);
+        return this.http
+            .get(`${ENV.BASE_API}user/name/${id}`, {
+                headers: new HttpHeaders().set('Authorization', this._authHeader)
+            })
+            .pipe(
+                catchError((error) => this._handleError(error))
+            );
+    }
   // GET list of public, future images
   getImages$(): Observable<ImageModel[]> {
     return this.http
@@ -142,7 +153,7 @@ export class ApiService {
     if (err.message && err.message.indexOf('No JWT present') > -1) {
       this.auth.login();
     }
-      console.log('died');
+    console.log(errorMsg);
     return errorMsg;
   }
 

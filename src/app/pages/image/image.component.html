@@ -40,6 +40,7 @@
       <!-- Image detail tab -->
       <app-image-detail
         *ngIf="utils.tabIs(tab, 'details')"
+        [userName]="userName"
         [image]="image"></app-image-detail>
 
       <!-- Image Comment tab -->

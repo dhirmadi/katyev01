@@ -16,21 +16,7 @@
       <p class="card-block lead">You responded to this image with the following information:</p>
 
       <ul *ngIf="!showEditForm" class="list-group list-group-flush">
-<!--
-        <li class="list-group-item">
-          <strong>Name:</strong>{{userComment.userId}}
-        </li>
--->
-<!--
-        <li class="list-group-item">
-          <strong>Attending:</strong>{{utils.booleanToText(userComment.attending)}}
-        </li>
--->
-<!--
-        <li *ngIf="userComment.attending && userComment.likes" class="list-group-item">
-          <strong>Additional Likes:</strong>{{userComment.likes}}
-        </li>
--->
+
         <li *ngIf="userComment.comment" class="list-group-item">
           <span [innerHTML]="userComment.comment"></span>
         </li>
@@ -71,12 +57,7 @@
     </div>
 
     <ul *ngIf="comments.length" class="list-group list-group-flush">
-<!--
-      <li class="list-group-item list-group-item-success justify-content-between">
-        <strong>Attending</strong>
-        <span class="badge badge-success badge-pill">{{totalAttending}}</span>
-      </li>
--->
+
       <li
         *ngFor="let comment of comments"
         class="list-group-item small">
@@ -86,22 +67,7 @@
           <em [innerHTML]="comment.comment"></em>
         </p>
       </li>
-<!--
-      <li class="list-group-item list-group-item-danger justify-content-between">
-        <strong>Not Attending</strong>
-        <span class="badge badge-danger badge-pill">{{fs.filter(comments, 'attending', false).length}}</span>
-      </li>
--->
-<!--
-      <li
-        *ngFor="let comment of fs.filter(comments, 'attending', false)"
-        class="list-group-item small">
-        {{comment.name}}
-        <p *ngIf="auth.isAdmin && comment.comments" class="d-flex w-100">
-          <em [innerHTML]="comment.comments"></em>
-        </p>
-      </li>
--->
+
     </ul>
   </section>
 
@@ -113,9 +79,4 @@
   </div>
 </ng-template>
 
-<!--
- Footer showing # of total attending likes
-<div class="card-footer text-right">
-  <small *ngIf="totalAttending >= 0" class="text-muted">{{utils.displayCount(totalAttending)}} {{footerTense}}</small>
-</div>
--->
+

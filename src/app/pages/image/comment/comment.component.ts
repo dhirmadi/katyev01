@@ -19,10 +19,12 @@ export class CommentComponent implements OnInit {
   @Input() imageId: string;
   @Input() imagePast: boolean;
   commentsSub: Subscription;
+  userNameSub: Subscription;
   comments: CommentModel[];
   loading: boolean;
   error: boolean;
   userComment: CommentModel;
+  userName: string;
 //  totalAttending: number;
 //  footerTense: string;
   showAllComments = false;
@@ -42,7 +44,29 @@ export class CommentComponent implements OnInit {
     this.toggleEditForm(false);
   }
 
-  private _getComments() {
+public writeCommenterName(userId: string) {
+    this._getUserName(userId);
+    return this.userName;
+}
+  private _getUserName(userId: string) {
+      this.loading = true;
+      console.log(userId);
+    // GET username by userId
+    this.userNameSub = this.api
+      .getUserName$(userId)
+      .subscribe(
+        res => {
+          this.userName = res;
+          this.loading = false;
+        },
+        err => {
+          console.error(err);
+          this.loading = false;
+          this.error = true;
+        }
+      );
+  }
+    private _getComments() {
     this.loading = true;
     // Get Comments by image ID
     this.commentsSub = this.api
@@ -50,6 +74,7 @@ export class CommentComponent implements OnInit {
       .subscribe(
         res => {
           this.comments = res;
+            console.log(this.comments);
           this._updateCommentState();
           this.loading = false;
         },
@@ -112,17 +137,9 @@ export class CommentComponent implements OnInit {
           this.userComment = comment;
         }
       }
-      // Count total number of attendees
-      // + additional guests
-//      if (comment.attending) {
-//        attending++;
-//        if (comment.likes) {
-//          attending += comment.likes;
-//        }
-//      }
+
       return comment;
     });
     this.comments = commentArr;
-  //  this.totalAttending = attending;
   }
 }

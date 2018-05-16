@@ -15,14 +15,17 @@ import { ImageModel } from './../../core/models/image.model';
 })
 export class ImageComponent implements OnInit, OnDestroy {
   pageTitle: string;
+  userProfile: string;
   id: string;
   routeSub: Subscription;
   tabSub: Subscription;
   imageSub: Subscription;
+  userNameSub: Subscription;
   image: ImageModel;
   loading: boolean;
   error: boolean;
   tab: string;
+  userName: string;
   imagePast: boolean;
 
   constructor(
@@ -30,7 +33,8 @@ export class ImageComponent implements OnInit, OnDestroy {
     public auth: AuthService,
     private api: ApiService,
     public utils: UtilsService,
-    private title: Title) { }
+    private title: Title,
+    ) { }
 
   ngOnInit() {
     // Set image ID from route params and subscribe
@@ -45,6 +49,26 @@ export class ImageComponent implements OnInit, OnDestroy {
       .subscribe(queryParams => {
         this.tab = queryParams['tab'] || 'details';
       });
+
+  }
+
+  private _getUserName(userId: string) {
+      this.loading = true;
+      console.log(userId);
+    // GET username by userId
+    this.userNameSub = this.api
+      .getUserName$(userId)
+      .subscribe(
+        res => {
+          this.userName = res;
+          this.loading = false;
+        },
+        err => {
+          console.error(err);
+          this.loading = false;
+          this.error = true;
+        }
+      );
   }
 
   private _getImage() {
@@ -58,6 +82,7 @@ export class ImageComponent implements OnInit, OnDestroy {
           this._setPageTitle(this.image.title);
           this.loading = false;
           this.imagePast = this.utils.imagePast(this.image.stopDate);
+          this._getUserName(this.image.userId);
         },
         err => {
           console.error(err);
@@ -68,6 +93,7 @@ export class ImageComponent implements OnInit, OnDestroy {
       );
   }
 
+
   private _setPageTitle(title: string) {
     this.pageTitle = title;
     this.title.setTitle(title);
@@ -77,6 +103,7 @@ export class ImageComponent implements OnInit, OnDestroy {
     this.routeSub.unsubscribe();
     this.tabSub.unsubscribe();
     this.imageSub.unsubscribe();
+    this.userNameSub.unsubscribe();
   }
 
 }

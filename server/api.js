@@ -7,6 +7,8 @@
 
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
+const request = require('request');
+const ManagementClient = require('auth0').ManagementClient;
 
 const Image = require('./models/Image');
 const Comment = require('./models/Comment');
@@ -20,6 +22,15 @@ const _imageListProjection = 'title userId likes nsfw link startDate stopDate';
  */
 
 module.exports = function (app, config) {
+
+
+    const auth0 = new ManagementClient({
+      domain: config.AUTH0_DOMAIN,
+      clientId: config.AUTH0_CLIENT_ID,
+      clientSecret: config.AUTH0_CLIENT_SECRET,
+      scope: 'read:users update:users read:user_idp_tokens'
+    });
+
     // Authentication middleware
     const jwtCheck = jwt({
         secret: jwks.expressJwtSecret({
@@ -32,6 +43,7 @@ module.exports = function (app, config) {
         issuer: `https://${config.AUTH0_DOMAIN}/`,
         algorithm: 'RS256'
     });
+
 
 
     // Check for an authenticated admin user
@@ -47,11 +59,46 @@ module.exports = function (app, config) {
         };
     };
 
+//    // configure to meet request for api tokens from auth0
+//    const _auth0RequestApiToken = { method: 'POST',
+//          url: config.AUTH0_DOMAIN_API_TOKEN,
+//          headers: { 'content-type': 'application/json' },
+//          body:
+//           { grant_type: 'client_credentials',
+//             client_id: config.AUTH0_CLIENT_ID,
+//             client_secret: config.AUTH0_CLIENT_SECRET,
+//             audience: `https://${config.AUTH0_DOMAIN}/api/v2/` },
+//          json: true };
+//
+//            request(_auth0RequestApiToken, function (error, response, body) {
+//              if (error) throw new Error(error);
+//
+//                  console.log(body);
+//                  console.log(response);
+//                  console.log(error);
+//                const _authToken=body;
+//          });
+
+
     /*
      |--------------------------------------
      | API Routes
      |--------------------------------------
      */
+
+    // GET user name of auth0 user.
+    app.get('/api/user/name/:id', jwtCheck,(req, res) => {
+        console.log(`looking for user ${req.params.id}`);
+        auth0.users.get(req.params.id,function (err, user) {
+            if (err) {
+                return res.status(500).send({message: err.message});
+            }
+            var user = JSON.stringify(user[0].name);
+//            res.send(user[0].name);
+            res.send(user);
+
+        });
+    });
 
     // GET API root
     app.get('/api/', (req, res) => {
