@@ -23,7 +23,7 @@ export class ApiService {
 
     // get user name based on login ID
   getUserName$(id: string) {
-      console.log(`Getting ${ENV.BASE_API}user/name/${id}`);
+    //  console.log(`Getting ${ENV.BASE_API}user/name/${id}`);
         return this.http
             .get(`${ENV.BASE_API}user/name/${id}`, {
                 headers: new HttpHeaders().set('Authorization', this._authHeader)
@@ -55,7 +55,7 @@ export class ApiService {
 
   // GET an image by ID (login required)
   getImageById$(id: string): Observable<ImageModel> {
-      console.log(`Getting ${ENV.BASE_API}image/${id}`);
+      // console.log(`Getting ${ENV.BASE_API}image/${id}`);
     return this.http
       .get(`${ENV.BASE_API}images/${id}`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)

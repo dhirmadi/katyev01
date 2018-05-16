@@ -30,20 +30,18 @@
 
       <!-- Images listing -->
       <section class="list-group">
-        <a
-          *ngFor="let image of fs.orderByDate(filteredImages, 'startDate')"
-          [routerLink]="['/images', image._id]"
-          class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1" [innerHTML]="image.title"></h5>
-        <img
-          [src]="image.link"
-          alt="{{ image.title }}"
-          class="img-responsive"
-          style="max-height: 50px;">
-          <small>{{utils.imageDates(image.startDate, image.stopDate)}}</small>
+
+        <div class="col-md-6" *ngFor="let image of fs.orderByDate(filteredImages, 'startDate')">
+          <div class="thumbnail">
+            <a [routerLink]="['/images', image._id]">
+              <img [src]="image.link" alt="{{ image.title }}" style="width:100%">
+              <div class="caption">
+                <p>{{image.title}}</p>
+              </div>
+            </a>
           </div>
-        </a>
+        </div>
+
       </section>
     </ng-template>
 

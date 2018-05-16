@@ -39,18 +39,14 @@ export class CommentComponent implements OnInit {
     public fs: FilterSortService) { }
 
   ngOnInit() {
-    // this.footerTense = !this.imagePast ? 'plan to attend this image.' : 'attended this image.';
     this._getComments();
     this.toggleEditForm(false);
   }
 
-public writeCommenterName(userId: string) {
-    this._getUserName(userId);
-    return this.userName;
-}
-  private _getUserName(userId: string) {
-      this.loading = true;
-      console.log(userId);
+
+
+  public getUserName(userId: string) {
+    this.loading = true;
     // GET username by userId
     this.userNameSub = this.api
       .getUserName$(userId)
@@ -66,7 +62,9 @@ public writeCommenterName(userId: string) {
         }
       );
   }
-    private _getComments() {
+
+
+  private _getComments() {
     this.loading = true;
     // Get Comments by image ID
     this.commentsSub = this.api
@@ -74,7 +72,6 @@ public writeCommenterName(userId: string) {
       .subscribe(
         res => {
           this.comments = res;
-            console.log(this.comments);
           this._updateCommentState();
           this.loading = false;
         },
