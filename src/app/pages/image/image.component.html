@@ -10,11 +10,15 @@
       <strong>This image is not active.</strong>
     </p>
 
-    <img
-      [src]="image.link"
-      alt="{{ image.title }}"
-      class="img-responsive center-block"
-      style="max-width: 80%;">
+    <cl-image
+        public-id={{image.link}}
+        class="thumbnail inline"
+        title="{{ image.title }}"
+        (mouseenter)="image.isMouseOver = true"
+        (mouseleave)="image.isMouseOver = false"
+        [attr.opacity]="image.isMouseOver ? '50' : null"
+        >
+    </cl-image>
 
     <div class="card">
       <!-- Image tab navigation -->

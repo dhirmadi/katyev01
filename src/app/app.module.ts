@@ -6,6 +6,9 @@ import { DatePipe } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/angular-5.x';
+import * as cloudinary from 'cloudinary-core';
+import {FileUploadModule} from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -17,6 +20,7 @@ import { HomeComponent } from './home/home.component';
  import { AdminGuard } from './auth/admin.guard';
 
  import { ApiService } from './core/api.service';
+ import { CloudinaryService } from './core/cloudinary.service';
  import { UtilsService } from './core/utils.service';
  import { FilterSortService } from './core/filter-sort.service';
  import { LoadingComponent } from './core/loading.component';
@@ -35,6 +39,10 @@ import { ImageFormComponent } from './pages/admin/image-form/image-form.componen
 import { DeleteImageComponent } from './pages/admin/update-image/delete-image/delete-image.component';
 
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
+import { MyImagesComponent } from './pages/my-profile/my-images/my-images.component';
+import { MyCommentsComponent } from './pages/my-profile/my-comments/my-comments.component';
+
+import cloudinaryConfiguration from './cloudinary/cloudinary.default';
 
 const appRoutes: Routes = [
 { path: '', component: HomeComponent },
@@ -68,6 +76,8 @@ const appRoutes: Routes = [
     ImageFormComponent,
     DeleteImageComponent,
     MyProfileComponent,
+    MyImagesComponent,
+    MyCommentsComponent,
   ],
   imports: [
       BrowserModule,
@@ -76,6 +86,8 @@ const appRoutes: Routes = [
       FormsModule,
       ReactiveFormsModule,
       BrowserAnimationsModule,
+      CloudinaryModule.forRoot(cloudinary, cloudinaryConfiguration),
+      FileUploadModule,
   ],
   providers: [
       Title,
@@ -85,7 +97,9 @@ const appRoutes: Routes = [
       ApiService,
       DatePipe,
       UtilsService,
-      FilterSortService
+      FilterSortService,
+      CloudinaryService
+
   ],
   bootstrap: [AppComponent]
 })

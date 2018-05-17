@@ -53,11 +53,24 @@ export class ApiService {
       );
   }
 
-  // GET an image by ID (login required)
-  getImageById$(id: string): Observable<ImageModel> {
-      // console.log(`Getting ${ENV.BASE_API}image/${id}`);
+  // GET an image by cloudinary ID (login required)
+  getImageById$(link: string): Observable<ImageModel> {
+    console.log(`Requesting ${ENV.BASE_API}image/${link}`);
     return this.http
-      .get(`${ENV.BASE_API}images/${id}`, {
+      .get(`${ENV.BASE_API}images/${link}`, {
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
+      })
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+
+  }
+
+  // GET an images that belong to specific userId
+  getImagesByUserId$(userId: string): Observable<ImageModel> {
+    console.log(`Requesting ${ENV.BASE_API}images/user/${userId}`);
+    return this.http
+      .get(`${ENV.BASE_API}images/user/${userId}`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -114,7 +127,6 @@ export class ApiService {
 
     // GET all images a specific user has commented to (login required)
   getUserImages$(userId: string): Observable<ImageModel[]> {
-      console.log('GEtting all images a user has commented on.');
     return this.http
       .get(`${ENV.BASE_API}image/${userId}`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)

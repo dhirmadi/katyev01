@@ -59,25 +59,6 @@ module.exports = function (app, config) {
         };
     };
 
-//    // configure to meet request for api tokens from auth0
-//    const _auth0RequestApiToken = { method: 'POST',
-//          url: config.AUTH0_DOMAIN_API_TOKEN,
-//          headers: { 'content-type': 'application/json' },
-//          body:
-//           { grant_type: 'client_credentials',
-//             client_id: config.AUTH0_CLIENT_ID,
-//             client_secret: config.AUTH0_CLIENT_SECRET,
-//             audience: `https://${config.AUTH0_DOMAIN}/api/v2/` },
-//          json: true };
-//
-//            request(_auth0RequestApiToken, function (error, response, body) {
-//              if (error) throw new Error(error);
-//
-//                  console.log(body);
-//                  console.log(response);
-//                  console.log(error);
-//                const _authToken=body;
-//          });
 
 
     /*
@@ -208,6 +189,9 @@ module.exports = function (app, config) {
     });
   });
 
+
+
+
     // GET list of images the user has commented to
    app.get('/api/image/:userId', jwtCheck, (req, res) => {
     Comment.find({userId: req.params.userId}, 'imageId', (err, comments) => {
@@ -260,6 +244,7 @@ module.exports = function (app, config) {
     // GET image by image ID
     // app.get('/api/images/:id', jwtCheck, (req, res) => {
     app.get('/api/images/:id', (req, res) => {
+        console.log(req.params.id);
         Image.findById(req.params.id, (err, image) => {
             if (err) {
                 //console.log(' error 500 something')
@@ -277,6 +262,27 @@ module.exports = function (app, config) {
         });
     });
 
+     // GET list of images that belong to specific user
+    app.get('/api/images/user/:userId', jwtCheck, (req, res) => {
+        Image.find({
+            userId: req.params.userId
+        }, (err, images) => {
+            let imagesArr = [];
+            if (err) {
+                return res.status(500).send({
+                    message: err.message
+                });
+            }
+            if (images) {
+                images.forEach(image => {
+                imagesArr.push(image);
+                });
+            }
+            res.send(imagesArr);
+        });
+    });
+
+
     // GET comments by image ID
     app.get('/api/images/:imageId/comments', jwtCheck, (req, res) => {
         Comment.find({
@@ -290,7 +296,7 @@ module.exports = function (app, config) {
             }
             if (comments) {
                 comments.forEach(comment => {
-                    commentsArr.push(comment);
+                commentsArr.push(comment);
                 });
             }
             res.send(commentsArr);

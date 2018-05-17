@@ -1,4 +1,4 @@
-// src/app/pages/my-rsvps/my-rsvps.component.ts
+// src/app/pages/my-profile/my-profile.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../auth/auth.service';
@@ -6,6 +6,7 @@ import { ApiService } from './../../core/api.service';
 import { UtilsService } from './../../core/utils.service';
 import { FilterSortService } from './../../core/filter-sort.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ActivatedRoute } from '@angular/router';
 import { ImageModel } from './../../core/models/image.model';
 
 @Component({
@@ -16,12 +17,16 @@ import { ImageModel } from './../../core/models/image.model';
 export class MyProfileComponent implements OnInit, OnDestroy {
   pageTitle = 'My Profile';
   imageListSub: Subscription;
+  tabSub: Subscription;
   imageList: ImageModel[];
   loading: boolean;
   error: boolean;
+  tab: string;
   userIdp: string;
+  userId: string;
 
   constructor(
+    private route: ActivatedRoute,
     private title: Title,
     public auth: AuthService,
     private api: ApiService,
@@ -31,7 +36,14 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.title.setTitle(this.pageTitle);
     this.userIdp = this._getIdp;
-    this._getImageList();
+    // this._getImageList();
+
+    // Subscribe to query params to watch for tab changes
+    this.tabSub = this.route.queryParams
+      .subscribe(queryParams => {
+        this.tab = queryParams['tab'] || 'my-images';
+      });
+    this.loading = false;
   }
 
   private _getImageList() {
@@ -54,6 +66,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
 
   private get _getIdp(): string {
     const sub = this.auth.userProfile.sub.split('|')[0];
+    this.userId = this.auth.userProfile.sub;
     let idp = sub;
 
     if (sub === 'auth0') {
@@ -67,7 +80,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.imageListSub.unsubscribe();
+//     this.imageListSub.unsubscribe();
   }
 
 }

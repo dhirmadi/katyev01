@@ -38,7 +38,6 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.loading = true;
     // Get all (admin) images
     this.imagesSub = this.api
-      // .getImages$()
       .getAdminImages$()
       .subscribe(
         res => {

@@ -1,0 +1,26 @@
+  <ng-template [ngIf]="imageList">
+    <!-- Image list retrieved but no RSVPs yet -->
+    <p *ngIf="!imageList.length" class="lead">
+      You have not oppinioned to any images yet. Check out the <a routerLink="/">homepage</a> to see a list of  images.
+    </p>
+
+    <ng-template [ngIf]="imageList.length">
+      <p class="lead">You have <strong>commented</strong> for the following images:</p>
+
+      <!-- Images listing -->
+      <div class="list-group">
+        <a
+          *ngFor="let image of fs.orderByDate(imageList, 'startDate')"
+          [routerLink]="['/images', image._id]"
+          [queryParams]="{tab: 'comment'}"
+          class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1" [innerHTML]="image.title"></h5>
+            <small>{{utils.imageDates(image.startDate, image.stopDate)}}</small>
+          </div>
+          <small class="mb-1">Click to view or update this oppinion</small>
+        </a>
+      </div>
+    </ng-template>
+
+  </ng-template>

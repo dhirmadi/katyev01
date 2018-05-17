@@ -5,6 +5,7 @@ import { UtilsService } from './../core/utils.service';
 import { FilterSortService } from './../core/filter-sort.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ImageModel } from './../core/models/image.model';
+import { CloudinaryService } from './../core/cloudinary.service';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private title: Title,
     public utils: UtilsService,
     private api: ApiService,
-    public fs: FilterSortService) { }
+    public fs: FilterSortService,
+    private cloudinaryService: CloudinaryService) { }
 
   ngOnInit() {
     this.title.setTitle(this.pageTitle);
