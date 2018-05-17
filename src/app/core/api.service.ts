@@ -67,7 +67,7 @@ export class ApiService {
   }
 
   // GET an images that belong to specific userId
-  getImagesByUserId$(userId: string): Observable<ImageModel> {
+  getImagesByUserId$(userId: string): Observable<ImageModel[]> {
     console.log(`Requesting ${ENV.BASE_API}images/user/${userId}`);
     return this.http
       .get(`${ENV.BASE_API}images/user/${userId}`, {

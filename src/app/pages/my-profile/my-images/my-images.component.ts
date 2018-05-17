@@ -1,15 +1,15 @@
 // src/app/pages/my-profile/my-images/my-images.component.ts
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+//import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from './../../../auth/auth.service';
-import { CLOUD_CONFIG } from './../../../cloudinary/cloudinary.config';
+//import { CLOUD_CONFIG } from './../../../cloudinary/cloudinary.config';
 import { ApiService } from './../../../core/api.service';
 import { UtilsService } from './../../../core/utils.service';
 import { FilterSortService } from './../../../core/filter-sort.service';
 import { ImageModel } from './../../../core/models/image.model';
-import { PhotoModel } from './../../../core/models/photo.model';
-import { CloudinaryService } from './../../../core/cloudinary.service';
+// import { PhotoModel } from './../../../core/models/photo.model';
+// import { CloudinaryService } from './../../../core/cloudinary.service';
 
 @Component({
   selector: 'app-my-images',
@@ -18,8 +18,8 @@ import { CloudinaryService } from './../../../core/cloudinary.service';
 })
 export class MyImagesComponent implements OnInit {
 
-    cloudName = CLOUD_CONFIG.CLOUD_NAME;
-    cloudUploadPreset = CLOUD_CONFIG.CLOUD_UPLOAD_PRESET;
+//    cloudName = CLOUD_CONFIG.CLOUD_NAME;
+//    cloudUploadPreset = CLOUD_CONFIG.CLOUD_UPLOAD_PRESET;
     @Input() userId: string;
 
     imagesSub: Subscription;
@@ -31,7 +31,7 @@ export class MyImagesComponent implements OnInit {
 //    private photos: Observable<PhotoModel[]>;
 
     constructor(
-        private cloudinaryService: CloudinaryService,
+//        private cloudinaryService: CloudinaryService,
         public auth: AuthService,
         private api: ApiService,
         public utils: UtilsService,
