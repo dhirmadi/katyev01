@@ -8,7 +8,9 @@
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
 const request = require('request');
+
 const ManagementClient = require('auth0').ManagementClient;
+const cloudinary = require('cloudinary');
 
 const Image = require('./models/Image');
 const Comment = require('./models/Comment');
@@ -24,6 +26,13 @@ const _imageListProjection = 'title userId likes nsfw link startDate stopDate';
 module.exports = function (app, config) {
 
 
+    cloudinary.config({
+          cloud_name: config.CLOUD_NAME,
+          api_key: config.CLOUD_API_KEY,
+          api_secret: config.CLOUD_API_SECRET
+    });
+
+    // define management interface for auth0 api
     const auth0 = new ManagementClient({
       domain: config.AUTH0_DOMAIN,
       clientId: config.AUTH0_CLIENT_ID,
@@ -31,7 +40,7 @@ module.exports = function (app, config) {
       scope: 'read:users update:users read:user_idp_tokens'
     });
 
-    // Authentication middleware
+    // Authentication middleware. validate json web tokens
     const jwtCheck = jwt({
         secret: jwks.expressJwtSecret({
             cache: true,
@@ -109,10 +118,12 @@ module.exports = function (app, config) {
         });
     });
 
-     app.post('/api/image/new', jwtCheck, adminCheck, (req, res) => {
+    // put a new image into database
+    app.post('/api/image/new', jwtCheck, (req, res) => {
     Image.findOne({
       link: req.body.link}, (err, existingImage) => {
       if (err) {
+          console.log('error checking if image already exists');
         return res.status(500).send({message: err.message});
       }
       if (existingImage) {
@@ -129,9 +140,11 @@ module.exports = function (app, config) {
         likes: 0,
         nsfw: req.body.nsfw
       });
+        console.log(image);
       image.save((err) => {
         if (err) {
-          return res.status(500).send({message: err.message});
+            console.log('could not save to database');
+            return res.status(500).send({message: err.message});
         }
         res.send(image);
       });
@@ -139,7 +152,7 @@ module.exports = function (app, config) {
   });
 
     // PUT (edit) an existing image
-  app.put('/api/image/:id', jwtCheck, adminCheck, (req, res) => {
+    app.put('/api/image/:id', jwtCheck, (req, res) => {
     Image.findById(req.params.id, (err, image) => {
       if (err) {
         return res.status(500).send({message: err.message});
@@ -165,7 +178,7 @@ module.exports = function (app, config) {
   });
 
     // DELETE an image and all associated RSVPs
-  app.delete('/api/image/:id', jwtCheck, adminCheck, (req, res) => {
+    app.delete('/api/image/:id', jwtCheck, (req, res) => {
     Image.findById(req.params.id, (err, image) => {
       if (err) {
         return res.status(500).send({message: err.message});
@@ -183,7 +196,8 @@ module.exports = function (app, config) {
           if (err) {
             return res.status(500).send({message: err.message});
           }
-          res.status(200).send({message: 'Image and commentss successfully deleted.'});
+            cloudinary.v2.api.delete_resources(image.link, function(error, result){console.log(result);});
+          res.status(200).send({message: 'Image and comments successfully deleted.'});
         });
       });
     });
@@ -193,7 +207,7 @@ module.exports = function (app, config) {
 
 
     // GET list of images the user has commented to
-   app.get('/api/image/:userId', jwtCheck, (req, res) => {
+    app.get('/api/image/:userId', jwtCheck, (req, res) => {
     Comment.find({userId: req.params.userId}, 'imageId', (err, comments) => {
       const _imageIdsArr = comments.map(comment => comment.imageId);
 //      const _commentImagesProjection = 'title startDate endDate';
@@ -221,9 +235,7 @@ module.exports = function (app, config) {
     });
   });
 
-
     // GET all images
-    //app.get('/api/images/admin', (req, res) => {
     app.get('/api/images/admin', jwtCheck, adminCheck, (req, res) => {
         Image.find({}, _imageListProjection, (err, images) => {
             let imagesArr = [];
@@ -242,7 +254,6 @@ module.exports = function (app, config) {
     });
 
     // GET image by image ID
-    // app.get('/api/images/:id', jwtCheck, (req, res) => {
     app.get('/api/images/:id', (req, res) => {
         console.log(req.params.id);
         Image.findById(req.params.id, (err, image) => {
@@ -334,8 +345,9 @@ module.exports = function (app, config) {
             });
         });
     });
-// PUT (edit) an existing comment
-  app.put('/api/comment/:id', jwtCheck, (req, res) => {
+
+    // PUT (edit) an existing comment
+    app.put('/api/comment/:id', jwtCheck, (req, res) => {
     Comment.findById(req.params.id, (err, comment) => {
       if (err) {
         return res.status(500).send({message: err.message});

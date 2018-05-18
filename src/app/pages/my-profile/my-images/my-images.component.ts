@@ -1,9 +1,9 @@
 // src/app/pages/my-profile/my-images/my-images.component.ts
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-//import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from './../../../auth/auth.service';
-//import { CLOUD_CONFIG } from './../../../cloudinary/cloudinary.config';
+// import { CLOUD_CONFIG } from './../../../cloudinary/cloudinary.config';
 import { ApiService } from './../../../core/api.service';
 import { UtilsService } from './../../../core/utils.service';
 import { FilterSortService } from './../../../core/filter-sort.service';
@@ -42,6 +42,7 @@ export class MyImagesComponent implements OnInit {
 //        this.photos = this.cloudinaryService.getMyPhotos(this.userId);
         this._getImageList();
     }
+
 
     private _getImageList() {
         this.loading = true;

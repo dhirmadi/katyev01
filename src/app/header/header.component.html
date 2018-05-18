@@ -19,6 +19,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+<!--
                 <li>
                     <a
                       *ngIf="auth.loggedIn && auth.isAdmin"
@@ -26,6 +27,7 @@
                       routerLinkActive="active"
                       [routerLinkActiveOptions]="{ exact: true }">Admin</a>
                 </li>
+-->
 
                 <li *ngIf="auth.loggedIn">
                     <a routerLink='/my-profile'>{{auth.userProfile?.name}}</a>

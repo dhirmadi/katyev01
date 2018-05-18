@@ -31,7 +31,7 @@
       <!-- Images listing -->
       <section class="list-group">
 
-        <div class="col-md-4" *ngFor="let image of fs.orderByDate(filteredImages, 'startDate')">
+        <div class="col-md-6 col-sd-12 col-ld-3" *ngFor="let image of fs.orderByDate(filteredImages, 'startDate')">
 
             <a [routerLink]="['/images', image._id]">
 <!--              <img [src]="image.link" alt="{{ image.title }}" style="width:100%">-->

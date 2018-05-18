@@ -47,7 +47,8 @@ import cloudinaryConfiguration from './cloudinary/cloudinary.default';
 const appRoutes: Routes = [
 { path: '', component: HomeComponent },
 { path: 'callback', component: CallbackComponent },
-{ path: 'admin', canActivate: [ AuthGuard, AdminGuard ],
+// { path: 'admin', canActivate: [ AuthGuard, AdminGuard ],
+{ path: 'admin', canActivate: [ AuthGuard ],
  children: [
      {path: '', component: AdminComponent },
      { path: 'image/new', component: CreateImageComponent },
