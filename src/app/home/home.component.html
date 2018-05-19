@@ -3,63 +3,50 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <ng-template [ngIf]="utils.isLoaded(loading)">
-  <ng-template [ngIf]="imageList">
-    <ng-template [ngIf]="imageList.length">
+    <ng-template [ngIf]="imageList">
+        <ng-template [ngIf]="imageList.length">
 
-      <!-- Search images -->
-      <section class="search input-group mb-3">
-        <label class="input-group-addon" for="search">Search</label>
-        <input
-          id="search"
-          type="text"
-          class="form-control"
-          [(ngModel)]="query"
-          (keyup)="searchImages()" />
+            <!-- Search images -->
+            <section class="search input-group md-8 sm-8 lg=8">
+                <label class="input-group-addon" for="search">Search</label>
+                <input id="search" type="text" class="form-control" [(ngModel)]="query" (keyup)="searchImages()" />
         <span class="input-group-btn">
           <button
             class="btn btn-danger"
             (click)="resetQuery()"
             [disabled]="!query">&times;</button>
         </span>
-      </section>
+            </section>
 
-      <!-- No search results -->
-      <p *ngIf="fs.noSearchResults(filteredImages, query)" class="alert alert-warning">
-        No images found for <em class="text-danger">{{query}}</em>, sorry!
-      </p>
+            <!-- No search results -->
+            <p *ngIf="fs.noSearchResults(filteredImages, query)" class="alert alert-warning">
+                No images found for <em class="text-danger">{{query}}</em>, sorry!
+            </p>
 
-      <!-- Images listing -->
-      <section class="list-group">
+            <!-- Images listing -->
 
-        <div class="col-md-6 col-sd-12 col-ld-3" *ngFor="let image of fs.orderByDate(filteredImages, 'startDate')">
+            <div class="d-flex flex-wrap align-content-stretch text-center">
+                <div class="d-flex col-sm-6 col-md-6 col-lg-6" *ngFor="let image of fs.orderByDate(filteredImages, 'startDate')">
+                    <a [routerLink]="['/images', image._id]">
+                        <cl-image public-id={{image.link}} class="img-fluid max-width:300px" title="{{ image.title }}" (mouseenter)="image.isMouseOver = false" (mouseleave)="image.isMouseOver = true" [attr.opacity]="image.isMouseOver ? '60' : null">
+                        </cl-image>
+                    </a>
+                </div>
+            </div>
 
-            <a [routerLink]="['/images', image._id]">
-<!--              <img [src]="image.link" alt="{{ image.title }}" style="width:100%">-->
-              <cl-image
-                        public-id={{image.link}}
-                        class="img-responsive"
-                        title="{{ image.title }}"
-                        (mouseenter)="image.isMouseOver = true"
-                        (mouseleave)="image.isMouseOver = false"
-                        [attr.opacity]="image.isMouseOver ? '50' : null"
-                >
-                </cl-image>
-            </a>
 
-        </div>
 
-      </section>
+        </ng-template>
+
+        <!-- No upcoming public images available -->
+        <p *ngIf="!imageList.length" class="alert alert-info">
+            No upcoming public images available.
+        </p>
     </ng-template>
 
-    <!-- No upcoming public images available -->
-    <p *ngIf="!imageList.length" class="alert alert-info">
-      No upcoming public images available.
+    <!-- Error loading images -->
+    <p *ngIf="error" class="alert alert-danger">
+        <strong>Oops!</strong> There was an error retrieving image data.
     </p>
-  </ng-template>
-
-  <!-- Error loading images -->
-  <p *ngIf="error" class="alert alert-danger">
-    <strong>Oops!</strong> There was an error retrieving image data.
-  </p>
 
 </ng-template>

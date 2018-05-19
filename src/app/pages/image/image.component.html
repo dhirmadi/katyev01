@@ -2,23 +2,26 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <ng-template [ngIf]="utils.isLoaded(loading)">
-  <h1 class="text-center">{{pageTitle}}</h1>
   <!-- Image -->
   <ng-template [ngIf]="image">
     <!-- Image is over -->
     <p *ngIf="imagePast" class="alert alert-danger">
       <strong>This image is not active.</strong>
     </p>
-
+<div class="d-flex justify-content-center">
+   <figure class="figure">
     <cl-image
         public-id={{image.link}}
-        class="thumbnail inline"
+        class="img-thumbnail"
         title="{{ image.title }}"
-        (mouseenter)="image.isMouseOver = true"
-        (mouseleave)="image.isMouseOver = false"
-        [attr.opacity]="image.isMouseOver ? '50' : null"
+        (mouseenter)="image.isMouseOver = false"
+        (mouseleave)="image.isMouseOver = true"
+        [attr.opacity]="image.isMouseOver ? '60' : null"
         >
     </cl-image>
+    <figcaption class="figure-caption">{{pageTitle}}</figcaption>
+    </figure>
+      </div>
 
     <div class="card">
       <!-- Image tab navigation -->
@@ -26,14 +29,14 @@
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-dark"
               [routerLink]="[]"
               [queryParams]="{tab: 'details'}"
               [ngClass]="{'active': utils.tabIs(tab, 'details')}">Details</a>
           </li>
           <li class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-dark"
               [routerLink]="[]"
               [queryParams]="{tab: 'comment'}"
               [ngClass]="{'active': utils.tabIs(tab, 'comment')}">Opinion</a>

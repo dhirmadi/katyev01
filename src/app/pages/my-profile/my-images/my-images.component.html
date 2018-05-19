@@ -31,39 +31,41 @@
       </p>
 
       <!-- Images listing -->
-      <section class="list-group">
+      <div class="d-flex flex-wrap container-fluid">
         <div
           *ngFor="let image of fs.orderByDate(filteredImages, 'startDate')"
-          class="col-md-2 list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <a [routerLink]="['/images', image._id]">
-              <h5 class="mb-1" [innerHTML]="image.title"></h5>
-              <cl-image
-                        public-id={{image.link}}
-                        class="img-responsive"
-                        (mouseenter)="image.isMouseOver = true"
-                        (mouseleave)="image.isMouseOver = false"
-                        [attr.opacity]="image.isMouseOver ? '50' : null"
-                >
-                </cl-image>
-            </a>
-            <div class="image-icons">
-              <span *ngIf="image.nsfw" class="glyphicon glyphicon-user"></span>
-              <span *ngIf="utils.imagePast(image.stopDate)" class="glyphicon glyphicon-calendar"></span>
-            </div>
-            </div>
+          class="col-lg-2 col-sm-6 col-md-3">
 
-          <p class="mb-1">
-            <a
-              class="btn btn-info btn-sm"
-              [routerLink]="['/admin/image/update', image._id]">Edit</a>
-            <a
-              class="btn btn-danger btn-sm"
-              [routerLink]="['/admin/image/update', image._id]"
-              [queryParams]="{tab: 'delete'}">Delete</a>
-          </p>
+            <a [routerLink]="['/images', image._id]">
+                <cl-image
+                    public-id={{image.link}}
+                    class="img-thumbnail"
+                    title="{{image.title}}"
+                    (mouseenter)="image.isMouseOver = false"
+                    (mouseleave)="image.isMouseOver = true"
+                    [attr.opacity]="image.isMouseOver ? '60' : null">
+                  <cl-transformation gravity="face" width="300" height="300" crop="thumb">
+                  </cl-transformation></cl-image>
+            </a>
+            <div>
+                <p class="mb-1">
+                    <a *ngIf="image.nsfw"
+                      class="btn btn-warning btn-sm"
+                      [routerLink]="['/admin/image/update', image._id]">NSFW</a>
+                    <a *ngIf="utils.imagePast(image.stopDate)"
+                      class="btn btn-danger btn-sm"
+                      [routerLink]="['/admin/image/update', image._id]">Offline</a>
+                    <a
+                      class="btn btn-success btn-sm"
+                      [routerLink]="['/admin/image/update', image._id]">Edit</a>
+                    <a
+                      class="btn btn-danger btn-sm"
+                      [routerLink]="['/admin/image/update', image._id]"
+                      [queryParams]="{tab: 'delete'}">Delete</a>
+                </p>
+            </div>
         </div>
-      </section>
+    </div>
     </ng-template>
 </ng-template>
 

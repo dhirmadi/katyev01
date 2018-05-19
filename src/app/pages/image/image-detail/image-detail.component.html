@@ -1,26 +1,20 @@
 <!-- src/app/pages/image/image-detail/image-detail.component.html -->
-<div class="card-block">
-  <h2 class="card-title text-center">Image Details</h2>
+<div *ngIf="image.description"
+    class="card-block lead list-group-item"
+    [innerHTML]="image.description">
 </div>
-<div>
-<ul class="list-group list-group-flush">
-  <li *ngIf="image.description"
-  class="card-block lead list-group-item"
-  [innerHTML]="image.description">
-  </li>
-  <li *ngIf="image.location"
-  class="card-block lead list-group-item"
-  >Location: {{image.location}} (<a href="https://www.google.com/maps/dir//{{image.location}}" target="_blank">Get directions</a>)
-  </li>
-    <li *ngIf="userName"
-  class="card-block lead list-group-item"
-  [innerHTML]="userName">
-  </li>
-  <li *ngIf="auth.isAdmin" class="list-group-item alert alert-warning">
+<div *ngIf="image.location" class="card-block lead list-group-item">
+    Location: {{image.location}} (<a href="https://www.google.com/maps/dir//{{image.location}}" target="_blank">Get directions</a>)
+</div>
+<div *ngIf="userName"
+    class="card-block lead list-group-item"
+    [innerHTML]="userName">
+</div>
+<div *ngIf="auth.isAdmin"
+    class="list-group-item alert alert-warning">
     <strong>Publishperiod:</strong> {{utils.imageDatesTimes(image.startDate, image.stopDate)}}
-  </li>
-</ul>
 </div>
-<div *ngIf="auth.isAdmin" class="card-footer text-right small">
-  <a [routerLink]="['/admin/image/update', image._id]">Edit</a>
+<div *ngIf="auth.isAdmin"
+    class="card-footer text-right small">
+    <a [routerLink]="['/admin/image/update', image._id]">Edit</a>
 </div>

@@ -3,7 +3,7 @@
 <p class="lead" *ngIf="auth.loggedIn">
   Hello, <strong [innerHTML]="auth.userProfile.name"></strong>! You logged in with {{userIdp}}.
   <ng-template [ngIf]="auth.isAdmin">
-    You may <a routerLink="/admin">create and administer images</a>.
+    You may <a routerLink="/admin">administrate</a>.
   </ng-template>
 </p>
 
@@ -15,14 +15,14 @@
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-dark"
               [routerLink]="[]"
               [queryParams]="{tab: 'my-images'}"
               [ngClass]="{'active': utils.tabIs(tab, 'my-images')}">Images</a>
           </li>
           <li class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-dark"
               [routerLink]="[]"
               [queryParams]="{tab: 'my-comments'}"
               [ngClass]="{'active': utils.tabIs(tab, 'my-comments')}">Opinions</a>

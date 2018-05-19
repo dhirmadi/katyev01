@@ -1,6 +1,5 @@
 <!-- src/app/pages/image/comment/comment.component.html -->
 <div class="card-block">
-    <h2 class="card-title text-center">Opinions</h2>
     <app-loading *ngIf="loading"></app-loading>
 </div>
 
@@ -13,16 +12,16 @@
     <ng-template [ngIf]="!imagePast && comments">
         <!-- User has Commented -->
         <ng-template [ngIf]="userComment">
-            <p class="card-block lead">You responded to this image with the following information:</p>
+            <div class="card-block">You responded to this image with the following information:</div>
 
-            <ul *ngIf="!showEditForm" class="list-group list-group-flush">
+            <div *ngIf="!showEditForm" class="card-block lead bg-light">
 
-                <li *ngIf="userComment.comment" class="list-group-item">
-                    <span [innerHTML]="userComment.comment"></span>
-                </li>
-            </ul>
+                <div *ngIf="userComment.comment"  [innerHTML]="userComment.comment">
+
+                </div>
+            </div>
             <div class="card-block">
-                <button class="btn btn-info" [ngClass]="{'btn-info': !showEditForm, 'btn-warning': showEditForm}" (click)="toggleEditForm()">{{editBtnText}}</button>
+                <button class="btn btn-dark" [ngClass]="{'btn-dark': !showEditForm, 'btn-danger': showEditForm}" (click)="toggleEditForm()">{{editBtnText}}</button>
 
                 <app-comment-form *ngIf="showEditForm" [imageId]="imageId" [comment]="userComment" (submitComment)="onSubmitComment($event)"></app-comment-form>
             </div>
@@ -36,7 +35,7 @@
     </ng-template>
 
     <!-- All Comments -->
-    <div class="card-block text-right">
+    <div class="card-footer text-right">
         <button (click)="toggleShowComments()" class="btn btn-link btn-sm">{{showCommentsText}}</button>
     </div>
 
