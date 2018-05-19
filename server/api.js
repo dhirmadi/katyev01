@@ -78,7 +78,6 @@ module.exports = function (app, config) {
 
     // GET user name of auth0 user.
     app.get('/api/user/name/:id', jwtCheck,(req, res) => {
-        console.log(`looking for user ${req.params.id}`);
         auth0.users.get(req.params.id,function (err, user) {
             if (err) {
                 return res.status(500).send({message: err.message});
@@ -123,7 +122,6 @@ module.exports = function (app, config) {
     Image.findOne({
       link: req.body.link}, (err, existingImage) => {
       if (err) {
-          console.log('error checking if image already exists');
         return res.status(500).send({message: err.message});
       }
       if (existingImage) {
@@ -140,10 +138,8 @@ module.exports = function (app, config) {
         likes: 0,
         nsfw: req.body.nsfw
       });
-        console.log(image);
       image.save((err) => {
         if (err) {
-            console.log('could not save to database');
             return res.status(500).send({message: err.message});
         }
         res.send(image);
@@ -211,7 +207,7 @@ module.exports = function (app, config) {
     Comment.find({userId: req.params.userId}, 'imageId', (err, comments) => {
       const _imageIdsArr = comments.map(comment => comment.imageId);
 //      const _commentImagesProjection = 'title startDate endDate';
-      const _commentImagesProjection = 'title startDate';
+      const _commentImagesProjection = 'title startDate link';
       let imagesArr = [];
       if (err) {
         return res.status(500).send({message: err.message});
@@ -255,16 +251,13 @@ module.exports = function (app, config) {
 
     // GET image by image ID
     app.get('/api/images/:id', (req, res) => {
-        console.log(req.params.id);
         Image.findById(req.params.id, (err, image) => {
             if (err) {
-                //console.log(' error 500 something')
                 return res.status(500).send({
                     message: err.message
                 });
             }
             if (!image) {
-                //console.log(' error 400 something')
                 return res.status(400).send({
                     message: 'Image not found.'
                 });

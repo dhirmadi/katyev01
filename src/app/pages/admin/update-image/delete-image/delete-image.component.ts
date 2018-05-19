@@ -30,7 +30,6 @@ export class DeleteImageComponent implements OnDestroy {
         res => {
           this.submitting = false;
           this.error = false;
-          console.log(res.message);
           // If successfully deleted image, redirect to Admin
           this.router.navigate(['/my-profile']);
         },

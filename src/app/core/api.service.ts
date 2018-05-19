@@ -23,7 +23,6 @@ export class ApiService {
 
     // get user name based on login ID
   getUserName$(id: string) {
-    //  console.log(`Getting ${ENV.BASE_API}user/name/${id}`);
         return this.http
             .get(`${ENV.BASE_API}user/name/${id}`, {
                 headers: new HttpHeaders().set('Authorization', this._authHeader)
@@ -43,7 +42,6 @@ export class ApiService {
 
   // GET all images - private and public (admin only)
   getAdminImages$(): Observable<ImageModel[]> {
-    //  console.log(this._authHeader);
     return this.http
       .get(`${ENV.BASE_API}images/admin`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
@@ -55,7 +53,6 @@ export class ApiService {
 
   // GET an image by cloudinary ID (login required)
   getImageById$(link: string): Observable<ImageModel> {
-    console.log(`Requesting ${ENV.BASE_API}image/${link}`);
     return this.http
       .get(`${ENV.BASE_API}images/${link}`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
@@ -68,7 +65,6 @@ export class ApiService {
 
   // GET an images that belong to specific userId
   getImagesByUserId$(userId: string): Observable<ImageModel[]> {
-    console.log(`Requesting ${ENV.BASE_API}images/user/${userId}`);
     return this.http
       .get(`${ENV.BASE_API}images/user/${userId}`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
@@ -93,7 +89,6 @@ export class ApiService {
     // POST new image (admin only)
   postImage$(image: ImageModel): Observable<ImageModel> {
       image.userId = this.auth.userProfile.sub;
-      console.log(image);
     return this.http
       .post(`${ENV.BASE_API}image/new`, image, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
@@ -165,7 +160,6 @@ export class ApiService {
     if (err.message && err.message.indexOf('No JWT present') > -1) {
       this.auth.login();
     }
-    console.log(errorMsg);
     return errorMsg;
   }
 

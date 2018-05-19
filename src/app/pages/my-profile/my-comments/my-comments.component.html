@@ -5,22 +5,35 @@
     </p>
 
     <ng-template [ngIf]="imageList.length">
-      <p class="lead">You have <strong>commented</strong> for the following images:</p>
+    <p class="lead">You have <strong>commented</strong> for the following images:</p>
 
-      <!-- Images listing -->
-      <div class="list-group">
-        <a
-          *ngFor="let image of fs.orderByDate(imageList, 'startDate')"
-          [routerLink]="['/images', image._id]"
-          [queryParams]="{tab: 'comment'}"
-          class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1" [innerHTML]="image.title"></h5>
-            <small>{{utils.imageDates(image.startDate, image.stopDate)}}</small>
-          </div>
-          <small class="mb-1">Click to view or update this oppinion</small>
-        </a>
-      </div>
+    <!-- Images listing -->
+    <div class="card-columns">
+        <div class="card" *ngFor="let image of fs.orderByDate(imageList, 'startDate')">
+            <a
+                [routerLink]="['/images', image._id]"
+                [queryParams]="{tab: 'comment'}"
+                class=""><cl-image
+                public-id={{image.link}}
+                class="card-img-top"
+                title="{{ image.title }}"
+                (mouseenter)="image.isMouseOver = false"
+                (mouseleave)="image.isMouseOver = true"
+                [attr.opacity]="image.isMouseOver ? '60' : null">
+                    <cl-transformation gravity="face" width="300" height="300" crop="thumb">
+                    </cl-transformation>
+                </cl-image></a>
+           <div class="card-body">
+                <h5 class="card-title" [innerHTML]="image.title"></h5>
+<!--                <divclass="card-footer">{{utils.imageDates(image.startDate, image.stopDate)}}</small>-->
+                <a
+                [routerLink]="['/images', image._id]"
+                [queryParams]="{tab: 'comment'}"
+                class="card-link link-dark">Click to view or update this oppinion
+                </a>
+            </div>
+        </div>
+    </div>
     </ng-template>
 
   </ng-template>

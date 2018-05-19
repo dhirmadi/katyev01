@@ -1,6 +1,5 @@
 // server/config.js
 
-// console.log(process.env);
 module.exports = {
   CLOUD_NAME: 'katyev',
   CLOUD_UPLOAD_PRESET: 'scsdt5tx',

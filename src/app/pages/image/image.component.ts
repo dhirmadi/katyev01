@@ -54,7 +54,6 @@ export class ImageComponent implements OnInit, OnDestroy {
 
   private _getUserName(userId: string) {
       this.loading = true;
-      console.log(userId);
     // GET username by userId
     this.userNameSub = this.api
       .getUserName$(userId)
