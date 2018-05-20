@@ -78,14 +78,13 @@ module.exports = function (app, config) {
 
     // GET user name of auth0 user.
     app.get('/api/user/name/:id', jwtCheck,(req, res) => {
-        auth0.users.get(req.params.id,function (err, user) {
+        auth0.users.get(req.params.id,function (err, users) {
             if (err) {
                 return res.status(500).send({message: err.message});
             }
-            var user = JSON.stringify(user[0].name);
-//            res.send(user[0].name);
-            res.send(user);
-
+            const picked = users.find(o => o.user_id === req.params.id);
+            const username = JSON.stringify(picked.name);
+            res.send(username);
         });
     });
 
