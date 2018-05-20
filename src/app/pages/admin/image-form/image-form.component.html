@@ -16,24 +16,6 @@
     </div>
   </div>
 
-  <!-- Link -->
-<!--
-  <div class="form-group">
-    <label for="link">Link</label>
-    <input
-      id="link"
-      type="text"
-      class="form-control"
-      formControlName="link"
-      [maxlength]="ef.linkMax">
-    <div
-      *ngIf="formErrors.link"
-      class="small text-danger formErrors"
-      [innerHTML]="formErrors.link">
-    </div>
-  </div>
--->
-
       <!-- Location -->
   <div class="form-group">
     <label for="location">Location</label>
@@ -49,29 +31,28 @@
       [innerHTML]="formErrors.location">
     </div>
   </div>
-
+  <!--
   <div
     formGroupName="datesGroup"
     [ngClass]="{'has-danger': imageForm.get('datesGroup').errors}">
     <div class="row">
-      <!-- Start date -->
+
       <div class="form-group col-sm-12 col-md-6">
-        <label for="startDate">Start Date</label>
+        <label for="createDate">Start Date</label>
         <input
-          id="startDate"
+          id="createDate"
           type="text"
           class="form-control"
-          formControlName="startDate"
+          formControlName="createDate"
           [placeholder]="ef.dateFormat"
           [maxlength]="ef.dateMax">
         <div
-          *ngIf="formErrors.datesGroup.startDate"
+          *ngIf="formErrors.datesGroup.createDate"
           class="small text-danger formErrors"
-          [innerHTML]="formErrors.datesGroup.startDate">
+          [innerHTML]="formErrors.datesGroup.createDate">
         </div>
       </div>
 
-      <!-- Start time -->
       <div class="form-group col-sm-12 col-md-6">
         <label for="startTime">Start Time</label>
         <input
@@ -90,7 +71,7 @@
     </div>
 
     <div class="row">
-      <!-- End date -->
+
       <div class="form-group col-sm-12 col-md-6">
         <label for="endDate">End Date</label>
         <input
@@ -107,7 +88,7 @@
         </div>
       </div>
 
-      <!-- End time -->
+
       <div class="form-group col-sm-12 col-md-6">
         <label for="endTime">End Time</label>
         <input
@@ -128,29 +109,30 @@
     <p *ngIf="imageForm.get('datesGroup').errors" class="alert alert-danger small">
       <strong>Dates/times out of range:</strong> Events cannot end before they begin. Please double-check the start and end dates and times.
     </p>
-  </div>
 
+  </div>
+  -->
   <!-- View Public -->
   <div class="form-group">
-    <label class="label-inline-group">NSFW?</label>
+    <label class="label-inline-group">Online?</label>
     <div class="form-check form-check-inline">
       <label class="form-check-label">
         <input
-          id="nsfw-yes"
+          id="online-yes"
           type="radio"
           class="form-check-input"
           [value]="true"
-          formControlName="nsfw"> Yes
+          formControlName="online"> Yes
       </label>
     </div>
     <div class="form-check form-check-inline">
       <label class="form-check-label">
         <input
-          id="nsfw-no"
+          id="online-no"
           type="radio"
           class="form-check-input"
           [value]="false"
-          formControlName="nsfw"> No
+          formControlName="online"> No
       </label>
     </div>
     <div
@@ -183,7 +165,6 @@
       class="btn btn-primary"
       [attr.disabled]="imageForm.invalid || submitting ? true : null"
       [innerText]="submitBtnText"></button>
-      <!-- https://github.com/angular/angular/issues/11271#issuecomment-289806196 -->
     <app-submitting *ngIf="submitting"></app-submitting>
     <a
       *ngIf="!submitting"

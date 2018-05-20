@@ -15,7 +15,7 @@ const cloudinary = require('cloudinary');
 const Image = require('./models/Image');
 const Comment = require('./models/Comment');
 
-const _imageListProjection = 'title userId likes nsfw link startDate stopDate';
+const _imageListProjection = 'title userId likes online link createDate editDate';
 
 /*
  |--------------------------------------
@@ -94,13 +94,10 @@ module.exports = function (app, config) {
         res.send('API works');
     });
 
-    // GET list of images considered safe for work
+    // GET list of images marked as online
     app.get('/api/images', (req, res) => {
         Image.find({
-            nsfw: false,
-            stopDate: {
-                $gte: new Date()
-            }
+            online: true
         }, _imageListProjection, (err, images) => {
             let imagesArr = [];
             if (err) {
@@ -132,11 +129,11 @@ module.exports = function (app, config) {
         link: req.body.link,
         location: req.body.location,
         userId: req.user.sub,
-        startDate: req.body.startDate,
-        stopDate: req.body.stopDate,
+        createDate: req.body.createDate,
+        editDate: req.body.editDate,
         description: req.body.description,
         likes: 0,
-        nsfw: req.body.nsfw
+        online: req.body.online
       });
       image.save((err) => {
         if (err) {
@@ -159,10 +156,10 @@ module.exports = function (app, config) {
       image.title = req.body.title;
       image.link = req.body.link;
       image.location = req.body.location,
-      image.startDate = req.body.startDate;
-      image.stopDate = req.body.stopDate;
+      image.createDate = req.body.createDate;
+      image.editDate = req.body.editDate;
       image.description = req.body.description;
-      image.nsfw = req.body.nsfw;
+      image.online = req.body.online;
 
       image.save(err => {
         if (err) {
@@ -206,8 +203,8 @@ module.exports = function (app, config) {
     app.get('/api/image/:userId', jwtCheck, (req, res) => {
     Comment.find({userId: req.params.userId}, 'imageId', (err, comments) => {
       const _imageIdsArr = comments.map(comment => comment.imageId);
-//      const _commentImagesProjection = 'title startDate endDate';
-      const _commentImagesProjection = 'title startDate link';
+//      const _commentImagesProjection = 'title createDate endDate';
+      const _commentImagesProjection = 'title createDate link';
       let imagesArr = [];
       if (err) {
         return res.status(500).send({message: err.message});
@@ -215,7 +212,7 @@ module.exports = function (app, config) {
       if (comments) {
         Image.find(
           {_id: {$in: _imageIdsArr}},
-//          {_id: {$in: _imageIdsArr}, startDate: { $gte: new Date() }},
+//          {_id: {$in: _imageIdsArr}, createDate: { $gte: new Date() }},
           _commentImagesProjection, (err, images) => {
           if (err) {
             return res.status(500).send({message: err.message});

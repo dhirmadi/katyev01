@@ -12,7 +12,7 @@
 </div>
 <div *ngIf="auth.isAdmin"
     class="list-group-item alert alert-warning">
-    <strong>Publishperiod:</strong> {{utils.imageDatesTimes(image.startDate, image.stopDate)}}
+    <strong>Publishperiod:</strong> {{utils.imageDatesTimes(image.createDate, image.editDate)}}
 </div>
 <div *ngIf="auth.isAdmin"
     class="card-footer text-right small">

@@ -9,7 +9,7 @@
 
     <!-- Images listing -->
     <div class="card-columns">
-        <div class="card" *ngFor="let image of fs.orderByDate(imageList, 'startDate')">
+        <div class="card" *ngFor="let image of fs.orderByDate(imageList, 'createDate')">
             <a
                 [routerLink]="['/images', image._id]"
                 [queryParams]="{tab: 'comment'}"
@@ -25,7 +25,7 @@
                 </cl-image></a>
            <div class="card-body">
                 <h5 class="card-title" [innerHTML]="image.title"></h5>
-<!--                <divclass="card-footer">{{utils.imageDates(image.startDate, image.stopDate)}}</small>-->
+<!--                <divclass="card-footer">{{utils.imageDates(image.createDate, image.editDate)}}</small>-->
                 <a
                 [routerLink]="['/images', image._id]"
                 [queryParams]="{tab: 'comment'}"

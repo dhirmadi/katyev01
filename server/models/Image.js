@@ -13,11 +13,11 @@ const imageSchema = new Schema({
   link: { type: String, required: true },
   location: { type: String, required: true },
   userId: { type: String, required: true },
-  startDate: { type: Date, required: true },
-  stopDate: { type: Date, required: true },
+  createDate: { type: Date, required: true },
+  editDate: { type: Date, required: true },
   description: String,
   likes: { type: Number, required: true },
-  nsfw: { type: Boolean, required: true }
+  online: { type: Boolean, required: true }
 });
 
 module.exports = mongoose.model('Image', imageSchema);

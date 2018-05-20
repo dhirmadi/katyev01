@@ -11,7 +11,7 @@ export class ImageFormService {
     viewPublic: '',
     description: '',
     datesGroup: {
-      startDate: '',
+      createDate: '',
       startTime: '',
       endDate: '',
       endTime: '',
@@ -46,7 +46,7 @@ export class ImageFormService {
         minlength: `Location must be ${this.textMin} characters or more.`,
         maxlength: `Location must be ${this.locMax} characters or less.`
       },
-      startDate: {
+      createDate: {
         required: `Start date is <strong>required</strong>.`,
         maxlength: `Start date cannot be longer than ${this.dateMax} characters.`,
         pattern: `Start date must be in the format <strong>${this.dateFormat}</strong>.`,

@@ -80,7 +80,7 @@ export class ImageComponent implements OnInit, OnDestroy {
           this.image = res;
           this._setPageTitle(this.image.title);
           this.loading = false;
-          this.imagePast = this.utils.imagePast(this.image.stopDate);
+          this.imagePast = this.utils.imagePast(this.image.editDate);
           this._getUserName(this.image.userId);
         },
         err => {

@@ -33,7 +33,7 @@
       <!-- Images listing -->
       <div class="d-flex flex-wrap container-fluid">
         <div
-          *ngFor="let image of fs.orderByDate(filteredImages, 'startDate')"
+          *ngFor="let image of fs.orderByDate(filteredImages, 'createDate')"
           class="col-lg-2 col-sm-6 col-md-3">
 
             <a [routerLink]="['/images', image._id]">
@@ -48,13 +48,13 @@
                   </cl-transformation></cl-image>
             </a>
             <div>
-                <p class="mb-1">
-                    <a *ngIf="image.nsfw"
+<!--                <p class="mb-1">-->
+                    <a *ngIf="!image.online"
                       class="btn btn-warning btn-sm"
-                      [routerLink]="['/admin/image/update', image._id]">NSFW</a>
-                    <a *ngIf="utils.imagePast(image.stopDate)"
-                      class="btn btn-danger btn-sm"
                       [routerLink]="['/admin/image/update', image._id]">Offline</a>
+                    <a *ngIf="image.online"
+                      class="btn btn-success btn-sm"
+                      [routerLink]="['/admin/image/update', image._id]">Online</a>
                     <a
                       class="btn btn-success btn-sm"
                       [routerLink]="['/admin/image/update', image._id]">Edit</a>
@@ -62,7 +62,7 @@
                       class="btn btn-danger btn-sm"
                       [routerLink]="['/admin/image/update', image._id]"
                       [queryParams]="{tab: 'delete'}">Delete</a>
-                </p>
+<!--                </p>-->
             </div>
         </div>
     </div>

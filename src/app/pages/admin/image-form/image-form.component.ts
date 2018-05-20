@@ -69,11 +69,11 @@ export class ImageFormComponent implements OnInit, OnDestroy {
         this.image.title,
         this.image.link,
         this.image.location,
-        this.image.nsfw,
-        this.datePipe.transform(this.image.startDate, _shortDate),
-        this.datePipe.transform(this.image.startDate, _shortTime),
-        this.datePipe.transform(this.image.stopDate, _shortDate),
-        this.datePipe.transform(this.image.stopDate, _shortTime),
+        this.image.online,
+        this.datePipe.transform(this.image.createDate, _shortDate),
+        this.datePipe.transform(this.image.createDate, _shortTime),
+        this.datePipe.transform(this.image.editDate, _shortDate),
+        this.datePipe.transform(this.image.editDate, _shortTime),
         this.image.description
       );
     }
@@ -96,25 +96,25 @@ export class ImageFormComponent implements OnInit, OnDestroy {
         Validators.minLength(this.ef.textMin),
         Validators.maxLength(this.ef.locMax)
       ]],
-      nsfw: [this.formImage.nsfw,
+      online: [this.formImage.online,
         Validators.required
       ],
       description: [this.formImage.description,
         Validators.maxLength(this.ef.descMax)
       ],
       datesGroup: this.fb.group({
-        startDate: [this.formImage.startDate, [
+        createDate: [this.formImage.createDate, [
           Validators.required,
           Validators.maxLength(this.ef.dateMax),
           Validators.pattern(DATE_REGEX),
-          dateValidator()
+//          dateValidator()
         ]],
         startTime: [this.formImage.startTime, [
           Validators.required,
           Validators.maxLength(this.ef.timeMax),
           Validators.pattern(TIME_REGEX)
         ]],
-        endDate: [this.formImage.stopDate, [
+        endDate: [this.formImage.editDate, [
           Validators.required,
           Validators.maxLength(this.ef.dateMax),
           Validators.pattern(DATE_REGEX),
@@ -190,11 +190,11 @@ export class ImageFormComponent implements OnInit, OnDestroy {
   }
 
   private _getSubmitObj() {
-    const startDate = this.datesGroup.get('startDate').value;
+    const createDate = this.datesGroup.get('createDate').value;
     const startTime = this.datesGroup.get('startTime').value;
     const endDate = this.datesGroup.get('endDate').value;
     const endTime = this.datesGroup.get('endTime').value;
-    // Convert form startDate/startTime and endDate/endTime
+    // Convert form createDate/startTime and endDate/endTime
     // to JS dates and populate a new ImageModel for submission
     return new ImageModel(
       this.imageForm.get('title').value,
@@ -202,8 +202,8 @@ export class ImageFormComponent implements OnInit, OnDestroy {
       this.imageForm.get('location').value,
       null,
       0,
-      this.imageForm.get('nsfw').value,
-      stringsToDate(startDate, startTime),
+      this.imageForm.get('online').value,
+      stringsToDate(createDate, startTime),
       stringsToDate(endDate, endTime),
       this.imageForm.get('description').value,
       this.image ? this.image._id : null

@@ -31,7 +31,7 @@ export class ApiService {
                 catchError((error) => this._handleError(error))
             );
     }
-  // GET list of public, future images
+  // GET list of  images marked as online
   getImages$(): Observable<ImageModel[]> {
     return this.http
       .get(`${ENV.BASE_API}images`)
