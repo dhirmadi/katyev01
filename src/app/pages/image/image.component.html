@@ -9,7 +9,7 @@
       <strong>This image is not active.</strong>
     </p>
 <div class="d-flex justify-content-center">
-   <figure class="figure">
+   <figure class="figure"><a (click)="backClicked()">
     <cl-image
         public-id={{image.link}}
         class="img-thumbnail"
@@ -18,7 +18,7 @@
         (mouseleave)="image.isMouseOver = true"
         [attr.opacity]="image.isMouseOver ? '60' : null"
         >
-    </cl-image>
+       </cl-image></a>
     <figcaption class="figure-caption">{{pageTitle}}</figcaption>
     </figure>
       </div>
@@ -48,6 +48,7 @@
       <app-image-detail
         *ngIf="utils.tabIs(tab, 'details')"
         [userName]="userName"
+        [userId]="image.userId"
         [image]="image"></app-image-detail>
 
       <!-- Image Comment tab -->

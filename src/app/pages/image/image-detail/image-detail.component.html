@@ -1,20 +1,29 @@
 <!-- src/app/pages/image/image-detail/image-detail.component.html -->
 <div *ngIf="image.description"
-    class="card-block lead list-group-item"
+    class="card-header lead"
     [innerHTML]="image.description">
 </div>
-<div *ngIf="image.location" class="card-block lead list-group-item">
+<div *ngIf="image.location" class="card-block">
     Location: {{image.location}} (<a href="https://www.google.com/maps/dir//{{image.location}}" target="_blank">See on map</a>)
 </div>
 <div *ngIf="userName"
-    class="card-block lead list-group-item"
-    [innerHTML]="userName">
+    class="card-block bg-light"
+    >Published by {{userName}}
 </div>
 <div *ngIf="auth.isAdmin"
-    class="list-group-item alert alert-warning">
-    <strong>Publishperiod:</strong> {{utils.imageDatesTimes(image.createDate, image.editDate)}}
+    class="card-block ">
+    <strong>Admin Details:</strong> Created:{{utils.imageDatesTimes(image.createDate, image.editDate)}}
 </div>
-<div *ngIf="auth.isAdmin"
+<div *ngIf="this.auth.userProfile.sub==userId"
     class="card-footer text-right small">
-    <a [routerLink]="['/admin/image/update', image._id]">Edit</a>
+    <a
+    class="btn btn-success btn-sm"
+    [routerLink]="['/admin/image/update', image._id]">Edit</a>
+    <a
+    class="btn btn-danger btn-sm"
+    [routerLink]="['/admin/image/update', image._id]"
+    [queryParams]="{tab: 'delete'}">Delete</a>
+</div><div *ngIf="auth.isAdmin"
+    class="card-footer text-right small">
+    <a [routerLink]="['/admin/image/update', image._id]">Edit as admin</a>
 </div>

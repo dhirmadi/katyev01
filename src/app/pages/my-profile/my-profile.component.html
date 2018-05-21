@@ -12,33 +12,43 @@
   <div class="card">
       <!-- Image tab navigation -->
       <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs">
-          <li class="nav-item">
+        <div class="nav nav-tabs card-header-tabs">
+          <div class="nav-item">
             <a
               class="nav-link text-dark"
               [routerLink]="[]"
               [queryParams]="{tab: 'my-images'}"
               [ngClass]="{'active': utils.tabIs(tab, 'my-images')}">Images</a>
-          </li>
-          <li class="nav-item">
+          </div>
+          <div class="nav-item">
             <a
               class="nav-link text-dark"
               [routerLink]="[]"
               [queryParams]="{tab: 'my-comments'}"
               [ngClass]="{'active': utils.tabIs(tab, 'my-comments')}">Opinions</a>
-          </li>
-        </ul>
+          </div>
+            <div class="nav-item">
+            <a
+              class="nav-link text-dark"
+              [routerLink]="[]"
+              [queryParams]="{tab: 'my-user'}"
+              [ngClass]="{'active': utils.tabIs(tab, 'my-user')}">Userdata</a>
+            </div>
+        </div>
       </div>
 
       <!-- show my imagestab -->
       <app-my-images
         *ngIf="utils.tabIs(tab, 'my-images')"
         [userId]="userId"></app-my-images>
-
       <!-- Show my opinions -->
       <app-my-comments
         *ngIf="utils.tabIs(tab, 'my-comments')"
         [userId]="userId"></app-my-comments>
+    <!-- Show my opinions -->
+      <app-my-user
+        *ngIf="utils.tabIs(tab, 'my-user')"
+        ></app-my-user>
     </div>
 
 

@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-heading">
+      <h3>name: {{ user?.name }}</h3>
+  </div>
+  <div class="card-body">
+    <img src="{{user?.picture}}" class="thumbnail" alt="avatar" width="150">
+    </div>
+    <div class="card-body">
+      <label>Nickname</label>
+      <h3 class="nickname">{{ user?.nickname }}</h3>
+    </div>
+    <pre class="full-profile">{{ user | json }}</pre>
+  </div>
+

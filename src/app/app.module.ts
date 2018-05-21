@@ -43,6 +43,7 @@ import { MyImagesComponent } from './pages/my-profile/my-images/my-images.compon
 import { MyCommentsComponent } from './pages/my-profile/my-comments/my-comments.component';
 
 import cloudinaryConfiguration from './cloudinary/cloudinary.default';
+import { MyUserComponent } from './pages/my-profile/my-user/my-user.component';
 
 const appRoutes: Routes = [
 { path: '', component: HomeComponent },
@@ -79,6 +80,7 @@ const appRoutes: Routes = [
     MyProfileComponent,
     MyImagesComponent,
     MyCommentsComponent,
+    MyUserComponent,
   ],
   imports: [
       BrowserModule,

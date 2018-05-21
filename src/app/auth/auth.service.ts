@@ -58,13 +58,28 @@ export class AuthService {
     }
   }
 
-  setLoggedIn(value: boolean) {
+    public getProfile(cb): void {
+      const accessToken = localStorage.getItem('access_token');
+      if (!accessToken) {
+        throw new Error('Access Token must exist to fetch profile');
+      }
+
+      const self = this;
+      this._auth0.client.userInfo(accessToken, (err, profile) => {
+        if (profile) {
+          self.userProfile = profile;
+        }
+        cb(err, profile);
+      });
+    }
+
+  public setLoggedIn(value: boolean) {
     // Update login status subject
     this.loggedIn$.next(value);
     this.loggedIn = value;
   }
 
-  login(redirect?: string) {
+  public login(redirect?: string) {
 
     // Parse redirection information from login request.
     const _redirect = redirect ? redirect : this.router.url;
@@ -73,7 +88,7 @@ export class AuthService {
     this._auth0.authorize();
   }
 
-  handleAuth() {
+  public handleAuth() {
     // When Auth0 hash parsed, get profile
     this._auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken) {
@@ -182,21 +197,22 @@ export class AuthService {
     return Date.now() < expiresAt;
   }
 
-renewToken() {
-    this._auth0.checkSession({},
-      (err, authResult) => {
-        if (authResult && authResult.accessToken) {
-          this._setSession(authResult);
-        } else if (err) {
-          console.warn(`Could not renew token: ${err.errorDescription}`);
-          // Log out without redirecting to clear auth data
-          this.logout(true);
-          // Log in again
-          this.login();
-        }
+    renewToken() {
+        this._auth0.checkSession({},
+          (err, authResult) => {
+            if (authResult && authResult.accessToken) {
+              this._setSession(authResult);
+            } else if (err) {
+              console.warn(`Could not renew token: ${err.errorDescription}`);
+              // Log out without redirecting to clear auth data
+              this.logout(true);
+              // Log in again
+              this.login();
+            }
+          }
+        );
       }
-    );
-  }
+
     scheduleRenewal() {
     // If user isn't authenticated, do nothing
     if (!this.tokenValid) { return; }

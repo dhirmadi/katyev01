@@ -12,6 +12,7 @@ const request = require('request');
 const ManagementClient = require('auth0').ManagementClient;
 const cloudinary = require('cloudinary');
 
+const User = require('./models/User');
 const Image = require('./models/Image');
 const Comment = require('./models/Comment');
 
@@ -53,8 +54,6 @@ module.exports = function (app, config) {
         algorithm: 'RS256'
     });
 
-
-
     // Check for an authenticated admin user
     const adminCheck = (req, res, next) => {
         const roles = req.user[config.NAMESPACE] || [];
@@ -92,6 +91,81 @@ module.exports = function (app, config) {
     app.get('/api/', (req, res) => {
         res.send('API works');
     });
+
+        /*
+     |--------------------------------------
+     | User API Routes
+     |--------------------------------------
+     */
+
+    // get user information
+    app.get('/api/user/:id', (req, res) => {
+        User.findById(req.params.id, (err, user) => {
+            if (err) {
+                return res.status(500).send({message: err.message});
+            }
+            if (!user) {
+                return res.status(400).send({message: 'User not found.'});
+            }
+            res.send(user);
+        });
+    });
+
+    // edit existing user information
+    app.put('/api/user/:id', jwtCheck, (req, res) => {
+        User.findById(req.params.id, (err, user) => {
+            if (err) {
+                return res.status(500).send({message: err.message});
+            }
+            if (!image) {
+                return res.status(400).send({message: 'No such user found.'});
+            }
+            user.screenName = req.body.screenName;
+            user.avatar = req.body.avatar;
+            user.primaryRole = req.body.primaryRole,
+            user.location = req.body.location;
+            user.description = req.body.description;
+            user.save(err => {
+                if (err) {
+                    return res.status(500).send({message: err.message});
+                }
+                res.send(user);
+            });
+        });
+    });
+    // store initial user information
+    app.post('/api/user/new', jwtCheck, (req, res) => {
+        User.findOne({
+            userId: req.body.userId}, (err, existingUser) => {
+                if (err) {
+                    return res.status(500).send({message: err.message});
+                }
+                if (existingImage) {
+                    return res.status(409).send({message: 'You have already created an user with this ID.'});
+                }
+                const user = new User({
+                      userId: req.body.userId,
+                      screenName: req.body.name,
+                      avatar: "avatars/katyev.png",
+                      primaryRole: "Collector",
+                      location: "Unkown",
+                      createDate: Date.now(),
+                      description: "Nothing here yet"
+                });
+                image.save((err) => {
+                if (err) {
+                    return res.status(500).send({message: err.message});
+                }
+                res.send(user);
+            });
+        });
+    });
+
+        /*
+     |--------------------------------------
+     | Image API Routes
+     |--------------------------------------
+     */
 
     // GET list of images marked as online
     app.get('/api/images', (req, res) => {
@@ -195,9 +269,6 @@ module.exports = function (app, config) {
     });
   });
 
-
-
-
     // GET list of images the user has commented to
     app.get('/api/image/:userId', jwtCheck, (req, res) => {
     Comment.find({userId: req.params.userId}, 'imageId', (err, comments) => {
@@ -282,7 +353,11 @@ module.exports = function (app, config) {
         });
     });
 
-
+    /*
+     |--------------------------------------
+     | Comment API Routes
+     |--------------------------------------
+     */
     // GET comments by image ID
     app.get('/api/images/:imageId/comments', jwtCheck, (req, res) => {
         Comment.find({

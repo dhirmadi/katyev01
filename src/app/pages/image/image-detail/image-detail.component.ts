@@ -13,7 +13,7 @@ import { ImageModel } from './../../../core/models/image.model';
 export class ImageDetailComponent {
   @Input() image: ImageModel;
   @Input() userName: string;
-
+  @Input() userId: string;
 
 
   constructor(

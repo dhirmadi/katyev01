@@ -1,5 +1,6 @@
 // src/app/pages/image/image.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../auth/auth.service';
 import { ApiService } from './../../core/api.service';
@@ -34,6 +35,7 @@ export class ImageComponent implements OnInit, OnDestroy {
     private api: ApiService,
     public utils: UtilsService,
     private title: Title,
+    private _location: Location
     ) { }
 
   ngOnInit() {
@@ -51,6 +53,10 @@ export class ImageComponent implements OnInit, OnDestroy {
       });
 
   }
+
+    public backClicked() {
+        this._location.back();
+    }
 
   private _getUserName(userId: string) {
       this.loading = true;
