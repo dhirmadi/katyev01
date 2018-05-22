@@ -77,12 +77,12 @@ module.exports = function (app, config) {
 
     // GET user name of auth0 user.
     app.get('/api/user/name/:id', jwtCheck,(req, res) => {
-        auth0.users.get(req.params.id,function (err, users) {
+        auth0.users.get({id: req.params.id},function (err, users) {
             if (err) {
+                console.log(err);
                 return res.status(500).send({message: err.message});
             }
-            const picked = users.find(o => o.user_id === req.params.id);
-            const username = JSON.stringify(picked.name);
+            const username = JSON.stringify(users.name);
             res.send(username);
         });
     });
@@ -99,15 +99,32 @@ module.exports = function (app, config) {
      */
 
     // get user information
-    app.get('/api/user/:id', (req, res) => {
-        User.findById(req.params.id, (err, user) => {
+    app.get('/api/user/:id', jwtCheck, (req, res) => {
+        User.find({
+            userId: req.params.id
+        }, (err, user) => {
             if (err) {
                 return res.status(500).send({message: err.message});
             }
-            if (!user) {
-                return res.status(400).send({message: 'User not found.'});
+            if (!user[0]) {
+                const user = new User({
+                    userId: req.params.id,
+                    screenName: "Put your screen name",
+                    avatar: "avatars/katyev.png",
+                    primaryRole: "Collector",
+                    location: "Unkown",
+                    createDate: Date.now(),
+                    description: "Nothing here yet"
+                });
+                user.save((err) => {
+                    if (err) {
+                        return res.status(500).send({message: err.message});
+                    }
+                    res.send(user);
+                });
+            }else{
+                res.send(user);
             }
-            res.send(user);
         });
     });
 
@@ -117,7 +134,7 @@ module.exports = function (app, config) {
             if (err) {
                 return res.status(500).send({message: err.message});
             }
-            if (!image) {
+            if (!user) {
                 return res.status(400).send({message: 'No such user found.'});
             }
             user.screenName = req.body.screenName;

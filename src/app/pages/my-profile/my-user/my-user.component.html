@@ -1,14 +1,59 @@
-<div class="card">
-  <div class="card-heading">
-      <h3>name: {{ user?.name }}</h3>
-  </div>
-  <div class="card-body">
-    <img src="{{user?.picture}}" class="thumbnail" alt="avatar" width="150">
+<div class="card-group">
+    <div class="card">
+        <div class="card-heading">
+            <h3> {{ userData.screenName }}</h3>
+        </div>
+        <div class="card-img-top">
+            <cl-image
+            public-id={{userData.avatar}}
+            class="img-thumbnail"
+            title="{{ userData.screenName }}"
+            >
+           </cl-image>
+        </div>
+        <div class="card-body">
+            <pre class="full-profile">{{ user | json }}</pre>
+            <pre class="full-profile">{{ userData | json }}</pre>
+        </div>
     </div>
-    <div class="card-body">
-      <label>Nickname</label>
-      <h3 class="nickname">{{ user?.nickname }}</h3>
-    </div>
-    <pre class="full-profile">{{ user | json }}</pre>
-  </div>
+    <div class="card">
+         <div class="card-heading"><h3> Edit Profile</h3>
+      </div>
+       <div class="card-body">
+        <form [formGroup]="userForm">
+            <div class="form-group">
+                <label class="center-block">Screen Name:
+      <input class="form-control" formControlName="screenName">
+    </label>
+            </div>
+            <div class="form-group">
+                <label class="center-block">Primary Role:
+      <select class="form-control" formControlName="primaryRole">
+          <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+      </select>
+    </label>
+            </div>
+            <div class="form-group">
+                <label class="center-block">Location:
+      <input class="form-control" formControlName="location">
+    </label>
+            </div>
+            <div class="form-group">
+                <label class="center-block">Avatar:
+      <input class="form-control" formControlName="avatar">
+    </label>
+            </div>
+            <div class="form-group">
+                <label class="center-block">Description:
+      <input class="form-control" formControlName="description">
+    </label>
+            </div>
+            <div style="margin-bottom: 1em">
+                <button type="submit" [disabled]="userForm.pristine" class="btn btn-success" (click)="onSubmit()">Update</button> &nbsp;
+                <button type="button" (click)="resetForm()" [disabled]="userForm.pristine" class="btn btn-danger">Restore</button>
+            </div>
 
+        </form>
+        </div>
+    </div>
+</div>

@@ -1,45 +1,3 @@
-<!--
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-            <a routerLink='/' class="navbar-brand">KATYEV</a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                    <a routerLink='/'>Home</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav navbar-right">
-
-                <li>
-                    <a
-                      *ngIf="auth.loggedIn && auth.isAdmin"
-                      routerLink="/admin"
-                      routerLinkActive="active"
-                      [routerLinkActiveOptions]="{ exact: true }">Admin</a>
-                </li>
-
-
-                <li *ngIf="auth.loggedIn">
-                    <a routerLink='/my-profile'>{{auth.userProfile?.name}}</a>
-                </li>
-                <li routerLinkActive="active">
-                    <a *ngIf="!auth.loggedIn" (click)="auth.login()">Log in</a>
-                    <a *ngIf="auth.loggedIn" (click)="auth.logout()">Log Out</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
--->
-
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand mb-0 h1" routerLink='/'>KATYEV01</a>
@@ -54,7 +12,7 @@
             </li>
         </ul>
         <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="auth.loggedIn">
                 <a class="nav-link" routerLink='/my-profile'>{{auth.userProfile?.name}}</a>
             </li>
             <li class="nav-item" routerLinkActive="active">

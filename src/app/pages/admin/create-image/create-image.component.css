@@ -141,3 +141,39 @@ form .error { color: #c55; margin: 0 10px; }
     max-width: 300px;
     max-height: 150px;
 }
+
+.progress_wrapper {
+  display: block;
+  margin: 5px 0;
+  border: 1px;
+  width: 100%;
+  height: 20px;
+  background-color: grey;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.progress_bar {
+  width: 0px;
+  height: 20px;
+  background-color: #1fd94d;
+  text-align: center;
+  line-height: 21px;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.text {
+    position: absolute;
+    margin: 0 auto;
+    width: 100%;
+}
+
+p{
+    font-size: large;
+    background-color: rgb(237, 237, 225);
+}
+
+span{
+    font-weight: bold;
+}

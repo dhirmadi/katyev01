@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AUTH_CONFIG } from './auth.config';
 import * as auth0 from 'auth0-js';
+import { ApiService } from './../core/api.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { mergeMap } from 'rxjs/operators';
@@ -41,37 +42,38 @@ export class AuthService {
     // Subscribe to token expiration stream
   refreshSub: Subscription;
 
-  constructor(private router: Router) {
+constructor(
+    private router: Router) {
     // If authenticated, set local profile property
     // and update login status subject.
     // If not authenticated but there are still items
     // in localStorage, log out.
     const lsProfile = localStorage.getItem('profile');
 
+
     if (this.tokenValid) {
-      this.userProfile = JSON.parse(lsProfile);
-      this.isAdmin = localStorage.getItem('isAdmin') === 'true';
-      this.setLoggedIn(true);
-      this.scheduleRenewal();
+        this.userProfile = JSON.parse(lsProfile);
+        this.isAdmin = localStorage.getItem('isAdmin') === 'true';
+        this.setLoggedIn(true);
+        this.scheduleRenewal();
     } else if (!this.tokenValid && lsProfile) {
-      this.logout();
+        this.logout();
     }
-  }
+}
 
-    public getProfile(cb): void {
-      const accessToken = localStorage.getItem('access_token');
-      if (!accessToken) {
+public getProfile(cb): void {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
         throw new Error('Access Token must exist to fetch profile');
-      }
-
-      const self = this;
-      this._auth0.client.userInfo(accessToken, (err, profile) => {
-        if (profile) {
-          self.userProfile = profile;
-        }
-        cb(err, profile);
-      });
     }
+    const self = this;
+    this._auth0.client.userInfo(accessToken, (err, profile) => {
+    if (profile) {
+        self.userProfile = profile;
+    }
+    cb(err, profile);
+    });
+}
 
   public setLoggedIn(value: boolean) {
     // Update login status subject
