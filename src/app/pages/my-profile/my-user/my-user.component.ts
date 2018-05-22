@@ -68,6 +68,7 @@ export class MyUserComponent implements OnInit {
         this.error = false;
         this.submitting = false;
         this.userForm.markAsPristine();
+        this._getUser();
         // Redirect to image detail
         //    this.router.navigate(['/images', res._id]);
     }
