@@ -11,6 +11,7 @@ const request = require('request');
 
 const ManagementClient = require('auth0').ManagementClient;
 const cloudinary = require('cloudinary');
+const stream = require('getstream');
 
 const User = require('./models/User');
 const Image = require('./models/Image');
@@ -18,21 +19,35 @@ const Comment = require('./models/Comment');
 
 const _imageListProjection = 'title userId likes online link createDate editDate';
 
-/*
- |--------------------------------------
- | Authentication Middleware
- |--------------------------------------
- */
+
 
 module.exports = function (app, config) {
 
 
+/*
+ |--------------------------------------
+ | Stream Middleware
+ |--------------------------------------
+ */
+    streamClient = stream.connect(
+        config.STREAM_API_KEY,
+        config.STREAM_API_SECRET,
+        config.STREAM_API_ID);
+/*
+ |--------------------------------------
+ | Cloudinary Middleware
+ |--------------------------------------
+ */
     cloudinary.config({
           cloud_name: config.CLOUD_NAME,
           api_key: config.CLOUD_API_KEY,
           api_secret: config.CLOUD_API_SECRET
     });
-
+ /*
+ |--------------------------------------
+ | Authentication Middleware
+ |--------------------------------------
+ */
     // define management interface for auth0 api
     const auth0 = new ManagementClient({
       domain: config.AUTH0_DOMAIN,
@@ -40,7 +55,6 @@ module.exports = function (app, config) {
       clientSecret: config.AUTH0_CLIENT_SECRET,
       scope: 'read:users update:users read:user_idp_tokens'
     });
-
     // Authentication middleware. validate json web tokens
     const jwtCheck = jwt({
         secret: jwks.expressJwtSecret({
@@ -53,7 +67,6 @@ module.exports = function (app, config) {
         issuer: `https://${config.AUTH0_DOMAIN}/`,
         algorithm: 'RS256'
     });
-
     // Check for an authenticated admin user
     const adminCheck = (req, res, next) => {
         const roles = req.user[config.NAMESPACE] || [];
@@ -66,15 +79,31 @@ module.exports = function (app, config) {
             });
         };
     };
-
-
-
     /*
      |--------------------------------------
-     | API Routes
+     | Stream API Routes
      |--------------------------------------
      */
 
+    // GET specific stream
+    app.get('/api/stream/:group/:name', (req, res) => {
+        const feed = streamClient.feed (req.params.group,req.params.name);
+        feed.get({ limit: 50 }).then(function(results) {
+            var activityData = results; // work with the feed activities
+            console.log(activityData);
+            res.send(activityData);
+        },function(err) {
+            // Handle or raise the Error.
+            console.log(err);
+            return res.status(500).send({message: err.message});
+        });
+    });
+
+    /*
+     |--------------------------------------
+     | AUTH0 API Routes
+     |--------------------------------------
+     */
     // GET user name of auth0 user.
     app.get('/api/user/name/:id', jwtCheck,(req, res) => {
         auth0.users.get({id: req.params.id},function (err, users) {
@@ -229,6 +258,23 @@ module.exports = function (app, config) {
         if (err) {
             return res.status(500).send({message: err.message});
         }
+
+        var actor = req.user.sub.replace('|','_');
+        //add activity to stream
+        const feed = streamClient.feed ('user',actor);
+
+        feed.addActivity({
+            actor: actor,
+            verb: 'add',
+            object: `picture:${image._id}`,
+            foreign_id: image._id
+        }).then(
+            null, // nothing further to do
+            function(err) {
+                // Handle or raise the Error.
+                console.log(err);
+                return res.status(500).send({message: err.message});
+        });
         res.send(image);
       });
     });
@@ -413,6 +459,7 @@ module.exports = function (app, config) {
             }
             const comment = new Comment({
                 userId: req.body.userId,
+                userId: req.user.sub,
                 imageId: req.body.imageId,
                 comment: req.body.comment
             });
@@ -422,6 +469,21 @@ module.exports = function (app, config) {
                         message: err.message
                     });
                 }
+                    var actor = req.user.sub.replace('|','_');
+                    //add activity to stream
+                    const feed = streamClient.feed ('user',actor);
+                    feed.addActivity({
+                        actor: actor,
+                        verb: 'comment',
+                        object: `picture:${imageId}`,
+                        foreign_id: comment._id
+                    }).then(
+                        null, // nothing further to do
+                        function(err) {
+                        // Handle or raise the Error.
+                        console.log(err);
+                        return res.status(500).send({message: err.message});
+                    });
                 res.send(comment);
             });
         });

@@ -19,6 +19,22 @@ export class ApiService {
         private auth: AuthService) { }
 
 
+     /*
+    |--------------------------------------
+    | Steam API Calls
+    |--------------------------------------
+    */
+    // get token for specific feed
+    getStreamToken(feedGroup: String, feedName: String) {
+        return this.http
+        .get(`${ENV.BASE_API}stream/${feedGroup}/${feedName}`, {
+            headers: new HttpHeaders().set('Authorization', this._authHeader)
+        })
+        .pipe(
+            catchError((error) => this._handleError(error))
+        );
+    }
+
     /*
     |--------------------------------------
     | User API Calls
