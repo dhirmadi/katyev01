@@ -12,6 +12,7 @@ const APP_ID = '37789';
 @Injectable()
 export class StreamClientService {
   client: stream.Client;
+    feed:any;
 
   constructor(
      private api: ApiService
@@ -20,13 +21,5 @@ export class StreamClientService {
     this.client = stream.connect(APP_TOKEN, null, APP_ID);
   }
 
-  getFeed(feedGroup: string, userId: string): Promise<StreamActivity[]> {
-    //get token for feed
-    const token= this.api.getStreamToken(feedGroup,userId);
-    // Instantiate the feed via factory method
-    var feed = this.client.feed('user', 'Evert', token);
-    // Fetch the feed and pick the results property off the response object
-    return feed.get().then(response => response['results']);
-  }
 
 }
