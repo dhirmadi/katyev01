@@ -34,12 +34,12 @@
       <div class="d-flex flex-wrap container-fluid">
         <div
           *ngFor="let image of fs.orderByDate(filteredImages, 'createDate')"
-          class="col-lg-2 col-sm-6 col-md-3">
+          class="card">
 
             <a [routerLink]="['/images', image._id]">
                 <cl-image
                     public-id={{image.link}}
-                    class="img-thumbnail"
+                    class="card-img-top"
                     title="{{image.title}}"
                     (mouseenter)="image.isMouseOver = false"
                     (mouseleave)="image.isMouseOver = true"
@@ -47,7 +47,7 @@
                   <cl-transformation gravity="face" width="300" height="300" crop="thumb">
                   </cl-transformation></cl-image>
             </a>
-            <div>
+            <div class="card-body">
 <!--                <p class="mb-1">-->
                     <a *ngIf="!image.online"
                       class="btn btn-warning btn-sm"
