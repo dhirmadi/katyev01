@@ -334,32 +334,32 @@ module.exports = function (app, config) {
 
     // GET list of images the user has commented to
     app.get('/api/image/:userId', jwtCheck, (req, res) => {
-    Comment.find({userId: req.params.userId}, 'imageId', (err, comments) => {
-      const _imageIdsArr = comments.map(comment => comment.imageId);
-//      const _commentImagesProjection = 'title createDate endDate';
-      const _commentImagesProjection = 'title createDate link';
-      let imagesArr = [];
-      if (err) {
-        return res.status(500).send({message: err.message});
-      }
-      if (comments) {
-        Image.find(
-          {_id: {$in: _imageIdsArr}},
-//          {_id: {$in: _imageIdsArr}, createDate: { $gte: new Date() }},
-          _commentImagesProjection, (err, images) => {
-          if (err) {
-            return res.status(500).send({message: err.message});
-          }
-          if (images) {
-            images.forEach(image => {
-              imagesArr.push(image);
-            });
-          }
-          res.send(imagesArr);
+        Comment.find({userId: req.params.userId}, 'imageId', (err, comments) => {
+            const _imageIdsArr = comments.map(comment => comment.imageId);
+            //      const _commentImagesProjection = 'title createDate endDate';
+            const _commentImagesProjection = 'title createDate link';
+            let imagesArr = [];
+            if (err) {
+                return res.status(500).send({message: err.message});
+            }
+            if (comments) {
+                Image.find(
+                    {_id: {$in: _imageIdsArr}},
+                    //          {_id: {$in: _imageIdsArr}, createDate: { $gte: new Date() }},
+                    _commentImagesProjection, (err, images) => {
+                    if (err) {
+                        return res.status(500).send({message: err.message});
+                    }
+                    if (images) {
+                        images.forEach(image => {
+                            imagesArr.push(image);
+                        });
+                    }
+                    res.send(imagesArr);
+                });
+            }
         });
-      }
     });
-  });
 
     // GET all images
     app.get('/api/images/admin', jwtCheck, adminCheck, (req, res) => {
@@ -475,7 +475,7 @@ module.exports = function (app, config) {
                     feed.addActivity({
                         actor: actor,
                         verb: 'comment',
-                        object: `picture:${imageId}`,
+                        object: `picture:${comment.imageId}`,
                         foreign_id: comment._id
                     }).then(
                         null, // nothing further to do
