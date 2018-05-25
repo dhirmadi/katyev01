@@ -4,10 +4,11 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../../auth/auth.service';
 import { ApiService } from './../../../core/api.service';
+import { StreamClientService } from './../../../core/stream.service';
 import { UtilsService } from './../../../core/utils.service';
 import { FilterSortService } from './../../../core/filter-sort.service';
 import { UserModel, UserRoles } from './../../../core/models/user.model';
-
+import { StreamActivityModel } from './../../../core/models/streamactivity.model';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
 
@@ -26,8 +27,13 @@ export class MyUserComponent implements OnInit {
     userForm: FormGroup;
     submitUserObj: UserModel;
     submitUserSub: Subscription;
+    streamSub: Subscription;
+    streamActivtiy: StreamActivityModel[];
+    streamresult: StreamActivityModel;
+    FeedId: string;
     isEdit: boolean;
     error: boolean;
+    loading: boolean;
     submitting: boolean;
 
     constructor(
@@ -35,6 +41,7 @@ export class MyUserComponent implements OnInit {
         private title: Title,
         public auth: AuthService,
         private api: ApiService,
+        private stream: StreamClientService,
         public fs: FilterSortService,
         public utils: UtilsService,
         private fb: FormBuilder
@@ -51,7 +58,34 @@ export class MyUserComponent implements OnInit {
             });
         }
         this._getUser();
+        this.getActivityStream('user');
+//        this.Activtiy=this.streamActivtiy.results;
 
+
+
+    }
+
+    // get activities for current user
+    getActivityStream(streamGroup: string) {
+        this.loading = true;
+        this._getStreamUser();
+        this.streamSub = this.api
+        .getStreamActivity$(streamGroup, this.FeedId)
+        .subscribe(
+            res => {
+                this.streamActivtiy = res;
+                this.loading = false;
+            },
+            err => {
+                console.error(err);
+                this.loading = false;
+            }
+        );
+    }
+    // convert auth0userId to stream ID (removal of special characters)
+    _getStreamUser() {
+        const streamUser = this.auth.userProfile.sub;
+        this.FeedId = streamUser.replace('|', '_');
     }
     // update record in the database
     onSubmit() {
@@ -105,6 +139,7 @@ export class MyUserComponent implements OnInit {
     }
     // get information from database for user
     private _getUser() {
+//    this.loading = true;
     // GET user by ID
     this.userSub = this.api
         .getUser$()
@@ -113,10 +148,12 @@ export class MyUserComponent implements OnInit {
                 this.userData = res[0];
                 this._setPageTitle(this.userData.screenName);
                 this._fillForm();
+//                this.loading = false;
             },
             err => {
                 console.error(err);
                 this._setPageTitle('User Details');
+//                this.loading = false;
             }
         );
     }
@@ -144,5 +181,6 @@ export class MyUserComponent implements OnInit {
     // ubsubscribe fomr observalbles
     ngOnDestroy() {
         this.userSub.unsubscribe();
+        this.streamSub.unsubscribe();
     }
 }

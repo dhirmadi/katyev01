@@ -10,6 +10,7 @@ import { ENV } from './env.config';
 import { ImageModel } from './models/image.model';
 import { CommentModel } from './models/comment.model';
 import { UserModel } from './models/user.model';
+import { StreamActivityModel } from './models/streamactivity.model';
 
 @Injectable()
 export class ApiService {
@@ -26,6 +27,17 @@ export class ApiService {
     */
     // get token for specific feed
     getStreamToken(feedGroup: String, feedName: String) {
+        return this.http
+        .get(`${ENV.BASE_API}stream/${feedGroup}/${feedName}`, {
+            headers: new HttpHeaders().set('Authorization', this._authHeader)
+        })
+        .pipe(
+            catchError((error) => this._handleError(error))
+        );
+    }
+
+    // get activity for specific feed
+    getStreamActivity$(feedGroup: String, feedName: String): Observable<StreamActivityModel[]> {
         return this.http
         .get(`${ENV.BASE_API}stream/${feedGroup}/${feedName}`, {
             headers: new HttpHeaders().set('Authorization', this._authHeader)

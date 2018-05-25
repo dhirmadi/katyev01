@@ -24,24 +24,6 @@
             </p>
 
             <!-- Images listing -->
-
-<!--
-            <div class="d-flex flex-wrap align-content-stretch text-center">
-                <div class="d-flex col-sm-12 col-md-12 col-lg-6 col-xl-4" *ngFor="let image of fs.orderByDate(filteredImages, 'createDate')">
-                    <a [routerLink]="['/images', image._id]">
-                        <cl-image
-                            public-id={{image.link}}
-                            class="img-fluid max-width:300px"
-                            title="{{ image.title }}"
-                            (mouseenter)="image.isMouseOver = false"
-                            (mouseleave)="image.isMouseOver = true"
-                            [attr.opacity]="image.isMouseOver ? '60' : null">
-                                <cl-transformation width="800" crop="scale"></cl-transformation>
-                        </cl-image>
-                    </a>
-                </div>
-            </div>
--->
             <div class="card-columns">
                 <div class="card" *ngFor="let image of fs.orderByDate(filteredImages, 'createDate',true)">
                     <a [routerLink]="['/images', image._id]">

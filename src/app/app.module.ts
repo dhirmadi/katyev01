@@ -20,6 +20,7 @@ import { HomeComponent } from './home/home.component';
  import { AdminGuard } from './auth/admin.guard';
 
  import { ApiService } from './core/api.service';
+ import { StreamClientService } from './core/stream.service';
  import { CloudinaryService } from './core/cloudinary.service';
  import { UtilsService } from './core/utils.service';
  import { FilterSortService } from './core/filter-sort.service';
@@ -98,6 +99,7 @@ const appRoutes: Routes = [
       AuthGuard,
       AdminGuard,
       ApiService,
+      StreamClientService,
       DatePipe,
       UtilsService,
       FilterSortService,

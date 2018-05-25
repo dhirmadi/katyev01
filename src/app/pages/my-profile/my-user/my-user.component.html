@@ -1,4 +1,4 @@
-<div class="card-group">
+   <div class="card-group">
     <div class="card">
         <div class="card-heading" *ngIf="userData">
             <h3> {{ userData.screenName }}</h3>
@@ -13,8 +13,14 @@
         </div>
         <div class="card-body">
             <pre class="full-profile">{{ user | json }}</pre>
+            <pre class="full-profile"></pre>
+        </div>
+        <div class="card-body"
+         *ngFor="let activity of streamActivtiy">
+          <p class="card-text">{{ activity | json}}</p>
         </div>
         <div class="card-footer" *ngIf="userData">Member since {{userData.createDate}}</div>
+
     </div>
     <div class="card">
          <div class="card-heading"><h3> Edit Profile</h3>

@@ -1,25 +1,35 @@
+import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from './../auth/auth.service';
+import { catchError } from 'rxjs/operators';
+import { Subscription } from 'rxjs/Subscription';
+
+import { ENV } from './env.config';
+import { ImageModel } from './models/image.model';
+import { CommentModel } from './models/comment.model';
+import { UserModel } from './models/user.model';
 import { ApiService } from './api.service';
 // import stream = require('getstream');
 import * as stream from 'getstream';
 
-import { StreamActivity } from './models/stream.model';
-const APP_TOKEN = 'rvu8y2axaaab';
-const APP_ID = '37789';
+import { StreamActivityModel } from './models/streamactivity.model';
 
 
 
 @Injectable()
 export class StreamClientService {
-  client: stream.Client;
-    feed:any;
+    client: stream.Client;
+    stream: StreamActivityModel[];
+    FeedId: string;
+    streamSub: Subscription;
+    loading: boolean;
 
-  constructor(
-     private api: ApiService
-     ) {
-    // Instantiate a new client (client side)
-    this.client = stream.connect(APP_TOKEN, null, APP_ID);
-  }
+
+    constructor(
+        private api: ApiService,
+        private auth: AuthService
+     ) {}
 
 
 }

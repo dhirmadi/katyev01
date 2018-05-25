@@ -89,7 +89,7 @@ module.exports = function (app, config) {
     app.get('/api/stream/:group/:name', (req, res) => {
         const feed = streamClient.feed (req.params.group,req.params.name);
         feed.get({ limit: 50 }).then(function(results) {
-            var activityData = results; // work with the feed activities
+            var activityData = results.results; // work with the feed activities
             console.log(activityData);
             res.send(activityData);
         },function(err) {
@@ -308,29 +308,31 @@ module.exports = function (app, config) {
 
     // DELETE an image and all associated RSVPs
     app.delete('/api/image/:id', jwtCheck, (req, res) => {
-    Image.findById(req.params.id, (err, image) => {
-      if (err) {
-        return res.status(500).send({message: err.message});
-      }
-      if (!image) {
-        return res.status(400).send({message: 'Image not found.'});
-      }
-      Comment.find({imageId: req.params.id}, (err, comments) => {
-        if (comments) {
-          comments.forEach(comment => {
-            comment.remove();
-          });
-        }
-        image.remove(err => {
-          if (err) {
-            return res.status(500).send({message: err.message});
-          }
-            cloudinary.v2.api.delete_resources(image.link, function(error, result){console.log(result);});
-          res.status(200).send({message: 'Image and comments successfully deleted.'});
+        Image.findById(req.params.id, (err, image) => {
+            if (err) {
+                return res.status(500).send({message: err.message});
+            }
+            if (!image) {
+                return res.status(400).send({message: 'Image not found.'});
+            }
+            Comment.find({imageId: req.params.id}, (err, comments) => {
+                if (comments) {
+                    comments.forEach(comment => {
+                        comment.remove();
+                    });
+                }
+                image.remove(err => {
+                    if (err) {
+                        return res.status(500).send({message: err.message});
+                    }
+                    cloudinary.v2.api.delete_resources(image.link, function(error, result){
+                        console.log(result);
+                    });
+                    res.status(200).send({message: 'Image and comments successfully deleted.'});
+                });
+            });
         });
-      });
     });
-  });
 
     // GET list of images the user has commented to
     app.get('/api/image/:userId', jwtCheck, (req, res) => {
