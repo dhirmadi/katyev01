@@ -22,18 +22,13 @@ export class ActivityComponent implements OnInit {
     @Input() feedId: string;
     @Input() verb: string;
     @Input() object: string;
-
-
     pageTitle: String;
     userNameSub: Subscription;
     user: any;
     imageLink: String;
     userName: String;
-
-
     imageSub: Subscription;
     image: ImageModel;
-
     isEdit: boolean;
     error: boolean;
     loading: boolean;

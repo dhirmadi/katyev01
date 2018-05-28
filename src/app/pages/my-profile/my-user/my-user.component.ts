@@ -35,7 +35,7 @@ export class MyUserComponent implements OnInit {
     streamresult: StreamActivityModel;
     imageSub: Subscription;
     image: ImageModel;
-    FeedId: string;
+    feedId: string;
     isEdit: boolean;
     error: boolean;
     loading: boolean;
@@ -75,7 +75,7 @@ export class MyUserComponent implements OnInit {
         this.loading = true;
         this._getStreamUser();
         this.streamSub = this.api
-        .getStreamActivity$(streamGroup, this.FeedId)
+        .getStreamActivity$(streamGroup, this.feedId)
         .subscribe(
             res => {
                 this.streamActivtiy = res;
@@ -90,7 +90,7 @@ export class MyUserComponent implements OnInit {
     // convert auth0userId to stream ID (removal of special characters)
     _getStreamUser() {
         const streamUser = this.auth.userProfile.sub;
-        this.FeedId = streamUser.replace('|', '_');
+        this.feedId = streamUser.replace('|', '_');
     }
     // update record in the database
     onSubmit() {
@@ -144,7 +144,7 @@ export class MyUserComponent implements OnInit {
     }
     // get information from database for user
     private _getUser() {
-//    this.loading = true;
+    //    this.loading = true;
     // GET user by ID
     this.userSub = this.api
         .getUser$()
@@ -153,12 +153,12 @@ export class MyUserComponent implements OnInit {
                 this.userData = res[0];
                 this._setPageTitle(this.userData.screenName);
                 this._fillForm();
-//                this.loading = false;
+                //                this.loading = false;
             },
             err => {
                 console.error(err);
                 this._setPageTitle('User Details');
-//                this.loading = false;
+                //                this.loading = false;
             }
         );
     }
