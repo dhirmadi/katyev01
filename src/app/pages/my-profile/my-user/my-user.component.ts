@@ -4,10 +4,13 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../../auth/auth.service';
 import { ApiService } from './../../../core/api.service';
+import { CloudinaryService } from './../../../core/cloudinary.service';
+
 import { StreamClientService } from './../../../core/stream.service';
 import { UtilsService } from './../../../core/utils.service';
 import { FilterSortService } from './../../../core/filter-sort.service';
 import { UserModel, UserRoles } from './../../../core/models/user.model';
+import { ImageModel } from './../../../core/models/image.model';
 import { StreamActivityModel } from './../../../core/models/streamactivity.model';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
@@ -30,6 +33,8 @@ export class MyUserComponent implements OnInit {
     streamSub: Subscription;
     streamActivtiy: StreamActivityModel[];
     streamresult: StreamActivityModel;
+    imageSub: Subscription;
+    image: ImageModel;
     FeedId: string;
     isEdit: boolean;
     error: boolean;
@@ -182,5 +187,6 @@ export class MyUserComponent implements OnInit {
     ngOnDestroy() {
         this.userSub.unsubscribe();
         this.streamSub.unsubscribe();
+//        this.imageSub.unsubscribe();
     }
 }

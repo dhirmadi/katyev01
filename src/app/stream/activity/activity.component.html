@@ -1,0 +1,14 @@
+
+
+<div class="card" style="width: 18rem;">
+<a [routerLink]="['/images', imageId]">
+    <cl-image public-id={{imageLink}} class="card-img-top w-100">
+        <cl-transformation gravity="face" width="150" crop="scale">
+        </cl-transformation>
+    </cl-image>
+</a>
+    <div class="card-body" *ngIf="verb=='add'">{{userName}} add an image.</div>
+    <div class="card-body" *ngIf="verb=='comment'">{{userName}} commented on image.</div>
+</div>
+
+
