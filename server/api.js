@@ -117,7 +117,7 @@ module.exports = function (app, config) {
     });
 
    // GET user identity of auth0 user.
-    app.get('/api/user/identity/:id',,jwtCheck,(req, res) => {
+    app.get('/api/user/identity/:id',jwtCheck,(req, res) => {
         auth0.users.get({id: req.params.id},function (err, users) {
             if (err) {
                 console.log(err);
