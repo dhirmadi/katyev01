@@ -98,6 +98,16 @@ export class ApiService {
     | Auth0 API Calls
     |--------------------------------------
     */
+    // get user identity token based on login ID
+    getUserIdentity$(id: string) {
+        return this.http
+        .get(`${ENV.BASE_API}user/identity/${id}`, {
+            headers: new HttpHeaders().set('Authorization', this._authHeader)
+        })
+        .pipe(
+            catchError((error) => this._handleError(error))
+        );
+    }
     // get user name based on login ID
     getUserName$(id: string) {
         return this.http

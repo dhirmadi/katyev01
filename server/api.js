@@ -86,7 +86,7 @@ module.exports = function (app, config) {
      */
 
     // GET specific stream
-    app.get('/api/stream/:group/:name', (req, res) => {
+    app.get('/api/stream/:group/:name', jwtCheck, (req, res) => {
         const feed = streamClient.feed (req.params.group,req.params.name);
         feed.get({ limit: 50 }).then(function(results) {
             var activityData = results.results; // work with the feed activities
@@ -111,6 +111,19 @@ module.exports = function (app, config) {
                 console.log(err);
                 return res.status(500).send({message: err.message});
             }
+            const username = JSON.stringify(users.name);
+            res.send(username);
+        });
+    });
+
+   // GET user identity of auth0 user.
+    app.get('/api/user/identity/:id',,jwtCheck,(req, res) => {
+        auth0.users.get({id: req.params.id},function (err, users) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({message: err.message});
+            }
+            console.log(users);
             const username = JSON.stringify(users.name);
             res.send(username);
         });
@@ -382,7 +395,7 @@ module.exports = function (app, config) {
     });
 
     // GET image by image ID
-    app.get('/api/images/:id', (req, res) => {
+    app.get('/api/images/:id', jwtCheck, (req, res) => {
         Image.findById(req.params.id, (err, image) => {
             if (err) {
                 return res.status(500).send({

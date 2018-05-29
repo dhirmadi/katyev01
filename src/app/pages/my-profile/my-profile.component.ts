@@ -18,6 +18,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   pageTitle = 'My Profile';
   imageListSub: Subscription;
   tabSub: Subscription;
+  identitySub: Subscription;
+  identity: String;
   imageList: ImageModel[];
   loading: boolean;
   error: boolean;
@@ -35,7 +37,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.title.setTitle(this.pageTitle);
-    this.userIdp = this._getIdp;
+    this._getIdp();
+    this._getAuth0Identity();
     // this._getImageList();
 
     // Subscribe to query params to watch for tab changes
@@ -64,7 +67,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       );
   }
 
-  private get _getIdp(): string {
+  private _getIdp() {
     const sub = this.auth.userProfile.sub.split('|')[0];
     this.userId = this.auth.userProfile.sub;
     let idp = sub;
@@ -76,11 +79,30 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     } else {
       idp = this.utils.capitalize(sub);
     }
-    return idp;
+    this.userIdp = idp;
   }
+       // get cloudinaryID for display of image
+   private _getAuth0Identity() {
+        this.loading = true;
+        this.identitySub = this.api
+        .getUserIdentity$(this.auth.userProfile.sub)
+        .subscribe(
+            res => {
+                this.identity = res;
+                console.log(this.identity);
+                this.loading = false;
+            },
+            err => {
+                console.error(err);
+                this.loading = false;
+                this.error = true;
+            }
+        );
+    }
 
   ngOnDestroy() {
-//     this.imageListSub.unsubscribe();
+     //this.identitySub.unsubscribe();
+     //this.imageListSub.unsubscribe();
   }
 
 }
