@@ -2,65 +2,40 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <ng-template [ngIf]="utils.isLoaded(loading)">
-  <!-- Image -->
-  <ng-template [ngIf]="image">
-    <!-- Image is over -->
-    <p *ngIf="imagePast" class="alert alert-danger">
-      <strong>This image is not active.</strong>
+    <!-- Image -->
+    <ng-template [ngIf]="image">
+        <div class="d-flex justify-content-center">
+            <figure class="figure">
+                <a (click)="backClicked()">
+                    <cl-image public-id={{image.link}} class="img-thumbnail" title="{{ image.title }}" (mouseenter)="image.isMouseOver = false" (mouseleave)="image.isMouseOver = true" [attr.opacity]="image.isMouseOver ? '60' : null">
+                    </cl-image>
+                </a>
+                <figcaption class="figure-caption">{{pageTitle}}</figcaption>
+            </figure>
+        </div>
+
+        <div class="card">
+            <!-- Image tab navigation -->
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" [routerLink]="[]" [queryParams]="{tab: 'details'}" [ngClass]="{'active': utils.tabIs(tab, 'details')}">Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" [routerLink]="[]" [queryParams]="{tab: 'comment'}" [ngClass]="{'active': utils.tabIs(tab, 'comment')}">Opinion</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Image detail tab -->
+            <app-image-detail *ngIf="utils.tabIs(tab, 'details')" [userId]="image.userId" [image]="image"></app-image-detail>
+
+            <!-- Image Comment tab -->
+            <app-comment *ngIf="utils.tabIs(tab, 'comment')" [imageId]="image._id" [imagePast]="imagePast"></app-comment>
+        </div>
+    </ng-template>
+    <!-- Error loading images -->
+    <p *ngIf="error" class="alert alert-danger">
+        <strong>Oops!</strong> There was an error retrieving information for this image.
     </p>
-<div class="d-flex justify-content-center">
-   <figure class="figure"><a (click)="backClicked()">
-    <cl-image
-        public-id={{image.link}}
-        class="img-thumbnail"
-        title="{{ image.title }}"
-        (mouseenter)="image.isMouseOver = false"
-        (mouseleave)="image.isMouseOver = true"
-        [attr.opacity]="image.isMouseOver ? '60' : null"
-        >
-       </cl-image></a>
-    <figcaption class="figure-caption">{{pageTitle}}</figcaption>
-    </figure>
-      </div>
-
-    <div class="card">
-      <!-- Image tab navigation -->
-      <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs">
-          <li class="nav-item">
-            <a
-              class="nav-link text-dark"
-              [routerLink]="[]"
-              [queryParams]="{tab: 'details'}"
-              [ngClass]="{'active': utils.tabIs(tab, 'details')}">Details</a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link text-dark"
-              [routerLink]="[]"
-              [queryParams]="{tab: 'comment'}"
-              [ngClass]="{'active': utils.tabIs(tab, 'comment')}">Opinion</a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Image detail tab -->
-      <app-image-detail
-        *ngIf="utils.tabIs(tab, 'details')"
-        [userName]="userName"
-        [userId]="image.userId"
-        [image]="image"></app-image-detail>
-
-      <!-- Image Comment tab -->
-      <app-comment
-        *ngIf="utils.tabIs(tab, 'comment')"
-        [imageId]="image._id"
-        [imagePast]="imagePast"></app-comment>
-    </div>
-  </ng-template>
-
-  <!-- Error loading images -->
-  <p *ngIf="error" class="alert alert-danger">
-    <strong>Oops!</strong> There was an error retrieving information for this image.
-  </p>
 </ng-template>

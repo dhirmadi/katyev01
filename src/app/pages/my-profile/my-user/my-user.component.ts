@@ -141,9 +141,9 @@ export class MyUserComponent implements OnInit {
     }
     // get information from database for user
     private _getUser() {
-    //    this.loading = true;
+    // this.loading = true;
     // GET user by ID
-    this.userSub = this.api
+        this.userSub = this.api
         .getUser$()
         .subscribe(
             res => {

@@ -1,0 +1,6 @@
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="utils.isLoaded(loading)">
+ <div class="card-body">
+     "<em>{{comment.comment}}</em>" - <span>{{user.screenName}}</span>
+</div>
+</ng-template>

@@ -42,17 +42,15 @@
     <!-- <section class="allComments" *ngIf="showAllComments" [@expandCollapse]> -->
     <section class="allComments" *ngIf="showAllComments">
         <div class="card-block">
-            <h3 class="card-title text-center">All Opinions</h3>
             <p *ngIf="!comments.length" class="lead">There are currently no opinions for this image.</p>
+            <div *ngIf="comments.length" class="card">
+
+            <div *ngFor="let comment of comments" class="card-body">
+                <app-comment-detail [comment]="comment"></app-comment-detail>
+            </div>
+
         </div>
-
-        <ul *ngIf="comments.length" class="list-group list-group-flush">
-
-            <li *ngFor="let comment of comments" class="list-group-item small">
-                <em [innerHTML]="comment.comment"></em>
-            </li>
-
-        </ul>
+        </div>
     </section>
 
     <!-- Error loading Comments -->

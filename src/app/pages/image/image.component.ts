@@ -59,7 +59,7 @@ export class ImageComponent implements OnInit, OnDestroy {
     }
 
   private _getUserName(userId: string) {
-      this.loading = true;
+    this.loading = true;
     // GET username by userId
     this.userNameSub = this.api
       .getUserName$(userId)
@@ -86,8 +86,6 @@ export class ImageComponent implements OnInit, OnDestroy {
           this.image = res;
           this._setPageTitle(this.image.title);
           this.loading = false;
-          this.imagePast = this.utils.imagePast(this.image.editDate);
-          this._getUserName(this.image.userId);
         },
         err => {
           console.error(err);
@@ -108,7 +106,7 @@ export class ImageComponent implements OnInit, OnDestroy {
     this.routeSub.unsubscribe();
     this.tabSub.unsubscribe();
     this.imageSub.unsubscribe();
-    this.userNameSub.unsubscribe();
+//    this.userNameSub.unsubscribe();
   }
 
 }

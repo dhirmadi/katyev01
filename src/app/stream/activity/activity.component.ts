@@ -10,7 +10,7 @@ import { ImageModel } from './../../core/models/image.model';
   templateUrl: './activity.component.html',
   styleUrls: ['./activity.component.css']
 })
-export class ActivityComponent implements OnInit {
+export class ActivityComponent implements OnInit, OnDestroy {
     @Input() imageId: string;
     @Input() feedId: string;
     @Input() verb: string;
@@ -72,5 +72,10 @@ export class ActivityComponent implements OnInit {
                 this.loading = false;
             }
         );
+    }
+
+    ngOnDestroy() {
+        this.imageSub.unsubscribe();
+        this.userNameSub.unsubscribe();
     }
 }

@@ -23,6 +23,7 @@ import { HomeComponent } from './home/home.component';
  import { StreamClientService } from './core/stream.service';
  import { CloudinaryService } from './core/cloudinary.service';
  import { UtilsService } from './core/utils.service';
+ import { UserService } from './core/user.service';
  import { FilterSortService } from './core/filter-sort.service';
  import { LoadingComponent } from './core/loading.component';
  import { SubmittingComponent } from './core/forms/submitting.component';
@@ -46,6 +47,7 @@ import { MyCommentsComponent } from './pages/my-profile/my-comments/my-comments.
 import cloudinaryConfiguration from './cloudinary/cloudinary.default';
 import { MyUserComponent } from './pages/my-profile/my-user/my-user.component';
 import { ActivityComponent } from './stream/activity/activity.component';
+import { CommentDetailComponent } from './pages/image/comment/comment-detail/comment-detail.component';
 
 const appRoutes: Routes = [
 { path: '', component: HomeComponent },
@@ -84,6 +86,7 @@ const appRoutes: Routes = [
     MyCommentsComponent,
     MyUserComponent,
     ActivityComponent,
+    CommentDetailComponent,
   ],
   imports: [
       BrowserModule,
@@ -103,6 +106,7 @@ const appRoutes: Routes = [
       ApiService,
       StreamClientService,
       DatePipe,
+      UserService,
       UtilsService,
       FilterSortService,
       CloudinaryService

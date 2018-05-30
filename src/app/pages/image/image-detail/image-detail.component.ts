@@ -1,8 +1,8 @@
 // src/app/pages/image/image-detail/image-detail.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from './../../../auth/auth.service';
-import { ApiService } from './../../../core/api.service';
 import { UtilsService } from './../../../core/utils.service';
+import { UserService } from './../../../core/user.service';
 import { ImageModel } from './../../../core/models/image.model';
 
 @Component({
@@ -10,16 +10,18 @@ import { ImageModel } from './../../../core/models/image.model';
   templateUrl: './image-detail.component.html',
   styleUrls: ['./image-detail.component.css']
 })
-export class ImageDetailComponent {
-  @Input() image: ImageModel;
-  @Input() userName: string;
-  @Input() userId: string;
+export class ImageDetailComponent implements OnInit {
+    @Input() image: ImageModel;
+    @Input() userId: string;
+    userName: string;
 
 
-  constructor(
-    public utils: UtilsService,
-    public auth: AuthService,
-    public api: ApiService) { }
+    constructor(
+        public auth: AuthService,
+        public utils: UtilsService,
+        public user: UserService) { }
 
-
+    ngOnInit() {
+        this.user.setUser(this.userId);
+    }
 }

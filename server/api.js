@@ -148,7 +148,7 @@ module.exports = function (app, config) {
             if (!user[0]) {
                 const user = new User({
                     userId: req.params.id,
-                    screenName: "Put your screen name",
+                    screenName: "Someone",
                     avatar: "avatars/katyev.png",
                     primaryRole: "Collector",
                     location: "Unkown",
