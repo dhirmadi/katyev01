@@ -1,14 +1,14 @@
-<div class="card" style="width: 200px;">
-<a [routerLink]="['/images', imageId]">
-<cl-image public-id={{imageLink}} class="card-img-top">
-<!--
-        <cl-transformation gravity="face" width="200" height="200" crop="thumb">
-        </cl-transformation>
--->  <cl-transformation gravity="face" height="100" quality="auto:best" width="200" crop="fill">
-  </cl-transformation>
-    </cl-image>
-</a>
-<!--    <div class="card-header">{{imageLink}}</div>-->
-    <div class="card-body" *ngIf="verb=='add'">{{userName}} add this image.</div>
-    <div class="card-body" *ngIf="verb=='comment'">{{userName}} commented on this image.</div>
-</div>
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="utils.isLoaded(loading)">
+    <div class="card" style="width: 200px;">
+    <a [routerLink]="['/images', imageId]">
+        <cl-image *ngIf="imageLink" public-id={{imageLink}} class="card-img-top">
+            <cl-transformation gravity="face" height="100" quality="auto:best" width="200" crop="fill">
+            </cl-transformation>
+        </cl-image>
+    </a>
+        <div class="card-body font-weight-light" *ngIf="verb=='add'">{{userName}} add this image.</div>
+        <div class="card-body font-weight-light" *ngIf="verb=='comment'">{{userName}} commented on this image.</div>
+    </div>
+</ng-template>
+

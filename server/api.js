@@ -84,7 +84,6 @@ module.exports = function (app, config) {
      | Stream API Routes
      |--------------------------------------
      */
-
     // GET specific stream
     app.get('/api/stream/:group/:name', jwtCheck, (req, res) => {
         const feed = streamClient.feed (req.params.group,req.params.name);
@@ -98,12 +97,12 @@ module.exports = function (app, config) {
             return res.status(500).send({message: err.message});
         });
     });
-
     /*
      |--------------------------------------
      | AUTH0 API Routes
      |--------------------------------------
      */
+
     // GET user name of auth0 user.
     app.get('/api/user/name/:id', jwtCheck,(req, res) => {
         auth0.users.get({id: req.params.id},function (err, users) {
@@ -116,7 +115,7 @@ module.exports = function (app, config) {
         });
     });
 
-   // GET user identity of auth0 user.
+    // GET user identity of auth0 user.
     app.get('/api/user/identity/:id',jwtCheck,(req, res) => {
         auth0.users.get({id: req.params.id},function (err, users) {
             if (err) {
@@ -124,8 +123,7 @@ module.exports = function (app, config) {
                 return res.status(500).send({message: err.message});
             }
             console.log(users);
-            const username = JSON.stringify(users.name);
-            res.send(username);
+            res.send(users);
         });
     });
 
@@ -133,7 +131,6 @@ module.exports = function (app, config) {
     app.get('/api/', (req, res) => {
         res.send('API works');
     });
-
         /*
      |--------------------------------------
      | User API Routes
@@ -192,6 +189,7 @@ module.exports = function (app, config) {
             });
         });
     });
+
     // store initial user information
     app.post('/api/user/new', jwtCheck, (req, res) => {
         User.findOne({
@@ -219,13 +217,11 @@ module.exports = function (app, config) {
             });
         });
     });
-
         /*
      |--------------------------------------
      | Image API Routes
      |--------------------------------------
      */
-
     // GET list of images marked as online
     app.get('/api/images', (req, res) => {
         Image.find({

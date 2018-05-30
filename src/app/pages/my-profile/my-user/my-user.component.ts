@@ -65,9 +65,6 @@ export class MyUserComponent implements OnInit {
         this._getUser();
         this.getActivityStream('user');
 //        this.Activtiy=this.streamActivtiy.results;
-
-
-
     }
 
     // get activities for current user
