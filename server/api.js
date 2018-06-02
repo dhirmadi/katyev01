@@ -245,52 +245,61 @@ module.exports = function (app, config) {
     // put a new image into database
     app.post('/api/image/new', jwtCheck, (req, res) => {
     Image.findOne({
-      link: req.body.link}, (err, existingImage) => {
-      if (err) {
-        return res.status(500).send({message: err.message});
-      }
-      if (existingImage) {
-        return res.status(409).send({message: 'You have already created an image with link.'});
-      }
-      const image = new Image({
-        title: req.body.title,
-        link: req.body.link,
-        location: req.body.location,
-        userId: req.user.sub,
-        createDate: req.body.createDate,
-        editDate: req.body.editDate,
-        description: req.body.description,
-        likes: 0,
-        online: req.body.online
-      });
-      image.save((err) => {
-        if (err) {
-            return res.status(500).send({message: err.message});
-        }
-
-        var actor = req.user.sub.replace('|','_');
-        //add activity to stream
-        const feed = streamClient.feed ('user',actor);
-
-        feed.addActivity({
-            actor: actor,
-            verb: 'add',
-            object: `picture:${image._id}`,
-            foreign_id: image._id
-        }).then(
-            null, // nothing further to do
-            function(err) {
-                // Handle or raise the Error.
-                console.log(err);
+        link: req.body.link}, (err, existingImage) => {
+            if (err) {
                 return res.status(500).send({message: err.message});
+            }
+            if (existingImage) {
+                return res.status(409).send({message: 'You have already created an image with link.'});
+            }
+            const image = new Image({
+                title: req.body.title,
+                link: req.body.link,
+                location: req.body.location,
+                userId: req.user.sub,
+                createDate: req.body.createDate,
+                editDate: req.body.editDate,
+                description: req.body.description,
+                likes: 0,
+                online: req.body.online,
+                clickCounter: 1
+            });
+        console.log(image);
+            image.save((err) => {
+                if (err) {
+                    return res.status(500).send({message: err.message});
+                }
+                var actor = req.user.sub.replace('|','_');
+                //add activity to stream
+                const feed = streamClient.feed ('user',actor);
+                feed.addActivity({
+                    actor: actor,
+                    verb: 'add',
+                    object: `picture:${image._id}`,
+                    foreign_id: image._id
+                }).then(
+                    null, // nothing further to do
+                    function(err) {
+                        // Handle or raise the Error.
+                        //                console.log(err);
+                        return res.status(500).send({message: err.message});
+                });
+                res.send(image);
+            });
         });
-        res.send(image);
-      });
     });
-  });
+
+    // increase the click counter on the image
+    app.get('/api/image/counter/:id', jwtCheck, (req, res) => {
+        const query = {_id: req.params.id};
+        const update = {$inc:{clickCounter:1}};
+        Image.findOneAndUpdate(query, update, function (err, doc) {
+            res.status(200).send({message: 'Ok'});
+        });
+    });
 
     // PUT (edit) an existing image
-    app.put('/api/image/:id', jwtCheck, (req, res) => {
+    app.get('/api/image/:id', jwtCheck, (req, res) => {
     Image.findById(req.params.id, (err, image) => {
       if (err) {
         return res.status(500).send({message: err.message});
@@ -324,7 +333,6 @@ module.exports = function (app, config) {
             if (!image) {
                 return res.status(400).send({message: 'Image not found.'});
             }
-            console.log(image.userId);
             // set actor name for user feed
             var actor = image.userId.replace('|','_');
             //define userstream stream

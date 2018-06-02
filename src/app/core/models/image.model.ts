@@ -5,6 +5,7 @@ class ImageModel {
         public location: string,
         public userId: string,
         public likes: number,
+        public clickCounter: number,
         public online: boolean,
         public createDate: Date,
         public editDate: Date,

@@ -197,16 +197,17 @@ export class ImageFormComponent implements OnInit, OnDestroy {
     // Convert form createDate/startTime and endDate/endTime
     // to JS dates and populate a new ImageModel for submission
     return new ImageModel(
-      this.imageForm.get('title').value,
-      this.imageForm.get('link').value,
-      this.imageForm.get('location').value,
-      null,
-      0,
-      this.imageForm.get('online').value,
-      stringsToDate(createDate, startTime),
-      stringsToDate(endDate, endTime),
-      this.imageForm.get('description').value,
-      this.image ? this.image._id : null
+        this.imageForm.get('title').value,
+        this.imageForm.get('link').value,
+        this.imageForm.get('location').value,
+        null,
+        0,
+        0,
+        this.imageForm.get('online').value,
+        stringsToDate(createDate, startTime),
+        stringsToDate(endDate, endTime),
+        this.imageForm.get('description').value,
+        this.image ? this.image._id : null
     );
   }
 

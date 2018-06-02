@@ -190,6 +190,7 @@ export class CreateImageComponent implements OnInit {
         'Zurich',
         this.userId,
         0,
+        0,
         true,
         today,
         tomorrow,

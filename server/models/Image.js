@@ -17,7 +17,8 @@ const imageSchema = new Schema({
   editDate: { type: Date, required: true },
   description: String,
   likes: { type: Number, required: true },
-  online: { type: Boolean, required: true }
+  online: { type: Boolean, required: true },
+  clickCounter: { type: Number, required: true }
 });
 
 module.exports = mongoose.model('Image', imageSchema);

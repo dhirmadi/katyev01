@@ -173,7 +173,7 @@ export class ApiService {
             catchError((error) => this._handleError(error))
         );
     }
-    // PUT existing image (admin only)
+    // PUT update existing image
     editImage$(id: string, image: ImageModel): Observable<ImageModel> {
     return this.http
       . put(`${ENV.BASE_API}image/${id}`, image, {
@@ -183,6 +183,18 @@ export class ApiService {
             catchError((error) => this._handleError(error))
         );
     }
+
+    // update clickCounter for image
+    putImageClickCounter(id: string) {
+    return this.http
+      .get(`${ENV.BASE_API}image/counter/${id}`, {
+            headers: new HttpHeaders().set('Authorization', this._authHeader)
+        })
+        .pipe(
+            catchError((error) => this._handleError(error))
+        );
+    }
+
     // DELETE existing image and all associated RSVPs (admin only)
     deleteImage$(id: string): Observable<any> {
     return this.http

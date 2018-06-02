@@ -15,9 +15,12 @@ import { UserModel } from './../../core/models/user.model';
 export class HomeImageComponent implements OnInit, OnDestroy {
     @Input() image: ImageModel;
     userSub: Subscription;
+    countSub: Subscription;
+    counter: string;
     user: UserModel;
     loading: boolean;
     error: boolean;
+    liked: boolean;
 
     constructor(
     public utils: UtilsService,
@@ -43,6 +46,29 @@ export class HomeImageComponent implements OnInit, OnDestroy {
                 this.loading = false;
             }
         );
+    }
+
+    // update access counter
+    public accessImage() {
+        this.countSub = this.api
+        .putImageClickCounter(this.image._id)
+        .subscribe(
+            res => {
+                this.counter = res;
+            },
+            err => {
+                console.error(err);
+            }
+        );
+    }
+
+    // like the image
+    public likeImage() {
+
+    }
+    // unlike the image
+    public unlikeImage() {
+
     }
 
     ngOnDestroy() {
