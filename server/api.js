@@ -315,7 +315,7 @@ module.exports = function (app, config) {
     });
   });
 
-    // DELETE an image and all associated RSVPs
+    // DELETE an image and all associated comments
     app.delete('/api/image/:id', jwtCheck, (req, res) => {
         Image.findById(req.params.id, (err, image) => {
             if (err) {
@@ -324,19 +324,40 @@ module.exports = function (app, config) {
             if (!image) {
                 return res.status(400).send({message: 'Image not found.'});
             }
+            console.log(image.userId);
+            // set actor name for user feed
+            var actor = image.userId.replace('|','_');
+            //define userstream stream
+            const userfeed = streamClient.feed ('user',actor);
+
             Comment.find({imageId: req.params.id}, (err, comments) => {
                 if (comments) {
                     comments.forEach(comment => {
                         comment.remove();
+                        // remove comment createion events from user feed
+                        userfeed.removeActivity({ foreignId: comment._id }).then(
+                            null, // nothing further to do
+                            function(err) {
+                                return res.status(500).send({message: err.message});
+                            }
+                        );
                     });
                 }
                 image.remove(err => {
                     if (err) {
                         return res.status(500).send({message: err.message});
                     }
+                    // remove image from cloud storage
                     cloudinary.v2.api.delete_resources(image.link, function(error, result){
                         console.log(result);
                     });
+                    // remove image creation event from user feed
+                    userfeed.removeActivity({ foreignId: image._id }).then(
+                        null, // nothing further to do
+                        function(err) {
+                            return res.status(500).send({message: err.message});
+                        }
+                    );
                     res.status(200).send({message: 'Image and comments successfully deleted.'});
                 });
             });
