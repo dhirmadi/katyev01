@@ -20,25 +20,15 @@
             </p>
             <!-- Images listing -->
             <div class="card-columns">
-                <div class="card" *ngFor="let image of fs.orderByDate(filteredImages, 'createDate',false)">
-                    <a [routerLink]="['/images', image._id]">
-                        <cl-image
-                            public-id={{image.link}}
-                            class="card-img-top img-fluid"
-                            title="{{ image.title }}"
-                            (mouseenter)="image.isMouseOver = false"
-                            (mouseleave)="image.isMouseOver = true"
-                            [attr.opacity]="image.isMouseOver ? '60' : null">
-                                <cl-transformation width="800" crop="scale"></cl-transformation>
-                        </cl-image>
-                    </a>
+                <div class="card border-light" *ngFor="let image of fs.orderByDate(filteredImages, 'createDate',false)">
+                <app-home-image [image]="image"></app-home-image>
 <!--                <div class="card-body">{{image.createDate}}</div>-->
                 </div>
             </div>
         </ng-template>
         <!-- No upcoming public images available -->
         <p *ngIf="!imageList.length" class="alert alert-info">
-            No upcoming public images available.
+            No images available.
         </p>
     </ng-template>
     <!-- Error loading images -->

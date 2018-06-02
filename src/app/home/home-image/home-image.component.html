@@ -1,0 +1,14 @@
+<ng-template [ngIf]="utils.isLoaded(loading)">
+   <a [routerLink]="['/images', image._id]">
+    <cl-image *ngIf="image.link"
+        public-id={{image.link}}
+        class="card-img-top img-fluid"
+        title="{{ image.title }}"
+        (mouseenter)="image.isMouseOver = false"
+        (mouseleave)="image.isMouseOver = true"
+        [attr.opacity]="image.isMouseOver ? '60' : null">
+            <cl-transformation width="800" crop="scale"></cl-transformation>
+    </cl-image>
+</a>
+<div class="card-body bg-light">by {{user.screenName}}</div>
+</ng-template>
