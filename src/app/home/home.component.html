@@ -21,8 +21,8 @@
             <!-- Images listing -->
             <div class="card-columns">
                 <div class="card border-light" *ngFor="let image of fs.orderByDate(filteredImages, 'createDate',false)">
-                <app-home-image [image]="image"></app-home-image>
-<!--                <div class="card-body">{{image.createDate}}</div>-->
+                <app-home-image [image]="image" [viewer]="user" *ngIf="auth.loggedIn"></app-home-image>
+                <app-home-image [image]="image" *ngIf="!auth.loggedIn"></app-home-image>
                 </div>
             </div>
         </ng-template>

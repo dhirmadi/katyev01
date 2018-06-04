@@ -15,6 +15,8 @@ const stream = require('getstream');
 
 const User = require('./models/User');
 const Image = require('./models/Image');
+const likeImage = require('./models/likeImage');
+const likeUser = require('./models/likeUser');
 const Comment = require('./models/Comment');
 
 const _imageListProjection = 'title userId likes online link createDate editDate';
@@ -217,6 +219,109 @@ module.exports = function (app, config) {
             });
         });
     });
+        /*
+     |--------------------------------------
+     | Like API Routes
+     |--------------------------------------
+     */
+    // increase the click counter on the image (user likes image)
+    app.get('/api/image/liked/:id/:userId', jwtCheck, (req, res) => {
+        const db_object = `users: {userId: ${req.params.userId}}`;
+        const query = `imageId: ${req.params.id}`;
+        console.log(query);
+        console.log(db_object);
+        likeImage.find({imageId: req.params.id,users:{$elemMatch:{userId:req.params.userId}}},function (err, likeImage) {
+//        likeImage.find({imageId: req.params.id,users: {userId: req.params.userId}},function (err, likeImage) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({message: err.message});
+            }
+            console.log(likeImage);
+            res.send(likeImage);
+        });
+    });
+    // increase the click counter on the image (user likes image)
+    app.get('/api/image/like/:id/:userId', jwtCheck, (req, res) => {
+        const options = { upsert: true };
+        var query = {_id: req.params.id};
+        var update = {$inc:{likes:1}};
+        Image.findOneAndUpdate(query, update, options, function (err, image) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({message: err.message});
+            }
+        });
+
+        // add user to image like record
+        var query = {imageId: req.params.id};
+        var db_data = {userId: req.params.userId};
+        var update = {$push: {users: db_data}};
+        likeImage.findOneAndUpdate(query, update, options, function (err, likeimage) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({message: err.message});
+            }
+            console.log(likeimage);
+            console.log('----------------------------------------');
+
+        });
+        // add image to user like record
+        var query = {userId: req.params.userId};
+        var db_data = {imageId:req.params.id};
+        var update = {$push: {images: db_data}};
+        likeUser.findOneAndUpdate(query, update, options, function (err, likeuser) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({message: err.message});
+            }
+            console.log(likeuser);
+            console.log('----------------------------------------');
+
+            return res.status(200).send({message: 'Ok'});
+        });
+
+    });
+    // decrease the click counter on the image (user undlikes image)
+    app.get('/api/image/unlike/:id/:userId', jwtCheck, (req, res) => {
+        const options = { upsert: true };
+        var query = {_id: req.params.id};
+        var update = {$inc:{likes:-1}};
+        Image.findOneAndUpdate(query, update, function (err, doc) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({message: err.message});
+            }
+        });
+
+       // remove user from image like record
+        var query = {imageId: req.params.id};
+        var db_data = {userId: req.params.userId};
+        var update = {$pull: {users: db_data}};
+        likeImage.findOneAndUpdate(query, update, options, function (err, likeimage) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({message: err.message});
+            }
+            console.log(likeimage);
+            console.log('----------------------------------------');
+
+        });
+        // remove image from user like record
+        var query = {userId: req.params.userId};
+        var db_data = {imageId:req.params.id};
+        var update = {$pull: {images: db_data}};
+        likeUser.findOneAndUpdate(query, update, options, function (err, likeuser) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({message: err.message});
+            }
+            console.log(likeuser);
+            console.log('----------------------------------------');
+
+            return res.status(200).send({message: 'Ok'});
+        });
+    });
+
         /*
      |--------------------------------------
      | Image API Routes

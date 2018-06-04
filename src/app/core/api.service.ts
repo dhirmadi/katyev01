@@ -194,6 +194,36 @@ export class ApiService {
             catchError((error) => this._handleError(error))
         );
     }
+    // like image
+    likeImage(id: string, userId: string) {
+    return this.http
+      .get(`${ENV.BASE_API}image/like/${id}/${userId}`, {
+            headers: new HttpHeaders().set('Authorization', this._authHeader)
+        })
+        .pipe(
+            catchError((error) => this._handleError(error))
+        );
+    }
+    // unlike image
+    unlikeImage(id: string, userId: string) {
+    return this.http
+      .get(`${ENV.BASE_API}image/unlike/${id}/${userId}`, {
+            headers: new HttpHeaders().set('Authorization', this._authHeader)
+        })
+        .pipe(
+            catchError((error) => this._handleError(error))
+        );
+    }
+    // unlike image
+    getUserLikesImage(id: string, userId: string) {
+    return this.http
+      .get(`${ENV.BASE_API}image/liked/${id}/${userId}`, {
+            headers: new HttpHeaders().set('Authorization', this._authHeader)
+        })
+        .pipe(
+            catchError((error) => this._handleError(error))
+        );
+    }
 
     // DELETE existing image and all associated RSVPs (admin only)
     deleteImage$(id: string): Observable<any> {

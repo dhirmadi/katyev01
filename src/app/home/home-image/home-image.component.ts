@@ -14,13 +14,23 @@ import { UserModel } from './../../core/models/user.model';
 })
 export class HomeImageComponent implements OnInit, OnDestroy {
     @Input() image: ImageModel;
-    userSub: Subscription;
-    countSub: Subscription;
-    counter: string;
-    user: UserModel;
-    loading: boolean;
-    error: boolean;
-    liked: boolean;
+    @Input() viewer?: UserModel;
+
+            userSub: Subscription;
+            imageLikedSub: Subscription;
+            imageLiked: string;
+            imageUserSub: Subscription;
+            countSub: Subscription;
+            likeSub: Subscription;
+            unlikeSub: Subscription;
+            counter: string;
+            likes: string;
+            imageuser: UserModel;
+            user: UserModel;
+            loading: boolean;
+            error: boolean;
+            liked: boolean;
+            detail: boolean;
 
     constructor(
     public utils: UtilsService,
@@ -28,17 +38,45 @@ export class HomeImageComponent implements OnInit, OnDestroy {
     private auth: AuthService) { }
 
     ngOnInit() {
-        this.setUser$(this.image.userId);
+        this.setImageUser$(this.image.userId);
+        if (this.auth.userProfile.sub) {
+//            this._getUserLikeStatus$();
+        }
     }
 
+    // toggle display of image details
+    public showImageDetail(show: boolean) {
+        this.detail = show;
+        if (show) {
+            this._getUserLikeStatus$();
+        }
+    }
+    // check if user has liked this image alread
+    private _getUserLikeStatus$() {
+        this.imageLikedSub = this.api
+        .getUserLikesImage(this.image._id, this.viewer._id)
+        .subscribe(
+            res => {
+                this.imageLiked = res;
+                if (this.imageLiked[0]) {
+                    this.liked = true;
+                } else {
+                    this.liked = false;
+                }
+            },
+            err => {
+                console.error(err);
+            }
+        );
+    }
     // setting details for image owner
-    public setUser$(auth0Id: string) {
+    public setImageUser$(auth0Id: string) {
         this.loading = true;
-        this.userSub = this.api
+        this.imageUserSub = this.api
         .getUserbyId$(auth0Id)
         .subscribe(
             res => {
-                this.user = res[0];
+                this.imageuser = res[0];
                 this.loading = false;
             },
             err => {
@@ -47,9 +85,8 @@ export class HomeImageComponent implements OnInit, OnDestroy {
             }
         );
     }
-
     // update access counter
-    public accessImage() {
+    public accessImage$() {
         this.countSub = this.api
         .putImageClickCounter(this.image._id)
         .subscribe(
@@ -61,18 +98,48 @@ export class HomeImageComponent implements OnInit, OnDestroy {
             }
         );
     }
-
     // like the image
-    public likeImage() {
+    public likeImage$() {
+        // add like action to user feed
+        //  (todo check if user previously liked this image already and
+        // if yes, do not add new event to avoid spamming)
+        // add image to users liked images
+        // add user to image's record for having liked it
+        // increase number of likes and store user information
+        this.likeSub = this.api
+        .likeImage(this.image._id, this.viewer._id)
+        .subscribe(
+            res => {
+                this.likes = res;
+            },
+            err => {
+                console.error(err);
+            }
+        );
+        this.liked = true;
 
     }
     // unlike the image
-    public unlikeImage() {
-
+    public unlikeImage$() {
+        this.unlikeSub = this.api
+        .unlikeImage(this.image._id, this.viewer._id)
+        .subscribe(
+            res => {
+                this.likes = res;
+            },
+            err => {
+                console.error(err);
+            }
+        );
+        this.liked = false;
     }
 
     ngOnDestroy() {
-        this.userSub.unsubscribe();
+        if (this.imageUserSub) {this.imageUserSub.unsubscribe(); }
+        if (this.userSub) {this.userSub.unsubscribe(); }
+        if (this.countSub) {this.countSub.unsubscribe(); }
+        if (this.likeSub) {this.likeSub.unsubscribe(); }
+        if (this.unlikeSub) {this.unlikeSub.unsubscribe(); }
     }
 
 }
