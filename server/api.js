@@ -83,17 +83,15 @@ module.exports = function (app, config) {
     };
     /*
      |--------------------------------------
-     | Stream API Routes
+     | Stream Feed API Routes
      |--------------------------------------
      */
     // GET specific stream
     app.get('/api/stream/:group/:name', jwtCheck, (req, res) => {
+        console.log('getting feed');
         const feed = streamClient.feed (req.params.group,req.params.name);
         feed.get({ limit: 50 }).then(function(results) {
             var activityData = results.results; // work with the feed activities
-            console.log(req.params.group);
-            console.log(req.params.name);
-            console.log(activityData);
             res.send(activityData);
         },function(err) {
             // Handle or raise the Error.
@@ -101,6 +99,24 @@ module.exports = function (app, config) {
             return res.status(500).send({message: err.message});
         });
     });
+        // follow user stream stream
+    app.get('/api/streams/follow/:name', jwtCheck, (req, res) => {
+        console.log('following ')
+        var actor = req.user.sub.replace('|','_');
+        console.log(actor);
+        const feed = streamClient.feed ('timeline',actor);
+        var followFeedId =req.params.name.replace('|','_');
+
+        console.log(followFeedId);
+        feed.follow('user',followFeedId).then(function(results) {
+            res.send(results);
+        },function(err) {
+            // Handle or raise the Error.
+            console.log(err);
+            return res.status(500).send({message: err.message});
+        });
+    });
+
     /*
      |--------------------------------------
      | AUTH0 API Routes

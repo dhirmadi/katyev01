@@ -2,7 +2,7 @@
 <ng-template [ngIf]="utils.isLoaded(loading)">
    <div class="row">
     <div class="col col-sm-4">
-        <h3 *ngIf="user.screenName">Activities of {{user.screenName}}</h3>
+        <h3 *ngIf="user.screenName">Activities of {{user.screenName}}</h3><button class="btn btn-success" (click)="followUser()">Follow user</button>
     </div>
     <div class="col col-sm-8 bg-light">
         <h3 *ngIf="user.screenName">Photos by {{user.screenName}}</h3>

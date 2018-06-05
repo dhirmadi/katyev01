@@ -26,6 +26,7 @@ import { ActivatedRoute } from '@angular/router';
 export class UserComponent implements OnInit, OnDestroy {
     userId: string;
     feedId: string;
+    follow: string;
     tab: string;
     user: UserModel;
     streamActivtiy: StreamActivityModel[];
@@ -35,6 +36,7 @@ export class UserComponent implements OnInit, OnDestroy {
     tabSub: Subscription;
     userSub: Subscription;
     streamSub: Subscription;
+    followSub: Subscription;
     imagesSub: Subscription;
     loading: boolean;
     query = '';
@@ -65,6 +67,19 @@ export class UserComponent implements OnInit, OnDestroy {
 
     }
 
+    public followUser() {
+        // Get all images owned by uid
+        this.followSub = this.api
+          .followStreamActivity(this.user.userId)
+          .subscribe(
+            res => {
+                this.follow = res;
+            },
+            err => {
+                console.error(err);
+            }
+        );
+    }
     private _getImageList$(userId) {
         this.loading = true;
         // Get all images owned by uid
