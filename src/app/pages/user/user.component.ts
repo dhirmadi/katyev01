@@ -73,7 +73,6 @@ export class UserComponent implements OnInit, OnDestroy {
           .subscribe(
             res => {
                 this.imageList = res;
-                console.log(this.imageList);
                 this.filteredImages = res;
                 this.loading = false;
             },
@@ -101,7 +100,6 @@ export class UserComponent implements OnInit, OnDestroy {
             res => {
                 this.streamActivtiy = res;
                 this.loading = false;
-                console.log(this.userId);
                 this._getImageList$(this.user.userId);
             },
             err => {

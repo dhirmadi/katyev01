@@ -34,9 +34,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private cloudinaryService: CloudinaryService) { }
 
   ngOnInit() {
-    if(this.auth.loggedIn){
+    if (this.auth.loggedIn) {
         this._setUser$();
-        console.log(this.user);
     }
     this.title.setTitle(this.pageTitle);
     this._getImageList();
@@ -45,7 +44,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // setting details for user
     private _setUser$() {
-            console.log(this.auth.userProfile.sub);
         this.userSub = this.api
         .getUserbyId$(this.auth.userProfile.sub)
         .subscribe(

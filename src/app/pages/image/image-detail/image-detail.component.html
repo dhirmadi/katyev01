@@ -6,11 +6,11 @@
 <div *ngIf="image.location" class="card-block">
     Location: {{image.location}} (<a href="https://www.google.com/maps/dir//{{image.location}}" target="_blank">See on map</a>)
 </div>
-<div *ngIf="user.screenName"
+<div *ngIf="user.screenName&&user.userId"
     class="card-block bg-light">
     Published by
-    <span *ngIf="user.screenName=='Someone'">{{user.auth0Name}}</span>
-    <span *ngIf="user.screenName!='Someone'">{{user.screenName}}</span>
+    <a [routerLink]="['/users', user.userId]" *ngIf="user.screenName=='Someone'">{{user.auth0Name}}</a>
+    <a [routerLink]="['/users', user.userId]" *ngIf="user.screenName!='Someone'">{{user.screenName}}</a>
 </div>
 <div *ngIf="auth.isAdmin"
     class="card-block ">
