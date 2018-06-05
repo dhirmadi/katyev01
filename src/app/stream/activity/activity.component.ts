@@ -30,7 +30,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-      if (this.verb === 'comment') {
+      if (this.verb === 'comment' || this.verb === 'like') {
             const splitted = this.object.split(':', 2);
             this.imageId = splitted[1];
       }

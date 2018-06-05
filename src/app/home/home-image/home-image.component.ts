@@ -101,12 +101,6 @@ export class HomeImageComponent implements OnInit, OnDestroy {
     }
     // like the image
     public likeImage$() {
-        // add like action to user feed
-        //  (todo check if user previously liked this image already and
-        // if yes, do not add new event to avoid spamming)
-        // add image to users liked images
-        // add user to image's record for having liked it
-        // increase number of likes and store user information
         this.likeSub = this.api
         .likeImage(this.image._id, this.viewer._id)
         .subscribe(
