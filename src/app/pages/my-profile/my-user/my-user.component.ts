@@ -20,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './my-user.component.html',
   styleUrls: ['./my-user.component.css']
 })
-export class MyUserComponent implements OnInit {
+export class MyUserComponent implements OnInit, OnDestroy {
 
     user: string;
     roles = UserRoles;

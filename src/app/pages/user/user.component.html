@@ -1,0 +1,52 @@
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="utils.isLoaded(loading)">
+   <div class="row">
+    <div class="col col-sm-4">
+        <h3 *ngIf="user.screenName">Activities of {{user.screenName}}</h3>
+    </div>
+    <div class="col col-sm-8 bg-light">
+        <h3 *ngIf="user.screenName">Photos by {{user.screenName}}</h3>
+    </div>
+</div>
+<div class="row">
+   <div class="col col-sm-4">
+    <span *ngFor="let activity of streamActivtiy">
+        <app-activity [imageId]="activity.foreign_id" [feedId]="activity.actor" [verb]="activity.verb" [object]="activity.object"></app-activity><br/>
+    </span>
+    </div>
+    <div class="col col-sm-8 bg-light">
+
+
+    <ng-template [ngIf]="imageList">
+        <ng-template [ngIf]="imageList.length">
+            <!-- Search images -->
+            <section class="search input-group md-8 sm-8 lg=8">
+                <input id="search" type="text" class="form-control" [(ngModel)]="query" (keyup)="searchImages()" />
+                <span class="input-group-btn">
+                    <button
+                    class="btn btn-danger"
+                    (click)="resetQuery()"
+                    [disabled]="!query">&times;</button>
+                </span>
+            </section>
+
+            <!-- No search results -->
+            <p *ngIf="fs.noSearchResults(filteredImages, query)" class="alert alert-warning">
+                No images found for <em class="text-danger">{{query}}</em>, sorry!
+            </p>
+
+                    <div class="card-columns">
+                <div class="card border-light" *ngFor="let image of fs.orderByDate(filteredImages, 'createDate',false)">
+                <app-home-image [image]="image" [viewer]="user" *ngIf="auth.loggedIn"></app-home-image>
+                <app-home-image [image]="image" *ngIf="!auth.loggedIn"></app-home-image>
+                </div>
+            </div>
+
+        </ng-template>
+    </ng-template>
+
+
+
+    </div>
+</div>
+</ng-template>

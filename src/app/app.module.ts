@@ -49,6 +49,7 @@ import { MyUserComponent } from './pages/my-profile/my-user/my-user.component';
 import { ActivityComponent } from './stream/activity/activity.component';
 import { CommentDetailComponent } from './pages/image/comment/comment-detail/comment-detail.component';
 import { HomeImageComponent } from './home/home-image/home-image.component';
+import { UserComponent } from './pages/user/user.component';
 
 const appRoutes: Routes = [
 { path: '', component: HomeComponent },
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
  ]
 },
 { path: 'images/:id', component: ImageComponent, canActivate: [ AuthGuard ] },
+{ path: 'users/:id', component: UserComponent, canActivate: [ AuthGuard ] },
 { path: 'my-profile', component: MyProfileComponent, canActivate: [ AuthGuard ] },
 ];
 
@@ -89,6 +91,7 @@ const appRoutes: Routes = [
     ActivityComponent,
     CommentDetailComponent,
     HomeImageComponent,
+    UserComponent,
   ],
   imports: [
       BrowserModule,

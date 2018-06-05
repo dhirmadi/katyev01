@@ -91,6 +91,8 @@ module.exports = function (app, config) {
         const feed = streamClient.feed (req.params.group,req.params.name);
         feed.get({ limit: 50 }).then(function(results) {
             var activityData = results.results; // work with the feed activities
+            console.log(req.params.group);
+            console.log(req.params.name);
             console.log(activityData);
             res.send(activityData);
         },function(err) {
@@ -139,6 +141,17 @@ module.exports = function (app, config) {
      |--------------------------------------
      */
 
+    // get user information based on internal ID
+    app.get('/api/users/:id', jwtCheck,  (req, res) => {
+        User.findById({
+            _id: req.params.id
+        }, (err, user) => {
+            if (err) {
+                return res.status(500).send({message: err.message});
+            }
+            res.send(user);
+        });
+    });
     // get user information
     app.get('/api/user/:id', jwtCheck, (req, res) => {
         User.find({

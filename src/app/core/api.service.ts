@@ -62,7 +62,17 @@ export class ApiService {
             catchError((error) => this._handleError(error))
         );
     }
-    // GET user data of specific account
+    // GET user data of specific account by internal ID
+    getUserbyinternalId$(id: string): Observable<UserModel> {
+        return this.http
+            .get(`${ENV.BASE_API}users/${id}`, {
+            headers: new HttpHeaders().set('Authorization', this._authHeader)
+        })
+        .pipe(
+            catchError((error) => this._handleError(error))
+        );
+    }
+        // GET user data of specific auth0 account
     getUserbyId$(id: string): Observable<UserModel> {
         return this.http
             .get(`${ENV.BASE_API}user/${id}`, {
@@ -72,6 +82,7 @@ export class ApiService {
             catchError((error) => this._handleError(error))
         );
     }
+
     // PUT existing user (only self)
     editUser$(id: string, user: UserModel): Observable<UserModel> {
     return this.http

@@ -46,7 +46,25 @@ export class UserService {
             }
         );
     }
-
+    // retrieve record of user based on internal ID
+    public setUserbyId(userId: string) {
+        this.loading = true;
+        this.userSub = this.api
+        .getUserbyinternalId$(userId)
+        .subscribe(
+            res => {
+                this.userData = res;
+                console.log(this.userData);
+                this._setauth0Name(this.userData.userId);
+                this._setUserAttributes(this.userData.userId);
+                this.loading = false;
+            },
+            err => {
+                console.error(err);
+                this.loading = false;
+            }
+        );
+    }
 
     // set attributes of service
     private _setUserAttributes(auth0Id: string) {
