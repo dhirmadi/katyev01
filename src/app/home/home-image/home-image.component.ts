@@ -39,16 +39,17 @@ export class HomeImageComponent implements OnInit, OnDestroy {
     private auth: AuthService) { }
 
     ngOnInit() {
-        this.setImageUser$(this.image.userId);
-        if (this.auth.userProfile.sub) {
-//            this._getUserLikeStatus$();
+        if (this.auth.loggedIn) {
+            this.setImageUser$(this.image.userId);
+        }else{
+            this.loading=false;
         }
     }
 
     // toggle display of image details
     public showImageDetail(show: boolean) {
         this.detail = show;
-        if (show) {
+        if (show && this.auth.loggedIn) {
             this._getUserLikeStatus$();
         }
     }

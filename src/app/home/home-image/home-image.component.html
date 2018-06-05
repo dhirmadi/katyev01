@@ -12,11 +12,15 @@
             <cl-transformation width="800" crop="scale"></cl-transformation>
     </cl-image>
 </a>
-<div class="card-body bg-light row" *ngIf="!detail">&nbsp;</div>
-<div class="card-body bg-light row" *ngIf="detail">
+<div class="card-body bg-light row" *ngIf="!detail||!auth.loggedIn">&nbsp;</div>
+<div class="card-body bg-light row" *ngIf="detail&&auth.loggedIn">
     <div class="text-left col" *ngIf="imageuser.screenName">by {{imageuser.screenName}}</div>
-    <div class="text-right col" *ngIf="liked&&auth.loggedIn"><a (click)="unlikeImage$()">Unlike</a> {{image.likes}}</div>
-    <div class="text-right col" *ngIf="!liked&&auth.loggedIn"><a (click)="likeImage$()">Like</a> {{image.likes}}</div>
+    <div class="text-right col" *ngIf="liked&&auth.loggedIn">
+        <button class="btn btn-danger" (click)="unlikeImage$()">{{image.likes}}</button>
+    </div>
+    <div class="text-right col" *ngIf="!liked&&auth.loggedIn">
+        <button class="btn btn-secondary" (click)="likeImage$()">{{image.likes}}</button>
+    </div>
 </div>
 </div>
 </ng-template>

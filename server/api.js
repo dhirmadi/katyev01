@@ -239,7 +239,7 @@ module.exports = function (app, config) {
     // user likes image
     // increase likes counter in image record
     app.get('/api/image/like/:id/:userId', jwtCheck, (req, res) => {
-        const options = { upsert: true };
+        const options =  { upsert: true, new: true };
         var query = {_id: req.params.id};
         var update = {$inc:{likes:1}};
         Image.findOneAndUpdate(query, update, options, function (err, image) {
