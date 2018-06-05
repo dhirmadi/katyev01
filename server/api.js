@@ -228,19 +228,16 @@ module.exports = function (app, config) {
     app.get('/api/image/liked/:id/:userId', jwtCheck, (req, res) => {
         const db_object = `users: {userId: ${req.params.userId}}`;
         const query = `imageId: ${req.params.id}`;
-        console.log(query);
-        console.log(db_object);
         likeImage.find({imageId: req.params.id,users:{$elemMatch:{userId:req.params.userId}}},function (err, likeImage) {
-//        likeImage.find({imageId: req.params.id,users: {userId: req.params.userId}},function (err, likeImage) {
             if (err) {
                 console.log(err);
                 return res.status(500).send({message: err.message});
             }
-            console.log(likeImage);
             res.send(likeImage);
         });
     });
-    // increase the click counter on the image (user likes image)
+    // user likes image
+    // increase likes counter in image record
     app.get('/api/image/like/:id/:userId', jwtCheck, (req, res) => {
         const options = { upsert: true };
         var query = {_id: req.params.id};
@@ -252,7 +249,7 @@ module.exports = function (app, config) {
             }
         });
 
-        // add user to image like record
+        // add user to image like record (who likes this image)
         var query = {imageId: req.params.id};
         var db_data = {userId: req.params.userId};
         var update = {$push: {users: db_data}};
@@ -261,11 +258,25 @@ module.exports = function (app, config) {
                 console.log(err);
                 return res.status(500).send({message: err.message});
             }
-            console.log(likeimage);
-            console.log('----------------------------------------');
+            // add action to user feed
+            var actor = req.user.sub.replace('|','_');
+            //add activity to stream
+            const feed = streamClient.feed ('user',actor);
+            feed.addActivity({
+                actor: actor,
+                verb: 'like',
+                object: `picture:${likeimage.imageId}`,
+                foreign_id: likeimage._id
+            }).then(
+                null, // nothing further to do
+                function(err) {
+                    // Handle or raise the Error.
+                    console.log(err);
+                    return res.status(500).send({message: err.message});
+            });
 
         });
-        // add image to user like record
+        // add image to user like record (what images did user like)
         var query = {userId: req.params.userId};
         var db_data = {imageId:req.params.id};
         var update = {$push: {images: db_data}};
@@ -274,14 +285,13 @@ module.exports = function (app, config) {
                 console.log(err);
                 return res.status(500).send({message: err.message});
             }
-            console.log(likeuser);
-            console.log('----------------------------------------');
 
             return res.status(200).send({message: 'Ok'});
         });
 
     });
-    // decrease the click counter on the image (user undlikes image)
+    // user unlikes image
+    // decrease likes counter in image record
     app.get('/api/image/unlike/:id/:userId', jwtCheck, (req, res) => {
         const options = { upsert: true };
         var query = {_id: req.params.id};
@@ -302,9 +312,19 @@ module.exports = function (app, config) {
                 console.log(err);
                 return res.status(500).send({message: err.message});
             }
-            console.log(likeimage);
-            console.log('----------------------------------------');
-
+            // remove image like event from user feed
+            var actor = req.user.sub.replace('|','_');
+            const feed = streamClient.feed ('user',actor);
+            feed.removeActivity({ foreignId: likeimage._id })
+                .then(function(res){
+                    console.log(res);
+                    console.log(likeimage._id);
+                    console.log(actor)
+                })
+                .catch(function(err) {
+                    console.log(err);
+                    return res.status(500).send({message: err.message});
+                })
         });
         // remove image from user like record
         var query = {userId: req.params.userId};
@@ -315,9 +335,6 @@ module.exports = function (app, config) {
                 console.log(err);
                 return res.status(500).send({message: err.message});
             }
-            console.log(likeuser);
-            console.log('----------------------------------------');
-
             return res.status(200).send({message: 'Ok'});
         });
     });
@@ -404,7 +421,7 @@ module.exports = function (app, config) {
     });
 
     // PUT (edit) an existing image
-    app.get('/api/image/:id', jwtCheck, (req, res) => {
+    app.put('/api/image/:id', jwtCheck, (req, res) => {
     Image.findById(req.params.id, (err, image) => {
       if (err) {
         return res.status(500).send({message: err.message});

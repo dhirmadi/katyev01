@@ -5,6 +5,7 @@ import { UtilsService } from './../../core/utils.service';
 import { FilterSortService } from './../../core/filter-sort.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ImageModel } from './../../core/models/image.model';
+import { ImageLikesModel } from './../../core/models/imageLikes.model';
 import { UserModel } from './../../core/models/user.model';
 
 @Component({
@@ -18,7 +19,7 @@ export class HomeImageComponent implements OnInit, OnDestroy {
 
             userSub: Subscription;
             imageLikedSub: Subscription;
-            imageLiked: string;
+            imageLiked: ImageLikesModel[];
             imageUserSub: Subscription;
             countSub: Subscription;
             likeSub: Subscription;
@@ -117,6 +118,7 @@ export class HomeImageComponent implements OnInit, OnDestroy {
             }
         );
         this.liked = true;
+        this.image.likes += 1;
 
     }
     // unlike the image
@@ -132,6 +134,7 @@ export class HomeImageComponent implements OnInit, OnDestroy {
             }
         );
         this.liked = false;
+        this.image.likes -= 1;
     }
 
     ngOnDestroy() {
