@@ -20,7 +20,7 @@
             </p>
             <!-- Images listing -->
             <div class="card-columns">
-                <div class="card border-light" *ngFor="let image of fs.orderByDate(filteredImages, 'createDate',false)">
+                <div class="card border-light" *ngFor="let image of fs.orderByDate(filteredImages, 'createDate',true)">
                 <app-home-image [image]="image" [viewer]="user" *ngIf="auth.loggedIn"></app-home-image>
                 <app-home-image [image]="image" *ngIf="!auth.loggedIn"></app-home-image>
                 </div>
