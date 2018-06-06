@@ -88,7 +88,6 @@ module.exports = function (app, config) {
      */
     // GET specific stream
     app.get('/api/stream/:group/:name', jwtCheck, (req, res) => {
-        console.log('getting feed');
         const feed = streamClient.feed (req.params.group,req.params.name);
         feed.get({ limit: 50 }).then(function(results) {
             var activityData = results.results; // work with the feed activities
@@ -103,10 +102,8 @@ module.exports = function (app, config) {
     app.get('/api/streams/follow/:name', jwtCheck, (req, res) => {
         var actor = req.user.sub.replace('|','_');
         const feed = streamClient.feed ('timeline',actor);
-        console.log (`Following ${actor}`)
         var followFeedId =req.params.name.replace('|','_');
         feed.follow('user',followFeedId).then(function(results) {
-            console.log(results);
             res.send(results);
         },function(err) {
             // Handle or raise the Error.
@@ -117,10 +114,8 @@ module.exports = function (app, config) {
         // get followers for specific stream
     app.get('/api/streams/follower/:name', jwtCheck, (req, res) => {
         var actor = req.params.name.replace('|','_');
-        console.log (`Followers for ${actor}`)
         const feed = streamClient.feed ('user',actor);
         feed.followers().then(function(results) {
-            console.log(results.results);
             res.send(results.results);
         },function(err) {
             // Handle or raise the Error.
@@ -133,9 +128,7 @@ module.exports = function (app, config) {
         var actor = req.user.sub.replace('|','_');
         const feed = streamClient.feed ('timeline',actor);
         var followFeedId =req.params.name.replace('|','_');
-        console.log (`unfollow ${followFeedId}`)
         feed.unfollow('user',followFeedId).then(function(results) {
-            console.log(results);
             res.send(results);
         },function(err) {
             // Handle or raise the Error.
@@ -169,7 +162,6 @@ module.exports = function (app, config) {
                 console.log(err);
                 return res.status(500).send({message: err.message});
             }
-            console.log(users);
             res.send(users);
         });
     });

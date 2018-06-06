@@ -52,9 +52,7 @@ export class MyNetworkComponent implements OnInit, OnDestroy {
         .getUserbyId$(userId)
         .subscribe(
             res => {
-                console.log('Getting user information');
                 this.user = res[0];
-                console.log(this.user);
                 this.loading = false;
                 this.feedId = this.user.userId.replace('|', '_');
                 this._getActivityStream$('timeline');
@@ -72,7 +70,6 @@ export class MyNetworkComponent implements OnInit, OnDestroy {
         .getStreamActivity$(streamGroup, this.feedId)
         .subscribe(
             res => {
-                console.log('getting Network activtity')
                 this.streamActivtiy = res;
                 this.loading = false;
             },

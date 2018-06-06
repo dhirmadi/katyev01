@@ -89,7 +89,6 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         .subscribe(
             res => {
                 this.identity = res;
-                console.log(this.identity);
                 this.loading = false;
             },
             err => {
