@@ -48,9 +48,28 @@ export class ApiService {
     }
     // follow specific users feed
     followStreamActivity(feedName: String) {
-        console.log('Following user');
         return this.http
         .get(`${ENV.BASE_API}streams/follow/${feedName}`, {
+            headers: new HttpHeaders().set('Authorization', this._authHeader)
+        })
+        .pipe(
+            catchError((error) => this._handleError(error))
+        );
+    }
+    // follow specific users feed
+    unfollowStreamActivity(feedName: String) {
+        return this.http
+        .get(`${ENV.BASE_API}streams/unfollow/${feedName}`, {
+            headers: new HttpHeaders().set('Authorization', this._authHeader)
+        })
+        .pipe(
+            catchError((error) => this._handleError(error))
+        );
+    }
+    // follow specific users feed
+    followerStreamActivity(feedName: String) {
+        return this.http
+        .get(`${ENV.BASE_API}streams/follower/${feedName}`, {
             headers: new HttpHeaders().set('Authorization', this._authHeader)
         })
         .pipe(

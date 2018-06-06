@@ -2,6 +2,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../core/api.service';
+import { AuthService } from './../../auth/auth.service';
 import { UtilsService } from './../../core/utils.service';
 import { ImageModel } from './../../core/models/image.model';
 
@@ -25,6 +26,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
   constructor(
     private api: ApiService,
+    private auth: AuthService,
     public utils: UtilsService
     ) { }
 
@@ -34,14 +36,17 @@ export class ActivityComponent implements OnInit, OnDestroy {
             const splitted = this.object.split(':', 2);
             this.imageId = splitted[1];
       }
-      this._getCloudinaryImageId(this.imageId);
-      this._getUserNameFromFeedId(this.feedId);
+      this._getCloudinaryImageId$(this.imageId);
+      this._getUserNameFromFeedId$(this.feedId);
   }
 
     // get username of user  published stream
-    _getUserNameFromFeedId(feedId: string) {
+    _getUserNameFromFeedId$(feedId: string) {
         this.loading = true;
         feedId = feedId.replace('_', '|');
+        if (feedId==this.auth.userProfile.sub){
+            this.userName='You'
+        }else{
         // GET username by Auth0userId
         this.userNameSub = this.api
             .getUserName$(feedId)
@@ -54,10 +59,10 @@ export class ActivityComponent implements OnInit, OnDestroy {
                 console.error(err);
                 this.loading = false;
             }
-        );
+        );}
     }
     // get cloudinaryID for display of image
-    _getCloudinaryImageId(imageId: string) {
+    _getCloudinaryImageId$(imageId: string) {
         this.loading = true;
         this.imageSub = this.api
         .getImageById$(imageId)
@@ -76,6 +81,6 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.imageSub.unsubscribe();
-        this.userNameSub.unsubscribe();
+        if(this.userNameSub) {this.userNameSub.unsubscribe();}
     }
 }

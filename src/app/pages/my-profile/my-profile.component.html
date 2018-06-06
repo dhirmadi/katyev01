@@ -17,6 +17,13 @@
             <a
               class="nav-link text-dark"
               [routerLink]="[]"
+              [queryParams]="{tab: 'my-network'}"
+              [ngClass]="{'active': utils.tabIs(tab, 'my-network')}">Network</a>
+          </div>
+          <div class="nav-item">
+            <a
+              class="nav-link text-dark"
+              [routerLink]="[]"
               [queryParams]="{tab: 'my-images'}"
               [ngClass]="{'active': utils.tabIs(tab, 'my-images')}">Images</a>
           </div>
@@ -37,6 +44,10 @@
         </div>
       </div>
 
+      <!-- show my imagestab -->
+      <app-my-network
+        *ngIf="utils.tabIs(tab, 'my-network')"
+        [userId]="userId"></app-my-network>
       <!-- show my imagestab -->
       <app-my-images
         *ngIf="utils.tabIs(tab, 'my-images')"

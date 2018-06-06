@@ -27,6 +27,8 @@ export class UserComponent implements OnInit, OnDestroy {
     userId: string;
     feedId: string;
     follow: string;
+    follower: [any];
+    unfollow: string;
     tab: string;
     user: UserModel;
     streamActivtiy: StreamActivityModel[];
@@ -37,8 +39,11 @@ export class UserComponent implements OnInit, OnDestroy {
     userSub: Subscription;
     streamSub: Subscription;
     followSub: Subscription;
+    followerSub: Subscription;
+    unfollowSub: Subscription;
     imagesSub: Subscription;
     loading: boolean;
+    following: boolean;
     query = '';
 
 
@@ -53,6 +58,7 @@ export class UserComponent implements OnInit, OnDestroy {
         ) { }
 
     ngOnInit() {
+
         // Set image ID from route params and subscribe
         this.routeSub = this.route.params
         .subscribe(params => {
@@ -74,12 +80,50 @@ export class UserComponent implements OnInit, OnDestroy {
           .subscribe(
             res => {
                 this.follow = res;
+                this._getFollowers$(this.user.userId, this.auth.userProfile.sub);
             },
             err => {
                 console.error(err);
             }
         );
     }
+    public unfollowUser() {
+        // Get all images owned by uid
+        this.unfollowSub = this.api
+          .unfollowStreamActivity(this.user.userId)
+          .subscribe(
+            res => {
+                this.unfollow = res;
+                this._getFollowers$(this.user.userId, this.auth.userProfile.sub);
+            },
+            err => {
+                console.error(err);
+            }
+        );
+    }
+    // determine if user follows this user
+    private _getFollowers$(userId: string, feedId: string) {
+        // Get all images owned by uid
+        this.followerSub = this.api
+          .followerStreamActivity(userId)
+          .subscribe(
+            res => {
+                this.follower = res;
+                feedId = this.auth.userProfile.sub.replace('|', '_');
+                const timelineFeedId = `timeline:${feedId}`;
+                const obj = this.follower.find(o => o.feed_id === timelineFeedId);
+                if (obj) {
+                    this.following = true;
+                } else {
+                    this.following = false;
+                }
+            },
+            err => {
+                console.error(err);
+            }
+        );
+    }
+    // get list of images owned by the user profile displayed
     private _getImageList$(userId) {
         this.loading = true;
         // Get all images owned by uid
@@ -97,16 +141,17 @@ export class UserComponent implements OnInit, OnDestroy {
             }
         );
     }
+    // filter in arrax for images
     searchImages() {
         this.filteredImages = this.fs.search(this.imageList, this.query, '_id', 'mediumDate');
     }
-
+    // reset search filter
     resetQuery() {
         this.query = '';
         this.filteredImages = this.imageList;
     }
 
-        // get activities for user
+    // get activities for profile displayed
     getActivityStream$(streamGroup: string) {
         this.loading = true;
         this.streamSub = this.api
@@ -116,6 +161,7 @@ export class UserComponent implements OnInit, OnDestroy {
                 this.streamActivtiy = res;
                 this.loading = false;
                 this._getImageList$(this.user.userId);
+                this._getFollowers$(this.user.userId, this.feedId);
             },
             err => {
                 console.error(err);
@@ -123,7 +169,7 @@ export class UserComponent implements OnInit, OnDestroy {
             }
         );
     }
-   // retrieve record of user based on internal ID
+   // retrieve record of profile based on internal ID
     public setUserbyId(userId: string) {
         this.loading = true;
         this.userSub = this.api
@@ -144,8 +190,12 @@ export class UserComponent implements OnInit, OnDestroy {
     // ubsubscribe fomr observalbles
     ngOnDestroy() {
         this.routeSub.unsubscribe();
-        this.streamSub.unsubscribe();
-//        this.imageSub.unsubscribe();
+        this.userSub.unsubscribe();
+        if (this.followerSub) {this.followerSub.unsubscribe(); }
+        if (this.streamSub) {this.streamSub.unsubscribe(); }
+        if (this.followSub) {this.followSub.unsubscribe(); }
+        if (this.unfollowSub) {this.unfollowSub.unsubscribe(); }
+        this.imagesSub.unsubscribe();
     }
 
 }

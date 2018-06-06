@@ -44,7 +44,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     // Subscribe to query params to watch for tab changes
     this.tabSub = this.route.queryParams
       .subscribe(queryParams => {
-        this.tab = queryParams['tab'] || 'my-images';
+        this.tab = queryParams['tab'] || 'my-network';
       });
     this.loading = false;
   }
@@ -101,8 +101,6 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     }
 
   ngOnDestroy() {
-     //this.identitySub.unsubscribe();
-     //this.imageListSub.unsubscribe();
   }
 
 }

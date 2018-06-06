@@ -50,6 +50,7 @@ import { ActivityComponent } from './stream/activity/activity.component';
 import { CommentDetailComponent } from './pages/image/comment/comment-detail/comment-detail.component';
 import { HomeImageComponent } from './home/home-image/home-image.component';
 import { UserComponent } from './pages/user/user.component';
+import { MyNetworkComponent } from './pages/my-profile/my-network/my-network.component';
 
 const appRoutes: Routes = [
 { path: '', component: HomeComponent },
@@ -92,6 +93,7 @@ const appRoutes: Routes = [
     CommentDetailComponent,
     HomeImageComponent,
     UserComponent,
+    MyNetworkComponent,
   ],
   imports: [
       BrowserModule,

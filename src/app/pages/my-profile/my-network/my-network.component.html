@@ -1,0 +1,19 @@
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="utils.isLoaded(loading)">
+   <div class="row">
+    <div class="col col-sm-2"></div>
+    <div class="col col-sm-8">
+        <h3>Activities of your network</h3>
+    </div>
+    <div class="col col-sm-2"></div>
+
+</div>
+<div class="row">
+    <div class="col col-sm-2"></div>
+       <div class="col col-sm-8">
+        <span *ngFor="let activity of streamActivtiy">
+        <app-activity [imageId]="activity.foreign_id" [feedId]="activity.actor" [verb]="activity.verb" [object]="activity.object"></app-activity><br/>
+        </span>
+    </div>
+    <div class="col col-sm-2"></div>
+</div>
