@@ -273,7 +273,7 @@ module.exports = function (app, config) {
      |--------------------------------------
      */
     // increase the click counter on the image (user likes image)
-    app.get('/api/image/liked/:id/:userId', jwtCheck, (req, res) => {
+    app.get('/api/imagelike/liked/:id/:userId', jwtCheck, (req, res) => {
         const db_object = `users: {userId: ${req.params.userId}}`;
         const query = `imageId: ${req.params.id}`;
         likeImage.find({imageId: req.params.id,users:{$elemMatch:{userId:req.params.userId}}},function (err, likeImage) {
@@ -286,7 +286,7 @@ module.exports = function (app, config) {
     });
     // user likes image
     // increase likes counter in image record
-    app.get('/api/image/like/:id/:userId', jwtCheck, (req, res) => {
+    app.get('/api/imagelike/like/:id/:userId', jwtCheck, (req, res) => {
         const options =  { upsert: true, new: true };
         var query = {_id: req.params.id};
         var update = {$inc:{likes:1}};
@@ -340,7 +340,7 @@ module.exports = function (app, config) {
     });
     // user unlikes image
     // decrease likes counter in image record
-    app.get('/api/image/unlike/:id/:userId', jwtCheck, (req, res) => {
+    app.get('/api/imagelike/unlike/:id/:userId', jwtCheck, (req, res) => {
         const options = { upsert: true };
         var query = {_id: req.params.id};
         var update = {$inc:{likes:-1}};

@@ -238,7 +238,7 @@ export class ApiService {
     // like image
     likeImage(id: string, userId: string) {
     return this.http
-      .get(`${ENV.BASE_API}image/like/${id}/${userId}`, {
+      .get(`${ENV.BASE_API}imagelike/like/${id}/${userId}`, {
             headers: new HttpHeaders().set('Authorization', this._authHeader)
         })
         .pipe(
@@ -248,7 +248,7 @@ export class ApiService {
     // unlike image
     unlikeImage(id: string, userId: string) {
     return this.http
-      .get(`${ENV.BASE_API}image/unlike/${id}/${userId}`, {
+      .get(`${ENV.BASE_API}imagelike/unlike/${id}/${userId}`, {
             headers: new HttpHeaders().set('Authorization', this._authHeader)
         })
         .pipe(
@@ -258,7 +258,7 @@ export class ApiService {
     // unlike image
     getUserLikesImage(id: string, userId: string) {
     return this.http
-      .get(`${ENV.BASE_API}image/liked/${id}/${userId}`, {
+      .get(`${ENV.BASE_API}imagelike/liked/${id}/${userId}`, {
             headers: new HttpHeaders().set('Authorization', this._authHeader)
         })
         .pipe(
