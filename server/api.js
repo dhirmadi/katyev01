@@ -392,25 +392,32 @@ module.exports = function (app, config) {
      | Image API Routes
      |--------------------------------------
      */
-    // GET list of images marked as online
-    app.get('/api/images', (req, res) => {
-        Image.find({
-            online: true
-        }, _imageListProjection, (err, images) => {
-            let imagesArr = [];
-            if (err) {
-                return res.status(500).send({
-                    message: err.message
-                });
-            }
-            if (images) {
-                images.forEach(image => {
-                    imagesArr.push(image);
-                });
-            }
-            res.send(imagesArr);
-        });
+
+    // PUT (edit) an existing image
+    app.put('/api/image/:id', jwtCheck, (req, res) => {
+    Image.findById(req.params.id, (err, image) => {
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
+      if (!image) {
+        return res.status(400).send({message: 'Image not found.'});
+      }
+      image.title = req.body.title;
+      image.link = req.body.link;
+      image.location = req.body.location,
+      image.createDate = req.body.createDate;
+      image.editDate = req.body.editDate;
+      image.description = req.body.description;
+      image.online = req.body.online;
+
+      image.save(err => {
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        res.send(image);
+      });
     });
+  });
 
     // put a new image into database
     app.post('/api/image/new', jwtCheck, (req, res) => {
@@ -458,42 +465,6 @@ module.exports = function (app, config) {
             });
         });
     });
-
-    // increase the click counter on the image
-    app.get('/api/image/counter/:id', jwtCheck, (req, res) => {
-        const query = {_id: req.params.id};
-        const update = {$inc:{clickCounter:1}};
-        Image.findOneAndUpdate(query, update, function (err, doc) {
-            res.status(200).send({message: 'Ok'});
-        });
-    });
-
-    // PUT (edit) an existing image
-    app.put('/api/image/:id', jwtCheck, (req, res) => {
-    Image.findById(req.params.id, (err, image) => {
-      if (err) {
-        return res.status(500).send({message: err.message});
-      }
-      if (!image) {
-        return res.status(400).send({message: 'Image not found.'});
-      }
-      image.title = req.body.title;
-      image.link = req.body.link;
-      image.location = req.body.location,
-      image.createDate = req.body.createDate;
-      image.editDate = req.body.editDate;
-      image.description = req.body.description;
-      image.online = req.body.online;
-
-      image.save(err => {
-        if (err) {
-          return res.status(500).send({message: err.message});
-        }
-        res.send(image);
-      });
-    });
-  });
-
     // DELETE an image and all associated comments
     app.delete('/api/image/:id', jwtCheck, (req, res) => {
         Image.findById(req.params.id, (err, image) => {
@@ -568,6 +539,35 @@ module.exports = function (app, config) {
                     res.send(imagesArr);
                 });
             }
+        });
+    });
+
+    // increase the click counter on the image
+    app.get('/api/imagecounter/:id', jwtCheck, (req, res) => {
+        const query = {_id: req.params.id};
+        const update = {$inc:{clickCounter:1}};
+        Image.findOneAndUpdate(query, update, function (err, doc) {
+            res.status(200).send({message: 'Ok'});
+        });
+    });
+
+    // GET list of images marked as online
+    app.get('/api/images', (req, res) => {
+        Image.find({
+            online: true
+        }, _imageListProjection, (err, images) => {
+            let imagesArr = [];
+            if (err) {
+                return res.status(500).send({
+                    message: err.message
+                });
+            }
+            if (images) {
+                images.forEach(image => {
+                    imagesArr.push(image);
+                });
+            }
+            res.send(imagesArr);
         });
     });
 

@@ -228,7 +228,7 @@ export class ApiService {
     // update clickCounter for image
     putImageClickCounter(id: string) {
     return this.http
-      .get(`${ENV.BASE_API}image/counter/${id}`, {
+      .get(`${ENV.BASE_API}imagecounter/${id}`, {
             headers: new HttpHeaders().set('Authorization', this._authHeader)
         })
         .pipe(
