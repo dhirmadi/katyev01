@@ -14,7 +14,7 @@
 </a>
 <div class="card-body bg-light row" *ngIf="!detail||!auth.loggedIn">&nbsp;</div>
 <div class="card-body bg-light row" *ngIf="detail&&auth.loggedIn">
-    <div class="text-left col" *ngIf="imageuser.screenName"><a [routerLink]="['/users', imageuser._id]">by {{imageuser.screenName}}</a></div>
+    <div class="text-left col" *ngIf="imageuser.screenName"><a [routerLink]="['/users', imageuser._id]">by {{imageuser.screenName}}</a>{{users.screenName}}</div>
     <div class="text-right col" *ngIf="liked&&auth.loggedIn">
         <span class="badge badge-pill badge-danger" (click)="unlikeImage$()">{{image.likes}}</span>
 <!--        <button class="btn btn-outline-danger btn-sm" (click)="unlikeImage$()">{{image.likes}}</button>-->

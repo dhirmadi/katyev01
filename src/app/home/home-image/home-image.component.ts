@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ApiService } from './../../core/api.service';
 import { AuthService } from './../../auth/auth.service';
 import { UtilsService } from './../../core/utils.service';
+import { UserService } from './../../core/user.service';
 import { FilterSortService } from './../../core/filter-sort.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ImageModel } from './../../core/models/image.model';
@@ -36,13 +37,13 @@ export class HomeImageComponent implements OnInit, OnDestroy {
     constructor(
     public utils: UtilsService,
     private api: ApiService,
-    private auth: AuthService) { }
+    private auth: AuthService,
+    private users: UserService) { }
 
     ngOnInit() {
+        this.loading = true;
         if (this.auth.loggedIn) {
             this.setImageUser$(this.image.userId);
-        }else{
-            this.loading=false;
         }
     }
 
