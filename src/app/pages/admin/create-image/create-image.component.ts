@@ -17,7 +17,7 @@ export class CreateImageComponent implements OnInit {
     @Input()
     responses: Array<any>;
 
-    private hasBaseDropZoneOver: boolean = false;
+    public hasBaseDropZoneOver: boolean = false;
     private uploader: FileUploader;
     private userId: string;
     private image: ImageModel;
