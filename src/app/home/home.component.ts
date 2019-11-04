@@ -4,7 +4,7 @@ import { ApiService } from './../core/api.service';
 import { AuthService } from './../auth/auth.service';
 import { UtilsService } from './../core/utils.service';
 import { FilterSortService } from './../core/filter-sort.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ImageModel } from './../core/models/image.model';
 import { UserModel } from './../core/models/user.model';
 import { CloudinaryService } from './../core/cloudinary.service';

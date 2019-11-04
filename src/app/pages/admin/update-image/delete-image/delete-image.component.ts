@@ -1,7 +1,7 @@
 // src/app/pages/admin/update-image/delete-image/delete-image.component.ts
 import { Component, OnDestroy, Input } from '@angular/core';
 import { ImageModel } from './../../../../core/models/image.model';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ApiService } from './../../../../core/api.service';
 import { Router } from '@angular/router';
 

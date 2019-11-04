@@ -12,7 +12,7 @@ import { FilterSortService } from './../../../core/filter-sort.service';
 import { UserModel, UserRoles } from './../../../core/models/user.model';
 import { ImageModel } from './../../../core/models/image.model';
 import { StreamActivityModel } from './../../../core/models/streamactivity.model';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

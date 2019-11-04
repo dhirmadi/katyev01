@@ -5,7 +5,7 @@ import { AuthService } from './../../auth/auth.service';
 import { ApiService } from './../../core/api.service';
 import { UtilsService } from './../../core/utils.service';
 import { FilterSortService } from './../../core/filter-sort.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ImageModel } from './../../core/models/image.model';
 

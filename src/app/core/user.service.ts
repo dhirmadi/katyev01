@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { AuthService } from './../auth/auth.service';
 import { ApiService } from './api.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  Subscription } from 'rxjs';
 import { UserModel, UserRoles } from './models/user.model';
-import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class UserService {

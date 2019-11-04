@@ -5,7 +5,7 @@ import { UtilsService } from './../../../../core/utils.service';
 import { UserService } from './../../../../core/user.service';
 import { CommentModel } from './../../../../core/models/comment.model';
 import { UserModel } from './../../../../core/models/user.model';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-comment-detail',

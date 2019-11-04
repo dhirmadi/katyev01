@@ -1,7 +1,7 @@
 // src/app/pages/image/comment/comment-form/comment-form.component.ts
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from './../../../../auth/auth.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ApiService } from './../../../../core/api.service';
 import { CommentModel } from './../../../../core/models/comment.model';
 //import { LIKES_REGEX } from './../../../../core/forms/formUtils.factory';

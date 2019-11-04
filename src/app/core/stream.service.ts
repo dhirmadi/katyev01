@@ -1,9 +1,8 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  Subscription } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './../auth/auth.service';
 import { catchError } from 'rxjs/operators';
-import { Subscription } from 'rxjs/Subscription';
 
 import { ENV } from './env.config';
 import { ImageModel } from './models/image.model';

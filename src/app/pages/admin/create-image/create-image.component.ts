@@ -5,7 +5,7 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../../auth/auth.service';
 import { ApiService } from './../../../core/api.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ImageModel } from './../../../core/models/image.model';
 
 @Component({

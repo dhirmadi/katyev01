@@ -1,7 +1,7 @@
 // src/app/pages/my-profile/my-images/my-images.component.ts
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 // import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { AuthService } from './../../../auth/auth.service';
 // import { CLOUD_CONFIG } from './../../../cloudinary/cloudinary.config';
 import { ApiService } from './../../../core/api.service';

@@ -1,6 +1,6 @@
 // src/app/pages/my-profile/my-images/my-images.component.ts
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ApiService } from './../../core/api.service';
 import { AuthService } from './../../auth/auth.service';
 import { UtilsService } from './../../core/utils.service';
