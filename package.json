@@ -77,10 +77,16 @@
     "karma-jasmine-html-reporter": "^0.2.2",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
     "protractor": "^6.0.0",
     "ts-node": "^8.8.2",
     "typescript": "^3.8.3"
 =======
+=======
+>>>>>>> parent of 40b3836... update karma and protractor
+=======
+>>>>>>> parent of 40b3836... update karma and protractor
 =======
 >>>>>>> parent of 40b3836... update karma and protractor
     "protractor": "~5.1.2",
