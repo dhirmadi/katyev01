@@ -553,6 +553,10 @@ module.exports = function (app, config) {
 
     // GET list of images marked as online
     app.get('/api/images', (req, res) => {
+        const NumOfImage = 10; //number of images per page
+        const page = parseInt(req.query.page) || 0; // Page
+        var skip = NumOfImage * page;
+        console.log(page);
         Image.find({
             online: true
         }, _imageListProjection, (err, images) => {
@@ -568,7 +572,8 @@ module.exports = function (app, config) {
                 });
             }
             res.send(imagesArr);
-        });
+        }).sort({createDate: -1}).skip(skip).limit(NumOfImage);
+        //});
     });
 
     // GET all images

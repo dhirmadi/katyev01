@@ -1,5 +1,5 @@
 // Contents of .eslintrc at root of project - support for Node and jQuery
 {
   "extends": "eslint:recommended",
-  "plugins": ["angular"]
+  "plugins": ["angular"],
 }
