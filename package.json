@@ -14,6 +14,7 @@
   "private": true,
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@angular-devkit/build-angular": "^0.803.26",
     "@angular/animations": "^9.1.2",
     "@angular/cli": "^9.1.1",
@@ -66,6 +67,8 @@
 =======
     "@types/node": "^6.0.118",
 =======
+=======
+>>>>>>> parent of 3504e61... update to 9.1
     "@angular-devkit/build-angular": "^0.803.17",
     "@angular/animations": "^8.2.13",
     "@angular/cli": "^8.3.17",
@@ -106,11 +109,15 @@
     "@types/jasmine": "^2.8.16",
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^6.14.9",
+<<<<<<< HEAD
+>>>>>>> parent of 3504e61... update to 9.1
+=======
 >>>>>>> parent of 3504e61... update to 9.1
     "codelyzer": "^4.5.0",
     "eslint": "^4.19.1",
     "eslint-plugin-angular": "^3.3.0",
     "jasmine-core": "~2.8.0",
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> Stashed changes
     "jasmine-spec-reporter": "~4.2.1",
@@ -119,10 +126,15 @@
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^4.4.1",
 >>>>>>> parent of 3504e61... update to 9.1
+=======
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "^4.4.1",
+>>>>>>> parent of 3504e61... update to 9.1
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "^1.4.3",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -178,6 +190,8 @@
       ]
     }
 =======
+=======
+>>>>>>> parent of 3504e61... update to 9.1
     "protractor": "^6.0.0",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
@@ -185,6 +199,9 @@
   },
   "engines": {
     "node": "12.13.0"
+<<<<<<< HEAD
+>>>>>>> parent of 3504e61... update to 9.1
+=======
 >>>>>>> parent of 3504e61... update to 9.1
   }
 }
