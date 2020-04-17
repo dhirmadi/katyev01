@@ -6,10 +6,9 @@ import { DatePipe } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CloudinaryModule, CloudinaryConfiguration, provideCloudinary } from '@cloudinary/angular-5.x';
+import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/angular-5.x';
 import * as cloudinary from 'cloudinary-core';
-import { FileUploadModule } from 'ng2-file-upload';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {FileUploadModule} from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -105,7 +104,6 @@ const appRoutes: Routes = [
       BrowserAnimationsModule,
       CloudinaryModule.forRoot(cloudinary, cloudinaryConfiguration),
       FileUploadModule,
-      InfiniteScrollModule
   ],
   providers: [
       Title,

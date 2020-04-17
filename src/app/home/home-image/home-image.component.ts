@@ -18,21 +18,21 @@ export class HomeImageComponent implements OnInit, OnDestroy {
     @Input() image: ImageModel;
     @Input() viewer?: UserModel;
 
-    userSub: Subscription;
-    imageLikedSub: Subscription;
-    imageLiked: ImageLikesModel[];
-    imageUserSub: Subscription;
-    countSub: Subscription;
-    likeSub: Subscription;
-    unlikeSub: Subscription;
-    counter: string;
-    likes: string;
-    imageuser: UserModel;
-    user: UserModel;
-    loading: boolean;
-    error: boolean;
-    liked: boolean;
-    detail: boolean;
+            userSub: Subscription;
+            imageLikedSub: Subscription;
+            imageLiked: ImageLikesModel[];
+            imageUserSub: Subscription;
+            countSub: Subscription;
+            likeSub: Subscription;
+            unlikeSub: Subscription;
+            counter: string;
+            likes: string;
+            imageuser: UserModel;
+            user: UserModel;
+            loading: boolean;
+            error: boolean;
+            liked: boolean;
+            detail: boolean;
 
     constructor(
     public utils: UtilsService,

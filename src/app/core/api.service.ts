@@ -165,9 +165,9 @@ export class ApiService {
     |--------------------------------------
     */
     // GET list of  images marked as online
-    getImages$(page: number): Observable<ImageModel[]> {
+    getImages$(): Observable<ImageModel[]> {
     return this.http
-        .get(`${ENV.BASE_API}images?page=${page}`)
+        .get(`${ENV.BASE_API}images`)
         .pipe(
             catchError((error) => this._handleError(error))
         );
