@@ -1,106 +1,106 @@
 {
-    "name": "katyev01",
-    "version": "0.1.0",
-    "license": "MIT",
-    "scripts": {
-        "ng": "ng",
-        "start": "node server.js",
-        "build": "ng build --prod",
-        "test": "ng test",
-        "lint": "ng lint",
-        "e2e": "ng e2e",
-        "postinstall": "ng build"
+  "name": "katyev01",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "ng": "ng",
+    "start": "node server.js",
+    "build": "ng build --prod",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "postinstall": "ng build"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular-devkit/build-angular": "^0.803.24",
+    "@angular/animations": "^8.2.14",
+    "@angular/cli": "^9.1.1",
+    "@angular/common": "^8.2.14",
+    "@angular/compiler": "^8.2.14",
+    "@angular/compiler-cli": "^8.2.14",
+    "@angular/core": "^8.2.14",
+    "@angular/forms": "^8.2.14",
+    "@angular/http": "^7.2.16",
+    "@angular/platform-browser": "^8.2.14",
+    "@angular/platform-browser-dynamic": "^8.2.14",
+    "@angular/router": "^8.2.14",
+    "@cloudinary/angular": "^2.1.1",
+    "@cloudinary/angular-5.x": "^1.1.0",
+    "auth0": "^2.22.0",
+    "auth0-js": "^9.12.2",
+    "auth0-lock": "^11.21.1",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.4.1",
+    "cloudinary": "^1.19.0",
+    "cloudinary-core": "^2.8.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "getstream": "^4.4.0",
+    "jquery": "^3.4.1",
+    "jwks-rsa": "^1.6.2",
+    "method-override": "^2.3.10",
+    "mongoose": "^5.8.11",
+    "ng2-file-upload": "^1.4.0",
+    "ngx-infinite-scroll": "^8.0.1",
+    "nodemon": "^2.0.2",
+    "popper.js": "^1.16.1",
+    "rxjs": "^6.5.5",
+    "zone.js": "^0.10.2"
+  },
+  "devDependencies": {
+    "@angular/language-service": "^8.2.14",
+    "@types/jasmine": "^3.5.3",
+    "@types/jasminewd2": "^2.0.8",
+    "@types/node": "^13.7.0",
+    "codelyzer": "^5.2.1",
+    "core-js": "^2.6.11",
+    "eslint": "^6.8.0",
+    "eslint-plugin-angular": "^4.0.1",
+    "jasmine-core": "^3.5.0",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "^4.4.1",
+    "karma-chrome-launcher": "~2.2.0",
+    "karma-coverage-istanbul-reporter": "^1.4.3",
+    "karma-jasmine": "~1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "protractor": "^6.0.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.4.5"
+  },
+  "engines": {
+    "node": "12.13.0"
+  },
+  "eslintConfig": {
+    "globals": {
+      "Vue": true
     },
-    "private": true,
-    "dependencies": {
-        "@angular-devkit/build-angular": "^0.803.24",
-        "@angular/animations": "^8.2.14",
-        "@angular/cli": "^9.1.1",
-        "@angular/common": "^8.2.14",
-        "@angular/compiler": "^8.2.14",
-        "@angular/compiler-cli": "^8.2.14",
-        "@angular/core": "^8.2.14",
-        "@angular/forms": "^8.2.14",
-        "@angular/http": "^7.2.16",
-        "@angular/platform-browser": "^8.2.14",
-        "@angular/platform-browser-dynamic": "^8.2.14",
-        "@angular/router": "^8.2.14",
-        "@cloudinary/angular": "^2.1.1",
-        "@cloudinary/angular-5.x": "^1.1.0",
-        "auth0": "^2.22.0",
-        "auth0-js": "^9.12.2",
-        "auth0-lock": "^11.21.1",
-        "body-parser": "^1.19.0",
-        "bootstrap": "^4.4.1",
-        "cloudinary": "^1.19.0",
-        "cloudinary-core": "^2.8.0",
-        "cors": "^2.8.5",
-        "express": "^4.17.1",
-        "express-jwt": "^5.3.1",
-        "getstream": "^4.4.0",
-        "jquery": "^3.4.1",
-        "jwks-rsa": "^1.6.2",
-        "method-override": "^2.3.10",
-        "mongoose": "^5.8.11",
-        "ng2-file-upload": "^1.4.0",
-        "ngx-infinite-scroll": "^8.0.1",
-        "nodemon": "^2.0.2",
-        "popper.js": "^1.16.1",
-        "rxjs": "^6.5.4",
-        "zone.js": "^0.10.2"
+    "env": {
+      "browser": true,
+      "es6": true,
+      "jquery": true
     },
-    "devDependencies": {
-        "@angular/language-service": "^8.2.14",
-        "@types/jasmine": "^3.5.3",
-        "@types/jasminewd2": "^2.0.8",
-        "@types/node": "^13.7.0",
-        "codelyzer": "^5.2.1",
-        "core-js": "^2.6.11",
-        "eslint": "^6.8.0",
-        "eslint-plugin-angular": "^4.0.1",
-        "jasmine-core": "^3.5.0",
-        "jasmine-spec-reporter": "~4.2.1",
-        "karma": "^4.4.1",
-        "karma-chrome-launcher": "~2.2.0",
-        "karma-coverage-istanbul-reporter": "^1.4.3",
-        "karma-jasmine": "~1.1.0",
-        "karma-jasmine-html-reporter": "^0.2.2",
-        "protractor": "^6.0.0",
-        "ts-node": "^8.6.2",
-        "typescript": "^3.4.5"
+    "extends": [
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "sourceType": "module"
     },
-    "engines": {
-        "node": "12.13.0"
-    },
-    "eslintConfig": {
-        "globals": {
-            "Vue": true
-        },
-        "env": {
-            "browser": true,
-            "es6": true,
-            "jquery": true
-        },
-        "extends": [
-            "eslint:recommended"
-        ],
-        "parserOptions": {
-            "sourceType": "module"
-        },
-        "rules": {
-            "no-console": 0,
-            "indent": [
-                "error",
-                4
-            ],
-            "linebreak-style": [
-                "error",
-                "unix"
-            ],
-            "quotes": [
-                "error",
-                "double"
-            ]
-        }
+    "rules": {
+      "no-console": 0,
+      "indent": [
+        "error",
+        4
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "double"
+      ]
     }
+  }
 }
