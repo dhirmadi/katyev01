@@ -60,8 +60,12 @@ app.set('port', port);
 //  app.use('/', express.static(path.join(__dirname, './dist')));
 //}
 // Create link to Angular build directory
-var distDir = __dirname + "/dist/";
-app.use(express.static(distDir));
+/* var distDir = __dirname + "/dist/";
+app.use(express.static(distDir)); */
+
+if (process.env.NODE_ENV !== 'dev') {
+  app.use('/', express.static(path.join(__dirname, './dist')));
+}
 
 /*
  |--------------------------------------
