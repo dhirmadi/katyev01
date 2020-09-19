@@ -25,6 +25,7 @@ export class AuthService {
     userProfile: any;
     // Create a stream of logged in status to communicate throughout app
     loggedIn: boolean;
+    // @ts-ignore: this.loggedIn is really assigned before being used
     loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
     // admin flag
     isAdmin: boolean;
