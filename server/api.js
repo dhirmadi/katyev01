@@ -568,7 +568,7 @@ module.exports = function (app, config) {
                 });
             }
             res.send(imagesArr);
-        });
+        }).sort({createDate: 'desc'});  //sorting option by creation date descending
     });
 
     // GET all images

@@ -4,23 +4,9 @@
 <ng-template [ngIf]="utils.isLoaded(loading)">
     <ng-template [ngIf]="imageList">
         <ng-template [ngIf]="imageList.length">
-            <!-- Search images -->
-            <section class="search input-group md-8 sm-8 lg=8">
-                <input id="search" type="text" class="form-control" [(ngModel)]="query" (keyup)="searchImages()" placeholder="Type here to search for photos. Press red X to reset search."/>
-                <span class="input-group-btn">
-                    <button
-                    class="btn btn-danger"
-                    (click)="resetQuery()"
-                    [disabled]="!query">&times;</button>
-                </span>
-            </section>
-            <!-- No search results -->
-            <p *ngIf="fs.noSearchResults(filteredImages, query)" class="alert alert-warning">
-                No images found for <em class="text-danger">{{query}}</em>, sorry!
-            </p>
             <!-- Images listing -->
             <div class="card-columns">
-                <div class="card border-light" *ngFor="let image of fs.orderByDate(filteredImages, 'createDate',true)">
+                <div class="card border-light" *ngFor="let image of imageList">
                 <app-home-image [image]="image" [viewer]="user" *ngIf="auth.loggedIn"></app-home-image>
                 <app-home-image [image]="image" *ngIf="!auth.loggedIn"></app-home-image>
                 </div>

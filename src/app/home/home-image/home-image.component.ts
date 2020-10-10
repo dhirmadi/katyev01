@@ -35,10 +35,11 @@ export class HomeImageComponent implements OnInit, OnDestroy {
             detail: boolean;
 
     constructor(
-    public utils: UtilsService,
-    private api: ApiService,
-    private auth: AuthService,
-    private users: UserService) { }
+        public utils: UtilsService,
+        private api: ApiService,
+        private auth: AuthService,
+        private users: UserService
+        ) { }
 
     ngOnInit() {
         this.loading = true;

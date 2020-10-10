@@ -19,8 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   imageListSub: Subscription;
   userSub: Subscription;
   user: UserModel;
-    imageList: ImageModel[];
-  filteredImages: ImageModel[];
+  imageList: ImageModel[];
   loading: boolean;
   error: boolean;
   query: '';
@@ -64,7 +63,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(
         res => {
           this.imageList = res;
-          this.filteredImages = res;
           this.loading = false;
         },
         err => {
@@ -73,15 +71,6 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.error = true;
         }
       );
-  }
-
-  searchImages() {
-    this.filteredImages = this.fs.search(this.imageList, this.query, '_id', 'mediumDate');
-  }
-
-  resetQuery() {
-    this.query = '';
-    this.filteredImages = this.imageList;
   }
 
   ngOnDestroy() {
