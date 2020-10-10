@@ -37,7 +37,7 @@ export class HomeImageComponent implements OnInit, OnDestroy {
     constructor(
         public utils: UtilsService,
         private api: ApiService,
-        private auth: AuthService,
+        public auth: AuthService,
         private users: UserService
         ) { }
 
