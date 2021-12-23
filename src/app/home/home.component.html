@@ -5,8 +5,8 @@
     <ng-template [ngIf]="imageList">
         <ng-template [ngIf]="imageList.length">
             <!-- Images listing -->
-            <div class="card-columns">
-                <div class="card border-light" *ngFor="let image of imageList">
+            <div class="card-deck" align="center">
+                <div class="card border-light" *ngFor="let image of imageList" style="width: 50rem;">
                 <app-home-image [image]="image" [viewer]="user" *ngIf="auth.loggedIn"></app-home-image>
                 <app-home-image [image]="image" *ngIf="!auth.loggedIn"></app-home-image>
                 </div>
@@ -15,7 +15,6 @@
         <!-- No upcoming public images available -->
         <p *ngIf="!imageList.length" class="alert alert-info">
             No images available.
-        </p>
     </ng-template>
     <!-- Error loading images -->
     <p *ngIf="error" class="alert alert-danger">

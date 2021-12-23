@@ -2,7 +2,7 @@
 <a [routerLink]="['/images', image._id]" (click)="accessImage$()" >
     <cl-image *ngIf="image.link"
         public-id={{image.link}}
-        class="card-img-top img-fluid"
+        class="card-img-top"
         title="{{ image.title }}"
         (mouseenter)="image.isMouseOver = false"
         (mouseleave)="image.isMouseOver = true"
@@ -14,10 +14,9 @@
 <div class="card-body bg-light row" *ngIf="detail&&auth.loggedIn">
     <div class="text-left col" *ngIf="imageuser.screenName"><a [routerLink]="['/users', imageuser._id]">by {{imageuser.screenName}}</a></div>
     <div class="text-right col" *ngIf="liked&&auth.loggedIn">
-        <span class="badge badge-pill badge-danger" (click)="unlikeImage$()">{{image.likes}}</span>
+        <button type="button" class="btn btn-danger" (click)="unlikeImage$()">{{image.likes}}</button>
     </div>
     <div class="text-right col" *ngIf="!liked&&auth.loggedIn">
-        <span class="badge badge-pill badge-secondary" (click)="likeImage$()">{{image.likes}}</span>
-    </div>
+        <button type="button" class="btn btn-danger" (click)="likeImage$()">{{image.likes}}</button>
 </div>
 </div>
