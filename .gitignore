@@ -28,6 +28,7 @@
 # misc
 /start.sh
 /.sass-cache
+/.angular
 /connect.lock
 /coverage
 /libpeerconnection.log

@@ -18,7 +18,7 @@ import { StreamActivityModel } from './models/streamactivity.model';
 
 @Injectable()
 export class StreamClientService {
-    client: stream.Client;
+    client: stream.StreamClient;
     stream: StreamActivityModel[];
     FeedId: string;
     streamSub: Subscription;

@@ -67,7 +67,7 @@ module.exports = function (app, config) {
         }),
         audience: config.AUTH0_API_AUDIENCE,
         issuer: `https://${config.AUTH0_DOMAIN}/`,
-        algorithm: 'RS256'
+        algorithms: ['RS256']
     });
     // Check for an authenticated admin user
     const adminCheck = (req, res, next) => {
