@@ -12,11 +12,17 @@
 </a>
 <div class="card-body bg-light row" *ngIf="!detail||!auth.loggedIn">&nbsp;</div>
 <div class="card-body bg-light row" *ngIf="detail&&auth.loggedIn">
-    <div class="text-left col" *ngIf="imageuser.screenName"><a [routerLink]="['/users', imageuser._id]">by {{imageuser.screenName}}</a></div>
+    <!--<div class="text-left col" *ngIf="imageuser.screenName"><a [routerLink]="['/users', imageuser._id]">by {{imageuser.screenName}}</a></div>-->
     <div class="text-right col" *ngIf="liked&&auth.loggedIn">
-        <button type="button" class="btn btn-danger" (click)="unlikeImage$()">{{image.likes}}</button>
+        <button type="button" class="btn btn-primary" (click)="unlikeImage$()">
+              {{imageuser.screenName}} <span class="badge badge-light">{{image.likes}}</span>
+        </button>
+        <!--<button type="button" class="btn btn-danger" (click)="unlikeImage$()">{{image.likes}}</button>-->
     </div>
     <div class="text-right col" *ngIf="!liked&&auth.loggedIn">
-        <button type="button" class="btn btn-danger" (click)="likeImage$()">{{image.likes}}</button>
+        <button type="button" class="btn btn-secondary" (click)="likeImage$()">
+              {{imageuser.screenName}} <span class="badge badge-light">{{image.likes}}</span>
+        </button>
+        <!--<button type="button" class="btn btn-danger" (click)="likeImage$()">{{image.likes}}</button>-->
 </div>
 </div>
