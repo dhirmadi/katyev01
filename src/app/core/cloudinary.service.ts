@@ -4,29 +4,25 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {PhotoModel} from './models/photo.model';
-import {Cloudinary} from '@cloudinary/angular-5.x';
+import { CloudinaryImage, Cloudinary } from '@cloudinary/url-gen';
 
 @Injectable()
 export class CloudinaryService {
+  private cloudinary: Cloudinary;
 
-    constructor(private http: HttpClient, private cloudinary: Cloudinary) {
-    }
+  constructor(private http: HttpClient) {
+    this.cloudinary = new Cloudinary({ cloud: { cloudName: 'your_cloud_name' } }); // Replace 'your_cloud_name' with your actual Cloudinary cloud name
+  }
 
-    getMyPhotos(userId: string): Observable<PhotoModel[]> {
-        // retuns a list of images which are tagged by the user login id tag.
-        const url = this.cloudinary.url(userId, {
-            format: 'json',
-            type: 'list',
-            // cache bust (lists are cached by the CDN for 1 minute)
-            // *************************************************************************
-            // Note that this is practice is DISCOURAGED in production code and is here
-            // for demonstration purposes only
-            // *************************************************************************
-            version: Math.ceil(new Date().getTime() / 1000)
-        });
+  getMyPhotos(userId: string): Observable<PhotoModel[]> {
+    const url = `https://res.cloudinary.com/your_cloud_name/image/list/${userId}.json`; // Replace 'your_cloud_name' with your actual Cloudinary cloud name
 
-        return this.http
-            .get(url)
-            .pipe(map((data: any) => data.resources));
-    }
+    return this.http
+      .get(url)
+      .pipe(map((data: any) => data.resources));
+  }
 }
+
+
+
+

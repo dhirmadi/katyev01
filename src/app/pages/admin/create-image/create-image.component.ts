@@ -1,7 +1,25 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
-import { Cloudinary } from '@cloudinary/angular-5.x';
+import {Cloudinary, CloudinaryImage} from '@cloudinary/url-gen';
+import {Transformation} from '@cloudinary/url-gen';
+
+// Import required actions.
+import {thumbnail, scale} from '@cloudinary/url-gen/actions/resize';
+import {byRadius} from '@cloudinary/url-gen/actions/roundCorners';
+import {sepia} from '@cloudinary/url-gen/actions/effect';
+import {source} from '@cloudinary/url-gen/actions/overlay';
+import {opacity,brightness} from '@cloudinary/url-gen/actions/adjust';
+import {byAngle} from '@cloudinary/url-gen/actions/rotate'
+
+// Import required qualifiers.
+import {image} from '@cloudinary/url-gen/qualifiers/source';
+import {Position} from '@cloudinary/url-gen/qualifiers/position';
+import {compass} from '@cloudinary/url-gen/qualifiers/gravity';
+import {focusOn} from "@cloudinary/url-gen/qualifiers/gravity";
+import {FocusOn} from "@cloudinary/url-gen/qualifiers/focusOn";
+
+
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../../auth/auth.service';
 import { ApiService } from './../../../core/api.service';
@@ -45,7 +63,7 @@ export class CreateImageComponent implements OnInit {
       this.pTitle.setTitle(this.pageTitle);
  // Create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
-      url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
+      url: "https://api.cloudinary.com/v1_1/${this.cloudinary['cloudName']}/upload",
       // Upload files automatically upon addition to upload queue
       autoUpload: true,
       // Use xhrTransport in favor of iframeTransport
@@ -64,7 +82,7 @@ export class CreateImageComponent implements OnInit {
 
     this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
       // Add Cloudinary's unsigned upload preset to the upload form
-      form.append('upload_preset', this.cloudinary.config().upload_preset);
+      form.append('upload_preset', this.cloudinary['cloudName'].upload_preset);
       // Add built-in and custom tags for displaying the uploaded photo in the list
       let tags = this.userId;
       if (this.title) {
@@ -113,7 +131,7 @@ export class CreateImageComponent implements OnInit {
     };
 
     // Update model on completion of uploading a file
-    this.uploader.onCompleteItem = (item: any, response: string, status: number, headers: ParsedResponseHeaders) =>
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) =>
       upsertResponse(
         {
           file: item.file,

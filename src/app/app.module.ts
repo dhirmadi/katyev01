@@ -6,8 +6,8 @@ import { DatePipe } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/angular-5.x';
-import * as cloudinary from 'cloudinary-core';
+// legacy code : import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/ng';
+import {CloudinaryModule} from '@cloudinary/ng';
 import {FileUploadModule} from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
@@ -15,18 +15,18 @@ import { HeaderComponent } from './header/header.component';
 
 import { HomeComponent } from './home/home.component';
 
- import { AuthService } from './auth/auth.service';
- import { AuthGuard } from './auth/auth.guard';
- import { AdminGuard } from './auth/admin.guard';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
+import { AdminGuard } from './auth/admin.guard';
 
- import { ApiService } from './core/api.service';
- import { StreamClientService } from './core/stream.service';
- import { CloudinaryService } from './core/cloudinary.service';
- import { UtilsService } from './core/utils.service';
- import { UserService } from './core/user.service';
- import { FilterSortService } from './core/filter-sort.service';
- import { LoadingComponent } from './core/loading.component';
- import { SubmittingComponent } from './core/forms/submitting.component';
+import { ApiService } from './core/api.service';
+import { StreamClientService } from './core/stream.service';
+import { CloudinaryService } from './core/cloudinary.service';
+import { UtilsService } from './core/utils.service';
+import { UserService } from './core/user.service';
+import { FilterSortService } from './core/filter-sort.service';
+import { LoadingComponent } from './core/loading.component';
+import { SubmittingComponent } from './core/forms/submitting.component';
 
 import { CallbackComponent } from './pages/callback/callback.component';
 import { ImageComponent } from './pages/image/image.component';
@@ -102,7 +102,7 @@ const appRoutes: Routes = [
       FormsModule,
       ReactiveFormsModule,
       BrowserAnimationsModule,
-      CloudinaryModule.forRoot(cloudinary, cloudinaryConfiguration),
+      CloudinaryModule,
       FileUploadModule,
   ],
   providers: [

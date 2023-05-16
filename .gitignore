@@ -27,6 +27,7 @@
 
 # misc
 /start.sh
+/start.org
 /.sass-cache
 /.angular
 /connect.lock
