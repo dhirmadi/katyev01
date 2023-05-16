@@ -18,8 +18,6 @@ const cors = require('cors');
 const config = require('./server/config');
 
 
-
-
 /*
  |--------------------------------------
  | MongoDB
